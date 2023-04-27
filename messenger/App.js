@@ -18,11 +18,9 @@ function App() {
 
     const syncUser = async () => {
       
-      //get Auth user
-
+     
       const authUser = await Auth.currentAuthenticatedUser({bypassCache: true});
-      //query the database using Auth user id (sub)
-
+     
       const userData = await API.graphql(graphqlOperation(getUser,{id: authUser.attributes.sub}));
 
       console.log(authUser.attributes.sub);
@@ -39,10 +37,10 @@ function App() {
       }
 
       const newUserResponse = await API.graphql(
-        graphqlOperation(createUser, {input: newUser})
+        graphqlOperation(createUser, {variables: {input: newUser}})
       )
 
-      //if there is no users in DB, create one
+     
     }
 
     syncUser();
