@@ -5,6 +5,7 @@ import {listChatRooms} from './queries';
 import { useEffect, useState } from 'react';
 
 
+
 const ChatsScreen = () => {
 
 
@@ -23,13 +24,17 @@ const ChatsScreen = () => {
         graphqlOperation(listChatRooms,{id: authUser.attributes.sub})
       )
       
+      const rooms = response?.data?.getUser?.ChatRooms?.items || [];
       
+      const sortedRooms = rooms.sort((room1, room2)=>new Date(room2.chatRoom.updatedAt) - new Date(room1.chatRoom.updatedAt));
 
-      setChatRooms(response.data.getUser.ChatRooms.items);
+        console.log(new Date(rooms[0].chatRoom.updatedAt) - new Date(rooms[1].chatRoom.updatedAt));
+
+      setChatRooms(sortedRooms);
     } 
   
     fetchChatRooms();
-    console.log()
+    // console.log(chatRooms);
   },[])
 
   return (

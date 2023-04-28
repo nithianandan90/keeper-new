@@ -14,9 +14,10 @@ const ChatListItem = ({ chat, sub }) => {
   
   const user = chat.users.items[n].user;
   
-  //Loop through to find out user that is not Authenticated user
-  
 
+  console.log((chat?.LastMessage?.createdAt));
+
+  
   return (
     <Pressable
       onPress={() => navigation.navigate('Chat', { id: chat?.id, name: user?.name })}
@@ -29,11 +30,11 @@ const ChatListItem = ({ chat, sub }) => {
           <Text style={styles.name} numberOfLines={1}>
             {user?.name}
           </Text>
-          <Text style={styles.subTitle}>{dayjs(chat .lastMessage?.createdAt).fromNow(true)}</Text>
+          {chat.LastMessage&&<Text style={styles.subTitle}>{dayjs(chat.LastMessage?.createdAt).fromNow(true)}</Text>}
         </View>
 
         <Text numberOfLines={2} style={styles.subTitle}>
-          {chat.lastMessage?.text}
+          {chat.LastMessage?.text}
         </Text>
       </View>
     </Pressable>

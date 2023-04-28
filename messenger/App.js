@@ -40,7 +40,7 @@ function App() {
         graphqlOperation(createUser, {variables: {input: newUser}})
       )
 
-     
+     r
     }
 
     syncUser();
