@@ -2,25 +2,45 @@ import { Text, View, Image, StyleSheet, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-
+import { useEffect, useState } from 'react';
+import {Auth, API, graphqlOperation} from 'aws-amplify';
+import {onUpdateChatRoom} from '../../graphql/subscriptions'
 
 dayjs.extend(relativeTime);
 
 const ChatListItem = ({ chat, sub }) => {
   const navigation = useNavigation();
-
+  const [chatRoom, setChatRoom] = useState(chat);
+  
   
   const n = chat.users.items[0].user.id===sub?1:0;
   
   const user = chat.users.items[n].user;
   
 
-  console.log((chat?.LastMessage?.createdAt));
-
   
+  useEffect(()=>{
+   
+
+
+    const subscription = API.graphql(graphqlOperation(onUpdateChatRoom, {filter: {id: {eq: chat.id } } } ) 
+    ).subscribe({
+      next: ({value})=>{
+        setChatRoom((cr)=>({...(cr || {}), 
+                          ...value.data.onUpdateChatRoom
+                        }));
+      },
+      error: (err) => console.warn(err)
+    })
+
+    return ()=>subscription.unsubscribe();
+
+  },[chat.id])
+
+
   return (
     <Pressable
-      onPress={() => navigation.navigate('Chat', { id: chat?.id, name: user?.name })}
+      onPress={() => navigation.navigate('Chat', { id: chatRoom?.id, name: user?.name })}
       style={styles.container}
     >
       <Image source={{ uri: user?.image }} style={styles.image} />
@@ -30,11 +50,11 @@ const ChatListItem = ({ chat, sub }) => {
           <Text style={styles.name} numberOfLines={1}>
             {user?.name}
           </Text>
-          {chat.LastMessage&&<Text style={styles.subTitle}>{dayjs(chat.LastMessage?.createdAt).fromNow(true)}</Text>}
+          {chatRoom.LastMessage&&<Text style={styles.subTitle}>{dayjs(chatRoom.LastMessage?.createdAt).fromNow(true)}</Text>}
         </View>
 
         <Text numberOfLines={2} style={styles.subTitle}>
-          {chat.LastMessage?.text}
+          {chatRoom.LastMessage?.text}
         </Text>
       </View>
     </Pressable>

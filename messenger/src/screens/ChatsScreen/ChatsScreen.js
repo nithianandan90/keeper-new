@@ -11,27 +11,35 @@ const ChatsScreen = () => {
 
   const [chatRooms, setChatRooms] = useState([]);
   const [authUser, setAuthUser] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+
+  const fetchChatRooms = async () => {
+
+    setLoading(true);
+
+
+    const authUser = await Auth.currentAuthenticatedUser();
+
+    setAuthUser(authUser);
+    const response = await API.graphql(
+      graphqlOperation(listChatRooms,{id: authUser.attributes.sub})
+    )
+    
+    const rooms = response?.data?.getUser?.ChatRooms?.items || [];
+    
+    const sortedRooms = rooms.sort((room1, room2)=>new Date(room2.chatRoom.updatedAt) - new Date(room1.chatRoom.updatedAt));
+
+      // console.log(new Date(rooms[0].chatRoom.updatedAt) - new Date(rooms[1].chatRoom.updatedAt));
+
+    setChatRooms(sortedRooms);
+  
+    setLoading(false);
+  } 
 
   useEffect(()=>{
     
-    
-    const fetchChatRooms = async () => {
 
-      const authUser = await Auth.currentAuthenticatedUser();
-
-      setAuthUser(authUser);
-      const response = await API.graphql(
-        graphqlOperation(listChatRooms,{id: authUser.attributes.sub})
-      )
-      
-      const rooms = response?.data?.getUser?.ChatRooms?.items || [];
-      
-      const sortedRooms = rooms.sort((room1, room2)=>new Date(room2.chatRoom.updatedAt) - new Date(room1.chatRoom.updatedAt));
-
-        console.log(new Date(rooms[0].chatRoom.updatedAt) - new Date(rooms[1].chatRoom.updatedAt));
-
-      setChatRooms(sortedRooms);
-    } 
   
     fetchChatRooms();
     // console.log(chatRooms);
@@ -42,6 +50,8 @@ const ChatsScreen = () => {
       data={chatRooms}
       renderItem={({ item }) => <ChatListItem chat={item.chatRoom} sub={authUser.attributes.sub} />}
       style={{ backgroundColor: 'white' }}
+      refreshing = {loading}
+      onRefresh = {fetchChatRooms}
     />
   );
 };
