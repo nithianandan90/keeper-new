@@ -93,6 +93,7 @@ const ChatScreen = () => {
   }
 
 
+  console.log(JSON.stringify(chatRoom));
 
 
   return (
