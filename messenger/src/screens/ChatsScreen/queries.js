@@ -5,8 +5,11 @@ query GetUser($id: ID!) {
       id
       ChatRooms {
         items {
+          _deleted
           chatRoom {
             id
+            name
+            image
             updatedAt
             users {
               items {

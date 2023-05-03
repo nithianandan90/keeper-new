@@ -4,61 +4,55 @@ import ContactListItem from "../components/ContactListItem";
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { listUsers } from "../graphql/queries";
 import {createChatRoom, createUserChatRoom} from "../graphql/mutations";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 
 
-const ContactsScreen = () => {
+const AddContactsToGroup = () => {
   const [users, setUsers] = useState([]);
-  const [name, setName] = useState("");
   const [selectedUserIds, setSelectedUserIds] = useState([]);
 
   const navigation = useNavigation();
+  const route = useRoute();
+  const chatRoom = route.params.chatRoom;
 
   useEffect(() => {
     API.graphql(graphqlOperation(listUsers)).then((result) => {
-      setUsers(result.data?.listUsers?.items);
+      
+      
+      setUsers(result.data?.listUsers?.items.filter((item)=>
+        !chatRoom.users.items.some(
+          (chatRoomUser)=> 
+            !chatRoomUser._deleted && item.id  === chatRoomUser.userId
+        )
+      )
+      );
     });
   }, []);
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button title="Create" disabled={!name || selectedUserIds.length<1} onPress={onCreateGroupPress} />
+        <Button title="Add to group" disabled={selectedUserIds.length<1} onPress={onAddToGroupPress} />
       ),
     });
-  }, [name, selectedUserIds]);
+  }, [selectedUserIds]);
 
 
-  const onCreateGroupPress = async (user) => {
+  const onAddToGroupPress = async (user) => {
     console.warn("Pressed");
 
 
-    //chack if we already have a chatroom with user
-
-    //create a new chatroom
-
-    const newChatRoomData = await API.graphql(
-      graphqlOperation(createChatRoom, {input: {
-        name
-      }})
-    )
 
 
-    console.log(newChatRoomData);
     
-    if(!newChatRoomData.data?.createChatRoom){
-      console.log("error creating chatroom");
-    }
-    const newChatRoom = newChatRoomData.data?.createChatRoom;
 
     //add the clicked user to the Chatroom
 
-    console.log("entering promise", selectedUserIds);
 
     await Promise.all(selectedUserIds.map((userId) => API.graphql(
             graphqlOperation(createUserChatRoom, {
-                input: {chatRoomId: newChatRoom.id, userId}
+                input: {chatRoomId: chatRoom.id, userId}
                 })
             ) 
         )
@@ -74,21 +68,10 @@ const ContactsScreen = () => {
 
 
 
-    //add the auth user to the chatroom
-
-    const authUser = await Auth.currentAuthenticatedUser();
-
-    await API.graphql(
-      graphqlOperation(createUserChatRoom, {input: {chatRoomId: newChatRoom.id, userId: authUser.attributes.sub}
-      })
-    )
-
-
-      
     setSelectedUserIds([]);
-    setName("");
+    
 
-    navigation.navigate("Chat", {id: newChatRoom.id});
+    navigation.goBack();
 
 
   }
@@ -110,12 +93,7 @@ const ContactsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        placeholder="Group name"
-        value={name}
-        onChangeText={setName}
-        style={styles.input}
-      />
+      
       <FlatList
         data={users}
         renderItem={({ item }) => (
@@ -136,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ContactsScreen;
+export default AddContactsToGroup;

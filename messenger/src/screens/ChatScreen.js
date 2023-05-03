@@ -8,7 +8,7 @@ import messages from '../../assets/data/messages.json';
 import {API, graphqlOperation} from 'aws-amplify';
 import { getChatRoom, listMessagesByChatRoom } from '../graphql/queries';
 import {onCreateMessage, onUpdateChatRoom} from '../graphql/subscriptions'
-
+import { Feather } from '@expo/vector-icons';
 
 const ChatScreen = () => {
   
@@ -84,7 +84,9 @@ const ChatScreen = () => {
 
 
   useEffect(() => {
-    navigation.setOptions({ title: route.params.name });
+    navigation.setOptions({ title: route.params.name, headerRight:()=>
+      <Feather onPress = {()=>navigation.navigate("Group Info", {id:chatroomID})} name="more-horizontal" size={24} color="gray" /> 
+    });
   }, [route.params.name]);
 
   
