@@ -14,15 +14,33 @@ import { getCommonChatRoomWithUser } from '../services/chatRoomService';
 const ContactsScreen = () => {
 
   const [users, setUsers] = useState([]);
-
-
+  
   const navigation = useNavigation();
 
   useEffect(()=>{
-    API.graphql(graphqlOperation(listUsers)).then((result)=>{
-      setUsers(result.data?.listUsers?.items);
-    })     
+    
+    retrieveUsers();
+
+ 
   },[])
+
+
+  const retrieveUsers = async () => {
+    const authoUser = await Auth.currentAuthenticatedUser({bypassCache: true});
+
+    const result = await API.graphql(graphqlOperation(listUsers));
+    
+    const filtered = result.data?.listUsers?.items.filter((item)=>item.id!==authoUser.attributes.sub) 
+      
+    // console.log(authUser);
+
+    // console.log(JSON.stringify(filtered, null, 2))
+
+    setUsers(filtered);
+
+   
+  }
+
 
   const createChatRoomWithUser = async (user) => {
     console.warn("Pressed");
@@ -45,7 +63,6 @@ const ContactsScreen = () => {
     )
 
 
-    console.log(newChatRoomData);
     
     if(!newChatRoomData.data?.createChatRoom){
       console.log("error creating chatroom");
@@ -54,8 +71,7 @@ const ContactsScreen = () => {
 
     //add the clicked user to the Chatroom
 
-    console.log("user",user.id);
-
+    
     await API.graphql(
       graphqlOperation(createUserChatRoom, {
         input: {chatRoomId: newChatRoom.id, userId: user.id}
@@ -74,7 +90,7 @@ const ContactsScreen = () => {
 
  
 
-    // navigation.navigate("Chat", {id: newChatRoom.id});
+    navigation.navigate("Chat", {id: newChatRoom.id});
 
 
   }

@@ -3,7 +3,7 @@ import { FlatList, View, TextInput, StyleSheet, Button } from "react-native";
 import ContactListItem from "../components/ContactListItem";
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { listUsers } from "../graphql/queries";
-import {createChatRoom, createUserChatRoom} from "../graphql/mutations";
+import {createChatRoom, ChatRoom} from "../graphql/mutations";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 
