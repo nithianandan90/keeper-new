@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { ImageBackground, StyleSheet, FlatList, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import Message from '../components/Message';
-import InputBox from '../components/InputBox';
-import bg from '../../assets/images/BG.png';
-import messages from '../../assets/data/messages.json';
+import Message from '../../components/Message';
+import InputBox from '../../components/InputBox';
+import bg from '../../../assets/images/BG.png';
 import {API, graphqlOperation} from 'aws-amplify';
-import { getChatRoom, listMessagesByChatRoom } from '../graphql/queries';
-import {onCreateMessage, onUpdateChatRoom} from '../graphql/subscriptions'
+import { listMessagesByChatRoom } from './ChatScreenQueries';
+import { getChatRoom} from '../../graphql/queries';
+import {onCreateMessage, onUpdateChatRoom} from '../../graphql/subscriptions'
 import { Feather } from '@expo/vector-icons';
 
 const ChatScreen = () => {
@@ -39,9 +39,7 @@ const ChatScreen = () => {
     const subscription = API.graphql(graphqlOperation(onUpdateChatRoom, {filter: {id: {eq: chatroomID } } } ) 
     ).subscribe({
       next: ({value})=>{
-        console.log("updated");
-        console.log(value);
-        setChatRoom((cr)=>({...(cr || {}), 
+                setChatRoom((cr)=>({...(cr || {}), 
                           ...value.data.onUpdateChatRoom
                         }));
       },
@@ -70,8 +68,7 @@ const ChatScreen = () => {
 
     const subscription = API.graphql(graphqlOperation(onCreateMessage, {filter: {chatroomID: {eq: chatroomID}}})).subscribe({
       next: ({value})=>{
-        console.log("New message");
-        console.log(value);
+        
         setMessages((m)=>[value.data.onCreateMessage, ...m])
       },
       error: (err)=>console.warn(err)
@@ -95,9 +92,7 @@ const ChatScreen = () => {
   }
 
 
-  console.log(JSON.stringify(chatRoom));
-
-
+  
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

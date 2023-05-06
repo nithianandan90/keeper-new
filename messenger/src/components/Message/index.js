@@ -11,31 +11,33 @@ dayjs.extend(relativeTime);
 const Message = ({ message }) => {
   
   const [isMe, setIsMe] = useState(false);
-  const [imageSources, setImageSources] = useState([]);
+  const [downloadedAttachments, setDownloadedAttachements] = useState([]);
   const [imageViewVisible, setImageViewVisible] = useState(false);
   const {width} = useWindowDimensions();
 
-  console.log(message);
-
+  
   useEffect(()=>{
     isMyMessage();
   },[])
 
 
   useEffect(()=>{
-    const downloadImages = async () => {
-      if(message.images?.length > 0){
-        //chg to support array of images
-        // const url = await Storage.get(message.images[0]);
-        
-        const uris = await Promise.all(message.images.map(Storage.get))
-        
-        setImageSources(uris.map((uri)=>({uri})));
+    const downloadAttachments = async () => {
+      if (message.Attachments.items) {
+        const downloadedAttachments = await Promise.all(
+          message.Attachments.items.map((attachment) =>
+            Storage.get(attachment.storageKey).then((uri) => ({
+              ...attachment,
+              uri,
+            }))
+          )
+        );
+  
+        setDownloadedAttachements(downloadedAttachments);
       }
-    }
-
-    downloadImages();
-  }, [message.images])
+    };
+    downloadAttachments();
+  }, [message.Attachments.items])
 
 
   const imageContainerWidth = width * 0.8 - 30;
@@ -58,16 +60,15 @@ const Message = ({ message }) => {
         },
       ]}
     >
-      {message.images?.length>0 && 
+      {downloadedAttachments.length>0 && 
         <View style={[{width:imageContainerWidth}, styles.images ]}>
-          {imageSources.map((imageSource)=>{
+          {downloadedAttachments.map((imageSource)=>{
 
             
-            
            return  <Pressable style={[ styles.imageContainer, 
-                                        imageSources.length===1 && {width: '100%'}]} 
+                                        downloadedAttachments.length===1 && {width: '100%'}]} 
                                         onPress={()=>setImageViewVisible(true)}>
-              <Image source={imageSource} style={styles.image} />
+              <Image source={{uri: imageSource.uri}} style={styles.image} />
             </Pressable>
           
           })}
@@ -75,7 +76,7 @@ const Message = ({ message }) => {
           
           
           <ImageView 
-            images={imageSources} 
+            images={downloadedAttachments.map(({uri})=>({uri}))} 
             imageIndex={0} 
             visible={imageViewVisible} 
             onRequestClose={()=>setImageViewVisible(false)}/>
