@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable, useWindowDimensions } from 'react-native';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Auth, Storage } from 'aws-amplify';
@@ -13,7 +13,7 @@ const Message = ({ message }) => {
   const [isMe, setIsMe] = useState(false);
   const [imageSources, setImageSources] = useState([]);
   const [imageViewVisible, setImageViewVisible] = useState(false);
-
+  const {width} = useWindowDimensions();
 
   console.log(message);
 
@@ -26,14 +26,19 @@ const Message = ({ message }) => {
     const downloadImages = async () => {
       if(message.images?.length > 0){
         //chg to support array of images
-        const url = await Storage.get(message.images[0]);
-        setImageSources([{uri: url}]);
+        // const url = await Storage.get(message.images[0]);
+        
+        const uris = await Promise.all(message.images.map(Storage.get))
+        
+        setImageSources(uris.map((uri)=>({uri})));
       }
     }
 
     downloadImages();
   }, [message.images])
 
+
+  const imageContainerWidth = width * 0.8 - 30;
 
   const isMyMessage = async () => {
     
@@ -54,17 +59,28 @@ const Message = ({ message }) => {
       ]}
     >
       {message.images?.length>0 && 
-        <>
-          <Pressable onPress={()=>setImageViewVisible(true)}>
-            <Image source={imageSources[0]} style={styles.image} />
-          </Pressable>
+        <View style={[{width:imageContainerWidth}, styles.images ]}>
+          {imageSources.map((imageSource)=>{
+
+            
+            
+           return  <Pressable style={[ styles.imageContainer, 
+                                        imageSources.length===1 && {width: '100%'}]} 
+                                        onPress={()=>setImageViewVisible(true)}>
+              <Image source={imageSource} style={styles.image} />
+            </Pressable>
+          
+          })}
+         
+          
+          
           <ImageView 
             images={imageSources} 
             imageIndex={0} 
             visible={imageViewVisible} 
             onRequestClose={()=>setImageViewVisible(false)}/>
 
-        </>
+        </View>
       
       // <S3Image imgKey={message.images[0]} style={styles.image} />
       
@@ -97,8 +113,21 @@ const styles = StyleSheet.create({
     color: 'gray',
     alignSelf: 'flex-end',
   },
+
+  images: {
+    flexDirection: 'row',
+    flexWrap: "wrap"
+  },
+
+  imageContainer: {
+    padding: 3,
+    width: '50%',
+    aspectRatio: 1
+    
+  },
+
   image: {
-    width: 200,
+    flex: 1,
     height: 100,
     borderColor: "white",
     borderWidth: 2,
