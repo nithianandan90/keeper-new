@@ -21,7 +21,6 @@ const ContactsScreen = () => {
     
     retrieveUsers();
 
- 
   },[])
 
 

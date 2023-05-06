@@ -5,6 +5,10 @@ import { Auth, Storage } from 'aws-amplify';
 import { useEffect, useState } from 'react';
 import {S3Image} from 'aws-amplify-react-native';
 import ImageView from 'react-native-image-viewing';
+import {Video} from 'expo-av';
+import ImageAttachment from './ImageAttachment';
+import VideoAttachment from './VideoAttachment';
+
 
 dayjs.extend(relativeTime);
 
@@ -50,6 +54,10 @@ const Message = ({ message }) => {
   
   };
 
+  const imageAttachments = downloadedAttachments.filter(at=>at.type==='IMAGE');
+  
+  const videoAttachments = downloadedAttachments.filter(at=>at.type==='VIDEO');
+
   return (
     <View
       style={[
@@ -62,24 +70,13 @@ const Message = ({ message }) => {
     >
       {downloadedAttachments.length>0 && 
         <View style={[{width:imageContainerWidth}, styles.images ]}>
-          {downloadedAttachments.map((imageSource)=>{
-
-            
-           return  <Pressable style={[ styles.imageContainer, 
-                                        downloadedAttachments.length===1 && {width: '100%'}]} 
-                                        onPress={()=>setImageViewVisible(true)}>
-              <Image source={{uri: imageSource.uri}} style={styles.image} />
-            </Pressable>
-          
-          })}
+         
+         <ImageAttachment attachments={imageAttachments}/>
+        
+          <VideoAttachment attachments={videoAttachments} width = {imageContainerWidth}/>
          
           
           
-          <ImageView 
-            images={downloadedAttachments.map(({uri})=>({uri}))} 
-            imageIndex={0} 
-            visible={imageViewVisible} 
-            onRequestClose={()=>setImageViewVisible(false)}/>
 
         </View>
       

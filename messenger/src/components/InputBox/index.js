@@ -15,7 +15,7 @@ const InputBox = ({chatroom}) => {
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.files,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       quality: 1,
       allowsMultipleSelection: true
     });
@@ -33,9 +33,15 @@ const InputBox = ({chatroom}) => {
 
 
   const addAttachment = async (file, messageID)=>{
+    
+    const types = {
+      image: "IMAGE",
+      video: "VIDEO"
+    }
+    
     const newAttachment = {
       storageKey: await uploadFile(file.uri),
-      type: "IMAGE", //TODO videos
+      type: types[file.type], //TODO videos
       width: file.width,
       height: file.height,
       duration: file.duration,
