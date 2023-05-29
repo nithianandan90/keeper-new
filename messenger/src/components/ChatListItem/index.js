@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useEffect, useState } from 'react';
-import {Auth, API, graphqlOperation} from 'aws-amplify';
+import {Auth, API, graphqlOperation, Storage} from 'aws-amplify';
 import {onUpdateChatRoom} from '../../graphql/subscriptions'
 
 dayjs.extend(relativeTime);
@@ -11,17 +11,31 @@ dayjs.extend(relativeTime);
 const ChatListItem = ({ chat, sub }) => {
   const navigation = useNavigation();
   const [chatRoom, setChatRoom] = useState(chat);
-  
+  const [imageUri, setImageUri] = useState();
   
   const n = chat.users.items[0].user.id===sub?1:0;
   
   const user = chat.users.items[n].user;
-  
+ 
+  console.log("chat", chat);
 
-  
+  const getImage = async ()=>{
+    
+    const uri = await Storage.get(user.image.storageKey);
+    setImageUri(uri);
+ 
+  }
+
+
+  useEffect(()=>{
+    if(user.image){
+    getImage();
+    }
+  },[user])
+
   useEffect(()=>{
    
-
+  
 
     const subscription = API.graphql(graphqlOperation(onUpdateChatRoom, {filter: {id: {eq: chat.id } } } ) 
     ).subscribe({
@@ -38,17 +52,22 @@ const ChatListItem = ({ chat, sub }) => {
   },[chat.id])
 
 
+
+
   return (
     <Pressable
-      onPress={() => navigation.navigate('Chat', { id: chatRoom?.id, name: user?.name })}
+      onPress={() => navigation.navigate('Chat', { id: chatRoom?.id, name: chatRoom?.Property.title })}
       style={styles.container}
     >
-      <Image source={{ uri: user?.image }} style={styles.image} />
+      <Image source={{ uri: imageUri }} style={styles.image} />
 
       <View style={styles.content}>
         <View style={styles.row}>
           <Text style={styles.name} numberOfLines={1}>
-            {chatRoom.name || user?.name}
+            {chatRoom.Property?.title || user?.name},  {chatRoom.Property?.streetAddress}
+          </Text>
+          <Text style={styles.name} numberOfLines={1}>
+           
           </Text>
           {chatRoom.LastMessage&&<Text style={styles.subTitle}>{dayjs(chatRoom.LastMessage?.createdAt).fromNow(true)}</Text>}
         </View>

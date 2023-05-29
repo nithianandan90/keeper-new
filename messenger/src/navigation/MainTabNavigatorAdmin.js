@@ -1,13 +1,14 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NotImplementedScreen from '../screens/NotImplementedScreen';
 import ChatsScreen from '../screens/ChatsScreen/ChatsScreen';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Ionicons, Entypo, FontAwesome5 } from '@expo/vector-icons';
 import SettingsScreen from '../screens/SettingsScreen';
-
+import TaskEdit from '../screens/TaskEdit';
+import HomeScreen from '../screens/HomeScreen';
 
 const Tab = createBottomTabNavigator();
 
-const MainTabNavigator = () => {
+const MainTabNavigatorAdmin = () => {
   return (
     <Tab.Navigator
       initialRouteName="Chats"
@@ -16,32 +17,16 @@ const MainTabNavigator = () => {
         headerStyle: { backgroundColor: 'whitesmoke' },
       }}
     >
+     
       <Tab.Screen
-        name="Status"
-        component={NotImplementedScreen}
+        name="Properties"
+        component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="logo-whatsapp" size={size} color={color} />
+            <FontAwesome5 name="house-user" size={size} color={color} />
           ),
         }}
-      />
-      <Tab.Screen
-        name="Calls"
-        component={NotImplementedScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="call-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Camera"
-        component={NotImplementedScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="camera-outline" size={size} color={color} />
-          ),
-        }}
+        
       />
       <Tab.Screen
         name="Chats"
@@ -74,4 +59,4 @@ const MainTabNavigator = () => {
   );
 };
 
-export default MainTabNavigator;
+export default MainTabNavigatorAdmin;

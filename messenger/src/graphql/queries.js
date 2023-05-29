@@ -1,17 +1,543 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getNotifications = /* GraphQL */ `
+  query GetNotifications($id: ID!) {
+    getNotifications(id: $id) {
+      id
+      updateTitle
+      updateDetails
+      latestUpdate
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      taskID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listNotifications = /* GraphQL */ `
+  query ListNotifications(
+    $filter: ModelNotificationsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listNotifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        updateTitle
+        updateDetails
+        latestUpdate
+        Users {
+          nextToken
+          startedAt
+        }
+        taskID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncNotifications = /* GraphQL */ `
+  query SyncNotifications(
+    $filter: ModelNotificationsFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncNotifications(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        updateTitle
+        updateDetails
+        latestUpdate
+        Users {
+          nextToken
+          startedAt
+        }
+        taskID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const notificationsByTaskID = /* GraphQL */ `
+  query NotificationsByTaskID(
+    $taskID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelNotificationsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    notificationsByTaskID(
+      taskID: $taskID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        updateTitle
+        updateDetails
+        latestUpdate
+        Users {
+          nextToken
+          startedAt
+        }
+        taskID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getProperties = /* GraphQL */ `
+  query GetProperties($id: ID!) {
+    getProperties(id: $id) {
+      id
+      title
+      streetAddress
+      postcode
+      city
+      state
+      headerPic
+      type
+      physicalAccess
+      status
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      Tasks {
+        items {
+          id
+          status
+          startDate
+          completionDate
+          title
+          subTitle
+          taskType
+          recurrence
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Attachments {
+        items {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listProperties = /* GraphQL */ `
+  query ListProperties(
+    $filter: ModelPropertiesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listProperties(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        streetAddress
+        postcode
+        city
+        state
+        headerPic
+        type
+        physicalAccess
+        status
+        Users {
+          nextToken
+          startedAt
+        }
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Attachments {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncProperties = /* GraphQL */ `
+  query SyncProperties(
+    $filter: ModelPropertiesFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncProperties(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        title
+        streetAddress
+        postcode
+        city
+        state
+        headerPic
+        type
+        physicalAccess
+        status
+        Users {
+          nextToken
+          startedAt
+        }
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Attachments {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getTask = /* GraphQL */ `
+  query GetTask($id: ID!) {
+    getTask(id: $id) {
+      id
+      status
+      startDate
+      completionDate
+      title
+      subTitle
+      taskType
+      recurrence
+      propertiesID
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      Attachments {
+        items {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notifications {
+        items {
+          id
+          updateTitle
+          updateDetails
+          latestUpdate
+          taskID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listTasks = /* GraphQL */ `
+  query ListTasks(
+    $filter: ModelTaskFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        status
+        startDate
+        completionDate
+        title
+        subTitle
+        taskType
+        recurrence
+        propertiesID
+        Users {
+          nextToken
+          startedAt
+        }
+        Attachments {
+          nextToken
+          startedAt
+        }
+        Notifications {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncTasks = /* GraphQL */ `
+  query SyncTasks(
+    $filter: ModelTaskFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncTasks(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        status
+        startDate
+        completionDate
+        title
+        subTitle
+        taskType
+        recurrence
+        propertiesID
+        Users {
+          nextToken
+          startedAt
+        }
+        Attachments {
+          nextToken
+          startedAt
+        }
+        Notifications {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const tasksByPropertiesID = /* GraphQL */ `
+  query TasksByPropertiesID(
+    $propertiesID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTaskFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    tasksByPropertiesID(
+      propertiesID: $propertiesID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        status
+        startDate
+        completionDate
+        title
+        subTitle
+        taskType
+        recurrence
+        propertiesID
+        Users {
+          nextToken
+          startedAt
+        }
+        Attachments {
+          nextToken
+          startedAt
+        }
+        Notifications {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getAttachment = /* GraphQL */ `
   query GetAttachment($id: ID!) {
     getAttachment(id: $id) {
       id
       storageKey
+      fileName
       type
       width
       height
       duration
       messageID
       chatroomID
+      taskID
+      propertiesID
       createdAt
       updatedAt
       _version
@@ -30,12 +556,15 @@ export const listAttachments = /* GraphQL */ `
       items {
         id
         storageKey
+        fileName
         type
         width
         height
         duration
         messageID
         chatroomID
+        taskID
+        propertiesID
         createdAt
         updatedAt
         _version
@@ -63,12 +592,15 @@ export const syncAttachments = /* GraphQL */ `
       items {
         id
         storageKey
+        fileName
         type
         width
         height
         duration
         messageID
         chatroomID
+        taskID
+        propertiesID
         createdAt
         updatedAt
         _version
@@ -98,12 +630,15 @@ export const attachmentsByMessageID = /* GraphQL */ `
       items {
         id
         storageKey
+        fileName
         type
         width
         height
         duration
         messageID
         chatroomID
+        taskID
+        propertiesID
         createdAt
         updatedAt
         _version
@@ -133,12 +668,91 @@ export const attachmentsByChatroomID = /* GraphQL */ `
       items {
         id
         storageKey
+        fileName
         type
         width
         height
         duration
         messageID
         chatroomID
+        taskID
+        propertiesID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const attachmentsByTaskID = /* GraphQL */ `
+  query AttachmentsByTaskID(
+    $taskID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAttachmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    attachmentsByTaskID(
+      taskID: $taskID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        storageKey
+        fileName
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        taskID
+        propertiesID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const attachmentsByPropertiesID = /* GraphQL */ `
+  query AttachmentsByPropertiesID(
+    $propertiesID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAttachmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    attachmentsByPropertiesID(
+      propertiesID: $propertiesID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        storageKey
+        fileName
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        taskID
+        propertiesID
         createdAt
         updatedAt
         _version
@@ -186,6 +800,35 @@ export const getChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
+      Property {
+        id
+        title
+        streetAddress
+        postcode
+        city
+        state
+        headerPic
+        type
+        physicalAccess
+        status
+        Users {
+          nextToken
+          startedAt
+        }
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Attachments {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       LastMessage {
         id
         createdAt
@@ -206,12 +849,15 @@ export const getChatRoom = /* GraphQL */ `
         items {
           id
           storageKey
+          fileName
           type
           width
           height
           duration
           messageID
           chatroomID
+          taskID
+          propertiesID
           createdAt
           updatedAt
           _version
@@ -226,6 +872,7 @@ export const getChatRoom = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      chatRoomPropertyId
       chatRoomLastMessageId
     }
   }
@@ -249,6 +896,23 @@ export const listChatRooms = /* GraphQL */ `
           nextToken
           startedAt
         }
+        Property {
+          id
+          title
+          streetAddress
+          postcode
+          city
+          state
+          headerPic
+          type
+          physicalAccess
+          status
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         LastMessage {
           id
           createdAt
@@ -270,6 +934,7 @@ export const listChatRooms = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        chatRoomPropertyId
         chatRoomLastMessageId
       }
       nextToken
@@ -302,6 +967,23 @@ export const syncChatRooms = /* GraphQL */ `
           nextToken
           startedAt
         }
+        Property {
+          id
+          title
+          streetAddress
+          postcode
+          city
+          state
+          headerPic
+          type
+          physicalAccess
+          status
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         LastMessage {
           id
           createdAt
@@ -323,6 +1005,7 @@ export const syncChatRooms = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        chatRoomPropertyId
         chatRoomLastMessageId
       }
       nextToken
@@ -343,12 +1026,15 @@ export const getMessage = /* GraphQL */ `
         items {
           id
           storageKey
+          fileName
           type
           width
           height
           duration
           messageID
           chatroomID
+          taskID
+          propertiesID
           createdAt
           updatedAt
           _version
@@ -506,23 +1192,27 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       name
+      username
+      email
+      telephone
       status
-      image
-      Messages {
-        items {
-          id
-          createdAt
-          text
-          chatroomID
-          userID
-          images
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        nextToken
-        startedAt
+      image {
+        id
+        storageKey
+        fileName
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        taskID
+        propertiesID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       ChatRooms {
         items {
@@ -538,11 +1228,16 @@ export const getUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      userType
+      taskID
+      propertiesID
+      notificationsID
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      userImageId
     }
   }
 `;
@@ -556,21 +1251,42 @@ export const listUsers = /* GraphQL */ `
       items {
         id
         name
+        username
+        email
+        telephone
         status
-        image
-        Messages {
-          nextToken
-          startedAt
+        image {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         ChatRooms {
           nextToken
           startedAt
         }
+        userType
+        taskID
+        propertiesID
+        notificationsID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        userImageId
       }
       nextToken
       startedAt
@@ -593,21 +1309,222 @@ export const syncUsers = /* GraphQL */ `
       items {
         id
         name
+        username
+        email
+        telephone
         status
-        image
-        Messages {
-          nextToken
-          startedAt
+        image {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         ChatRooms {
           nextToken
           startedAt
         }
+        userType
+        taskID
+        propertiesID
+        notificationsID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        userImageId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const usersByTaskID = /* GraphQL */ `
+  query UsersByTaskID(
+    $taskID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByTaskID(
+      taskID: $taskID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        username
+        email
+        telephone
+        status
+        image {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        ChatRooms {
+          nextToken
+          startedAt
+        }
+        userType
+        taskID
+        propertiesID
+        notificationsID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        userImageId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const usersByPropertiesID = /* GraphQL */ `
+  query UsersByPropertiesID(
+    $propertiesID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByPropertiesID(
+      propertiesID: $propertiesID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        username
+        email
+        telephone
+        status
+        image {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        ChatRooms {
+          nextToken
+          startedAt
+        }
+        userType
+        taskID
+        propertiesID
+        notificationsID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        userImageId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const usersByNotificationsID = /* GraphQL */ `
+  query UsersByNotificationsID(
+    $notificationsID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByNotificationsID(
+      notificationsID: $notificationsID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        username
+        email
+        telephone
+        status
+        image {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        ChatRooms {
+          nextToken
+          startedAt
+        }
+        userType
+        taskID
+        propertiesID
+        notificationsID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        userImageId
       }
       nextToken
       startedAt
@@ -632,6 +1549,23 @@ export const getUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        Property {
+          id
+          title
+          streetAddress
+          postcode
+          city
+          state
+          headerPic
+          type
+          physicalAccess
+          status
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         LastMessage {
           id
           createdAt
@@ -653,26 +1587,48 @@ export const getUserChatRoom = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        chatRoomPropertyId
         chatRoomLastMessageId
       }
       user {
         id
         name
+        username
+        email
+        telephone
         status
-        image
-        Messages {
-          nextToken
-          startedAt
+        image {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         ChatRooms {
           nextToken
           startedAt
         }
+        userType
+        taskID
+        propertiesID
+        notificationsID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        userImageId
       }
       createdAt
       updatedAt
@@ -702,18 +1658,26 @@ export const listUserChatRooms = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          chatRoomPropertyId
           chatRoomLastMessageId
         }
         user {
           id
           name
+          username
+          email
+          telephone
           status
-          image
+          userType
+          taskID
+          propertiesID
+          notificationsID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          userImageId
         }
         createdAt
         updatedAt
@@ -752,18 +1716,26 @@ export const syncUserChatRooms = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          chatRoomPropertyId
           chatRoomLastMessageId
         }
         user {
           id
           name
+          username
+          email
+          telephone
           status
-          image
+          userType
+          taskID
+          propertiesID
+          notificationsID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          userImageId
         }
         createdAt
         updatedAt
@@ -804,18 +1776,26 @@ export const userChatRoomsByChatRoomId = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          chatRoomPropertyId
           chatRoomLastMessageId
         }
         user {
           id
           name
+          username
+          email
+          telephone
           status
-          image
+          userType
+          taskID
+          propertiesID
+          notificationsID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          userImageId
         }
         createdAt
         updatedAt
@@ -856,18 +1836,26 @@ export const userChatRoomsByUserId = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          chatRoomPropertyId
           chatRoomLastMessageId
         }
         user {
           id
           name
+          username
+          email
+          telephone
           status
-          image
+          userType
+          taskID
+          propertiesID
+          notificationsID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          userImageId
         }
         createdAt
         updatedAt

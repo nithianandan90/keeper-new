@@ -3,15 +3,34 @@ import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {AntDesign, FontAwesome} from '@expo/vector-icons';
+import { useEffect, useState } from 'react';
+import {Auth, API, graphqlOperation, Storage} from 'aws-amplify';
 
 dayjs.extend(relativeTime);
 
 const ContactListItem = ({ user, onPress=()=>{}, selectable=false, isSelected=false }) => {
   const navigation = useNavigation();
+  const [imageUri, setImageUri] = useState();
+ 
+  const getImage = async ()=>{
+    
+    const uri = await Storage.get(user.image.storageKey);
+    setImageUri(uri);
+ 
+  }
+
+
+  useEffect(()=>{
+    if(user.image){
+    getImage();
+    }
+  },[])
+
+
 
   return (
     <Pressable onPress={onPress} style={styles.container}>
-      <Image source={{ uri: user.image }} style={styles.image} />
+      <Image source={{ uri: imageUri }} style={styles.image} />
 
       <View style={styles.content}>
         <Text style={styles.name} numberOfLines={1}>

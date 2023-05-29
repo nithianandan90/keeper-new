@@ -1,16 +1,26 @@
 import { useState } from 'react';
-import { View, StyleSheet, TextInput, Image, FlatList } from 'react-native';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { View, StyleSheet, TextInput, Image, FlatList, Text, ActivityIndicator, Alert } from 'react-native';
+import { AntDesign, FontAwesome, FontAwesome5, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {API, graphqlOperation, Auth, Storage} from 'aws-amplify';
 import { createAttachment, createMessage, updateChatRoom } from '../../graphql/mutations';
 import * as ImagePicker from 'expo-image-picker';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
 
 const InputBox = ({chatroom}) => {
   const [text, setText] = useState('');
   const [files, setFiles] = useState([]);
+  const [progresses, setProgresses] = useState({});
+  const [disableSend, setDisableSend] = useState(false);
+
+
+  const getFileInfo = async (fileURI) => {
+    const fileInfo = await FileSystem.getInfoAsync(fileURI)
+    return fileInfo
+ }
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -19,6 +29,43 @@ const InputBox = ({chatroom}) => {
       quality: 1,
       allowsMultipleSelection: true
     });
+
+    // const fileInfo = await getFileInfo(result.uri);
+
+    // if(fileInfo.size>25600000){
+    //   Alert.alert('File size exceeds 25 mb')
+    //   return;
+    // }
+
+    // console.log("file info",await getFileInfo(result.uri));
+
+    if (!result.cancelled) {
+      if(result.selected){
+        //user selected multi
+        setFiles(result.selected);
+      }else{
+        setFiles([result]);
+      }
+    }
+  };
+
+
+  const pickDocument = async () => {
+
+    // console.warn('pick document');
+
+    let result = await DocumentPicker.getDocumentAsync({
+      type: "application/*"
+    });
+
+    // console.log("result",result);
+
+    // No permissions request is necessary for launching the image library
+    // let result = await ImagePicker.launchImageLibraryAsync({
+    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
+    //   quality: 1,
+    //   allowsMultipleSelection: true
+    // });
 
 
     if (!result.cancelled) {
@@ -32,25 +79,41 @@ const InputBox = ({chatroom}) => {
   };
 
 
+
   const addAttachment = async (file, messageID)=>{
     
+    console.log("file", file);
+
+     const fileInfo = await getFileInfo(file.uri);
+
+    if(fileInfo.size>25600000){
+      Alert.alert('File size exceeds 25 mb')
+      return;
+    }
+   
     const types = {
       image: "IMAGE",
-      video: "VIDEO"
+      video: "VIDEO",
+      success: "DOCUMENT"
+
     }
     
+    const fileType = file.uri.slice(file.uri.lastIndexOf('.') + 1);
+
+    console.log("fileType", fileType);
+
     const newAttachment = {
-      storageKey: await uploadFile(file.uri),
-      type: types[file.type], //TODO videos
+      storageKey: await uploadFile(file.uri, fileType.toLowerCase()),
+      type: types[file.type], 
       width: file.width,
       height: file.height,
-      duration: file.duration,
+      duration: file.duration, 
       messageID, 
       chatroomID: chatroom.id
     }
 
-    
-    console.log("new attachment", newAttachment);
+    console.log("file attachment", newAttachment)
+   
 
     return API.graphql(graphqlOperation(
       createAttachment, 
@@ -60,13 +123,19 @@ const InputBox = ({chatroom}) => {
   }
 
 
-  const uploadFile = async (fileUri) => {
-	  try {
+  const uploadFile = async (fileUri, fileType) => {
+	  
+
+    
+    try {
 	    const response = await fetch(fileUri);
 	    const blob = await response.blob();
-	    const key = `${uuidv4()}.png`;
+	    const key = `${uuidv4()}.${fileType}`;
 	    await Storage.put(key, blob, {
-	      contentType: "image/png", // contentType is optional
+	      progressCallback(progress) {
+          console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+          setProgresses(p=>({...p, [fileUri]: progress.loaded/progress.total}))
+        },
 	    });
 	    return key;
 	  } catch (err) {
@@ -80,8 +149,10 @@ const InputBox = ({chatroom}) => {
     
     
 
-    if(text || files){
-      console.warn('Sending a new message: ', text);
+    if(text || files.length>0){
+      // console.warn('Sending a new message: ', files);
+      setDisableSend(true);
+
       const authuser = await Auth.currentAuthenticatedUser();
 
       const newMessage = {
@@ -116,15 +187,18 @@ const InputBox = ({chatroom}) => {
 
       //set the new message as a LastMessage of the ChatRoom
 
-          const object = {chatRoomLastMessageId: newMessageData.data.createMessage.id, _version: chatroom._version};
           
-      await API.graphql(graphqlOperation(
+      const chatRoomData = await API.graphql(graphqlOperation(
         updateChatRoom, {input: {id: chatroom.id, chatRoomLastMessageId: newMessageData.data.createMessage.id, _version: chatroom._version} }
       ))
 
+      console.log("data",chatRoomData)
+      setDisableSend(false);
     }
+   
   };
 
+  // console.log("files", files);
   return (
     <>
 
@@ -137,14 +211,20 @@ const InputBox = ({chatroom}) => {
         horizontal
         renderItem={({item})=>(
           <>
-          <Image source={{uri:item.uri}} style={styles.selectedImage} resizeMode='contain'/>
-          <MaterialIcons
+          {item.type!=='success'?(<Image source={{uri:item.uri}} style={styles.selectedImage} resizeMode='contain'/>):(<Ionicons name="document-attach" size={70} color="gray" />)}
+       
+          <View style={{position: "absolute", top: "50%", left:"50%", backgroundColor:'gray'}}>
+            <Text style={{color: 'white'}}>{progresses[item.uri]}%</Text>
+          </View>
+          
+          {!disableSend&&  <MaterialIcons
             name="highlight-remove"
             onPress={() => setFiles((existingfiles)=>existingfiles.filter((file)=>file!==item))}
             size={20}
             color="gray"
             style={styles.removeSelectedImage}
-          />
+          />}
+        
           </>
         )}
       />
@@ -156,8 +236,9 @@ const InputBox = ({chatroom}) => {
 
     <SafeAreaView edges={['bottom']} style={styles.container}>
       {/* Icon */}
-      <AntDesign onPress={pickImage} name="plus" size={20} color="royalblue" />
- 
+      <FontAwesome onPress={pickImage} name="photo" size={30} color="royalblue" style={{padding: 10}}/>
+      <Ionicons onPress={pickDocument} name="document" size={30} color="royalblue" />
+      
       {/* Text Input */}
       <TextInput
         value={text}
@@ -167,7 +248,10 @@ const InputBox = ({chatroom}) => {
       />
 
       {/* Icon */}
-      <MaterialIcons onPress={onSend} style={styles.send} name="send" size={16} color="white" />
+      {!disableSend?(  <MaterialIcons onPress={onSend} style={styles.send} name="send" size={16} color="white" />):(
+        <ActivityIndicator size="large"/>
+      )}
+    
     </SafeAreaView>
     </>
   );

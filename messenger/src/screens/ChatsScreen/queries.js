@@ -8,6 +8,11 @@ query GetUser($id: ID!) {
           _deleted
           chatRoom {
             id
+            chatRoomPropertyId
+            Property {
+              title
+              streetAddress
+            }
             name
             image
             updatedAt
@@ -15,7 +20,25 @@ query GetUser($id: ID!) {
               items {
                 user {
                   id
-                  image
+                  image {
+                    storageKey
+                    fileName
+                    _deleted
+                    width
+                    updatedAt
+                    type
+                    taskID
+                    propertiesID
+                    messageID
+                    id
+                    height
+                    duration
+                    createdAt
+                    chatroomID
+                    _version
+                    _lastChangedAt
+
+                  }
                   name
                 }
               }

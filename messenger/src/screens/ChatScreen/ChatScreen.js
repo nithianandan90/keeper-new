@@ -6,8 +6,8 @@ import InputBox from '../../components/InputBox';
 import bg from '../../../assets/images/BG.png';
 import {API, graphqlOperation} from 'aws-amplify';
 import { listMessagesByChatRoom } from './ChatScreenQueries';
-import { getChatRoom} from '../../graphql/queries';
-import {onCreateMessage, onUpdateChatRoom} from '../../graphql/subscriptions'
+import { getChatRoom, listUsers} from '../../graphql/queries';
+import {onCreateAttachment, onCreateMessage, onUpdateChatRoom} from '../../graphql/subscriptions'
 import { Feather } from '@expo/vector-icons';
 
 const ChatScreen = () => {
@@ -19,12 +19,14 @@ const ChatScreen = () => {
   const navigation = useNavigation();
 
   const chatroomID = route.params.id;
-
+  const client = route.params.client;
 
 
 
   // fetch Chat Room
   useEffect(()=>{
+
+
     API.graphql(
       graphqlOperation(
         getChatRoom, {id: chatroomID}
@@ -35,7 +37,6 @@ const ChatScreen = () => {
       
     })
 
-
     const subscription = API.graphql(graphqlOperation(onUpdateChatRoom, {filter: {id: {eq: chatroomID } } } ) 
     ).subscribe({
       next: ({value})=>{
@@ -45,6 +46,9 @@ const ChatScreen = () => {
       },
       error: (err) => console.warn(err)
     })
+
+
+
 
     return ()=>subscription.unsubscribe();
 
@@ -64,26 +68,69 @@ const ChatScreen = () => {
   
     })
 
+    
+
+    
     //subscribe to new messages
 
     const subscription = API.graphql(graphqlOperation(onCreateMessage, {filter: {chatroomID: {eq: chatroomID}}})).subscribe({
       next: ({value})=>{
         
+       
         setMessages((m)=>[value.data.onCreateMessage, ...m])
       },
       error: (err)=>console.warn(err)
     })
 
-    return () => subscription.unsubscribe();
+    // Subscribe to new attachments
+    const subscriptionAttachments = API.graphql(
+      graphqlOperation(onCreateAttachment, {
+        filter: { chatroomID: { eq: chatroomID } },
+      })
+    ).subscribe({
+      next: ({ value }) => {
+        const newAttachment = value.data.onCreateAttachment;
+        setMessages((existingMessages) => {
+          const messageToUpdate = existingMessages.find(
+            (em) => em.id === newAttachment.messageID
+          );
+          if (!messageToUpdate) {
+            return existingMessages;
+          }
+          if (!messageToUpdate?.Attachments?.items) {
+            messageToUpdate.Attachments.items = [];
+          }
+          messageToUpdate.Attachments.items.push(newAttachment);
+
+          return existingMessages.map((m) =>
+            m.id === messageToUpdate.id ? messageToUpdate : m
+          );
+        });
+      },
+      error: (err) => console.warn(err),
+    });
+
+
+
+    return () => {
+      subscription.unsubscribe();
+      subscriptionAttachments.unsubscribe();
+    }
 
   },[chatroomID])
 
 
 
   useEffect(() => {
+
+    if(client){
+      return
+    }
+    
     navigation.setOptions({ title: route.params.name, headerRight:()=>
-      <Feather onPress = {()=>navigation.navigate("Group Info", {id:chatroomID})} name="more-horizontal" size={24} color="gray" /> 
-    });
+        <Feather onPress = {()=>navigation.navigate("Group Info", {id:chatroomID})} name="more-horizontal" size={24} color="gray" /> 
+      });
+    
   }, [route.params.name]);
 
   

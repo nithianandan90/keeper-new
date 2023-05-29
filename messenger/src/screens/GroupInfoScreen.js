@@ -6,6 +6,7 @@ import {
   Text,
   ActivityIndicator,
   Alert,
+  Pressable,
 } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
@@ -13,6 +14,8 @@ import { API, graphqlOperation } from "aws-amplify";
 import { onUpdateChatRoom } from "../graphql/subscriptions";
 import { deleteUserChatRoom } from '../graphql/mutations';
 import ContactListItem from "../components/ContactListItem";
+
+
 
 const ChatRoomInfo = () => {
   const [chatRoom, setChatRoom] = useState(null);
@@ -84,6 +87,13 @@ const ChatRoomInfo = () => {
   }
 
 
+  const onPress = () =>{
+    
+    const property = chatRoom.Property;
+
+    navigation.navigate('Property Details', {property})
+  }
+
 
   if (!chatRoom) {
     return <ActivityIndicator />;
@@ -91,11 +101,21 @@ const ChatRoomInfo = () => {
 
   const users = chatRoom.users.items.filter((item) => !item._deleted);
 
+  console.log(chatRoom)
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{chatRoom.name}</Text>
-
+      <Pressable onPress={onPress} android_ripple={{radius:200}}>
+        <Text style={styles.title}>{chatRoom.Property.title}</Text>
+        <Text style={styles.subTitle}>
+            {chatRoom.Property.streetAddress}
+          </Text>
+          <Text style={styles.subTitle}>
+          {chatRoom.Property.postcode}, {chatRoom.Property.state}
+          </Text>
+      </Pressable>
+      
+      
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems:'center'}}>
         <Text style={styles.sectionTitle}>
           {users.length} Participants
@@ -128,6 +148,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 30,
   },
+  subTitle: {
+    fontWeight: "bold",
+    fontSize: 14,
+
+  },
   sectionTitle: {
     fontWeight: "bold",
     fontSize: 18,
@@ -146,6 +171,23 @@ export const getChatRoom = /* GraphQL */ `
       id
       name
       updatedAt
+      Property{
+        streetAddress
+        title
+        postcode
+        state
+        status
+        type
+        updatedAt
+        physicalAccess
+        id
+        headerPic
+        createdAt
+        city
+        _version
+        _lastChangedAt
+        _deleted
+      }
       users {
         items {
           id
@@ -160,7 +202,24 @@ export const getChatRoom = /* GraphQL */ `
             id
             name
             status
-            image
+            image {
+              storageKey
+              fileName
+              _deleted
+              width
+              updatedAt
+              type
+              taskID
+              propertiesID
+              messageID
+              id
+              height
+              duration
+              createdAt
+              chatroomID
+              _version
+              _lastChangedAt
+            }
           }
         }
         nextToken

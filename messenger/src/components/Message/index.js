@@ -9,7 +9,6 @@ import {Video} from 'expo-av';
 import ImageAttachment from './ImageAttachment';
 import VideoAttachment from './VideoAttachment';
 
-
 dayjs.extend(relativeTime);
 
 const Message = ({ message }) => {
@@ -19,29 +18,35 @@ const Message = ({ message }) => {
   const [imageViewVisible, setImageViewVisible] = useState(false);
   const {width} = useWindowDimensions();
 
+
+
   
   useEffect(()=>{
     isMyMessage();
   },[])
 
 
-  useEffect(()=>{
-    const downloadAttachments = async () => {
-      if (message.Attachments.items) {
-        const downloadedAttachments = await Promise.all(
-          message.Attachments.items.map((attachment) =>
-            Storage.get(attachment.storageKey).then((uri) => ({
-              ...attachment,
-              uri,
-            }))
-          )
-        );
-  
-        setDownloadedAttachements(downloadedAttachments);
-      }
-    };
+  const downloadAttachments = async () => {
+    if (message.Attachments.items) {
+      const downloadedAttachments = await Promise.all(
+        message.Attachments.items.map((attachment) =>
+          Storage.get(attachment.storageKey).then((uri) => ({
+            ...attachment,
+            uri,
+          }))
+        )
+      );
+      
+      
+      setDownloadedAttachements(downloadedAttachments);
+    }
+  };
+
+  useEffect(() => {
+
+    
     downloadAttachments();
-  }, [message.Attachments.items])
+  }, [JSON.stringify(message.Attachments.items)]);
 
 
   const imageContainerWidth = width * 0.8 - 30;
@@ -54,7 +59,7 @@ const Message = ({ message }) => {
   
   };
 
-  const imageAttachments = downloadedAttachments.filter(at=>at.type==='IMAGE');
+  const imageAttachments = downloadedAttachments.filter(at=>(at.type==='IMAGE'||at.type==='DOCUMENT'));
   
   const videoAttachments = downloadedAttachments.filter(at=>at.type==='VIDEO');
 
@@ -75,7 +80,7 @@ const Message = ({ message }) => {
         
           <VideoAttachment attachments={videoAttachments} width = {imageContainerWidth}/>
          
-          
+        
           
 
         </View>

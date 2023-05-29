@@ -1,17 +1,73 @@
+
+enum UserType {
+  CLIENT
+  PARTNER
+  MANAGER
+}
+
 enum AttachmentType {
   IMAGE
   VIDEO
+  DOCUMENT
 }
+
+
+type Notifications @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  updateTitle: String!
+  updateDetails: String!
+  latestUpdate: Boolean!
+  Users: [User] @hasMany(indexName: "byNotifications", fields: ["id"])
+  taskID: ID! @index(name: "byTask")
+}
+
+
+type Properties @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  title: String!
+  streetAddress: String!
+  postcode: Int!
+  city: String!
+  state: String!
+  headerPic: String
+  type: String!
+  physicalAccess: String!
+  status: String!
+  Users: [User] @hasMany(indexName: "byProperties", fields: ["id"])
+  Tasks: [Task] @hasMany(indexName: "byProperties", fields: ["id"])
+  Attachments: [Attachment] @hasMany(indexName: "byTask", fields: ["id"])
+}
+
+
+type Task @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  status: String!
+  startDate: AWSDateTime
+  completionDate: AWSDateTime
+  title: String!
+  subTitle: String!
+  taskType: String!
+  recurrence: String!
+  propertiesID: ID! @index(name: "byProperties")
+  Users: [User] @hasMany(indexName: "byTask", fields: ["id"])
+  Attachments: [Attachment] @hasMany(indexName: "byTask", fields: ["id"])
+  Notifications: [Notifications] @hasMany(indexName: "byTask", fields: ["id"])
+}
+
+
 
 type Attachment @model @auth(rules: [{allow: public}]) {
   id: ID!
   storageKey: String
+  fileName: String
   type: AttachmentType!
   width: Int
   height: Int
   duration: Int
-  messageID: ID! @index(name: "byMessage")
-  chatroomID: ID! @index(name: "byChatRoom")
+  messageID: ID @index(name: "byMessage")
+  chatroomID: ID @index(name: "byChatRoom")
+  taskID: ID @index(name: "byTask")
+  propertiesID: ID @index(name: "byProperties")
 }
 
 type ChatRoom @model @auth(rules: [{allow: public}]) {
@@ -20,6 +76,7 @@ type ChatRoom @model @auth(rules: [{allow: public}]) {
   image: String
   Messages: [Message] @hasMany(indexName: "byChatRoom", fields: ["id"])
   users: [User] @manyToMany(relationName: "UserChatRoom")
+  Property: Properties @hasOne
   LastMessage: Message @hasOne
   Attachments: [Attachment] @hasMany(indexName: "byChatRoom", fields: ["id"])
 }
@@ -37,9 +94,15 @@ type Message @model @auth(rules: [{allow: public}]) {
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
+  username: String
+  email: AWSEmail
+  telephone: AWSPhone
   status: String
-  image: String
-  Messages: [Message] @hasMany(indexName: "byUser", fields: ["id"])
+  image: Attachment @hasOne
   ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
+  userType: UserType
+  taskID: ID @index(name: "byTask")
+  propertiesID: ID @index(name: "byProperties")
+  notificationsID: ID @index(name: "byNotifications")
 }
  

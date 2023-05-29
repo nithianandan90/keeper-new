@@ -1,6 +1,642 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createNotifications = /* GraphQL */ `
+  mutation CreateNotifications(
+    $input: CreateNotificationsInput!
+    $condition: ModelNotificationsConditionInput
+  ) {
+    createNotifications(input: $input, condition: $condition) {
+      id
+      updateTitle
+      updateDetails
+      latestUpdate
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      taskID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateNotifications = /* GraphQL */ `
+  mutation UpdateNotifications(
+    $input: UpdateNotificationsInput!
+    $condition: ModelNotificationsConditionInput
+  ) {
+    updateNotifications(input: $input, condition: $condition) {
+      id
+      updateTitle
+      updateDetails
+      latestUpdate
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      taskID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteNotifications = /* GraphQL */ `
+  mutation DeleteNotifications(
+    $input: DeleteNotificationsInput!
+    $condition: ModelNotificationsConditionInput
+  ) {
+    deleteNotifications(input: $input, condition: $condition) {
+      id
+      updateTitle
+      updateDetails
+      latestUpdate
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      taskID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createProperties = /* GraphQL */ `
+  mutation CreateProperties(
+    $input: CreatePropertiesInput!
+    $condition: ModelPropertiesConditionInput
+  ) {
+    createProperties(input: $input, condition: $condition) {
+      id
+      title
+      streetAddress
+      postcode
+      city
+      state
+      headerPic
+      type
+      physicalAccess
+      status
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      Tasks {
+        items {
+          id
+          status
+          startDate
+          completionDate
+          title
+          subTitle
+          taskType
+          recurrence
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Attachments {
+        items {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateProperties = /* GraphQL */ `
+  mutation UpdateProperties(
+    $input: UpdatePropertiesInput!
+    $condition: ModelPropertiesConditionInput
+  ) {
+    updateProperties(input: $input, condition: $condition) {
+      id
+      title
+      streetAddress
+      postcode
+      city
+      state
+      headerPic
+      type
+      physicalAccess
+      status
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      Tasks {
+        items {
+          id
+          status
+          startDate
+          completionDate
+          title
+          subTitle
+          taskType
+          recurrence
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Attachments {
+        items {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteProperties = /* GraphQL */ `
+  mutation DeleteProperties(
+    $input: DeletePropertiesInput!
+    $condition: ModelPropertiesConditionInput
+  ) {
+    deleteProperties(input: $input, condition: $condition) {
+      id
+      title
+      streetAddress
+      postcode
+      city
+      state
+      headerPic
+      type
+      physicalAccess
+      status
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      Tasks {
+        items {
+          id
+          status
+          startDate
+          completionDate
+          title
+          subTitle
+          taskType
+          recurrence
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Attachments {
+        items {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createTask = /* GraphQL */ `
+  mutation CreateTask(
+    $input: CreateTaskInput!
+    $condition: ModelTaskConditionInput
+  ) {
+    createTask(input: $input, condition: $condition) {
+      id
+      status
+      startDate
+      completionDate
+      title
+      subTitle
+      taskType
+      recurrence
+      propertiesID
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      Attachments {
+        items {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notifications {
+        items {
+          id
+          updateTitle
+          updateDetails
+          latestUpdate
+          taskID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateTask = /* GraphQL */ `
+  mutation UpdateTask(
+    $input: UpdateTaskInput!
+    $condition: ModelTaskConditionInput
+  ) {
+    updateTask(input: $input, condition: $condition) {
+      id
+      status
+      startDate
+      completionDate
+      title
+      subTitle
+      taskType
+      recurrence
+      propertiesID
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      Attachments {
+        items {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notifications {
+        items {
+          id
+          updateTitle
+          updateDetails
+          latestUpdate
+          taskID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteTask = /* GraphQL */ `
+  mutation DeleteTask(
+    $input: DeleteTaskInput!
+    $condition: ModelTaskConditionInput
+  ) {
+    deleteTask(input: $input, condition: $condition) {
+      id
+      status
+      startDate
+      completionDate
+      title
+      subTitle
+      taskType
+      recurrence
+      propertiesID
+      Users {
+        items {
+          id
+          name
+          username
+          email
+          telephone
+          status
+          userType
+          taskID
+          propertiesID
+          notificationsID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          userImageId
+        }
+        nextToken
+        startedAt
+      }
+      Attachments {
+        items {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notifications {
+        items {
+          id
+          updateTitle
+          updateDetails
+          latestUpdate
+          taskID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createAttachment = /* GraphQL */ `
   mutation CreateAttachment(
     $input: CreateAttachmentInput!
@@ -9,12 +645,15 @@ export const createAttachment = /* GraphQL */ `
     createAttachment(input: $input, condition: $condition) {
       id
       storageKey
+      fileName
       type
       width
       height
       duration
       messageID
       chatroomID
+      taskID
+      propertiesID
       createdAt
       updatedAt
       _version
@@ -31,12 +670,15 @@ export const updateAttachment = /* GraphQL */ `
     updateAttachment(input: $input, condition: $condition) {
       id
       storageKey
+      fileName
       type
       width
       height
       duration
       messageID
       chatroomID
+      taskID
+      propertiesID
       createdAt
       updatedAt
       _version
@@ -53,12 +695,15 @@ export const deleteAttachment = /* GraphQL */ `
     deleteAttachment(input: $input, condition: $condition) {
       id
       storageKey
+      fileName
       type
       width
       height
       duration
       messageID
       chatroomID
+      taskID
+      propertiesID
       createdAt
       updatedAt
       _version
@@ -106,6 +751,35 @@ export const createChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
+      Property {
+        id
+        title
+        streetAddress
+        postcode
+        city
+        state
+        headerPic
+        type
+        physicalAccess
+        status
+        Users {
+          nextToken
+          startedAt
+        }
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Attachments {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       LastMessage {
         id
         createdAt
@@ -126,12 +800,15 @@ export const createChatRoom = /* GraphQL */ `
         items {
           id
           storageKey
+          fileName
           type
           width
           height
           duration
           messageID
           chatroomID
+          taskID
+          propertiesID
           createdAt
           updatedAt
           _version
@@ -146,6 +823,7 @@ export const createChatRoom = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      chatRoomPropertyId
       chatRoomLastMessageId
     }
   }
@@ -189,6 +867,35 @@ export const updateChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
+      Property {
+        id
+        title
+        streetAddress
+        postcode
+        city
+        state
+        headerPic
+        type
+        physicalAccess
+        status
+        Users {
+          nextToken
+          startedAt
+        }
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Attachments {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       LastMessage {
         id
         createdAt
@@ -209,12 +916,15 @@ export const updateChatRoom = /* GraphQL */ `
         items {
           id
           storageKey
+          fileName
           type
           width
           height
           duration
           messageID
           chatroomID
+          taskID
+          propertiesID
           createdAt
           updatedAt
           _version
@@ -229,6 +939,7 @@ export const updateChatRoom = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      chatRoomPropertyId
       chatRoomLastMessageId
     }
   }
@@ -272,6 +983,35 @@ export const deleteChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
+      Property {
+        id
+        title
+        streetAddress
+        postcode
+        city
+        state
+        headerPic
+        type
+        physicalAccess
+        status
+        Users {
+          nextToken
+          startedAt
+        }
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Attachments {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       LastMessage {
         id
         createdAt
@@ -292,12 +1032,15 @@ export const deleteChatRoom = /* GraphQL */ `
         items {
           id
           storageKey
+          fileName
           type
           width
           height
           duration
           messageID
           chatroomID
+          taskID
+          propertiesID
           createdAt
           updatedAt
           _version
@@ -312,6 +1055,7 @@ export const deleteChatRoom = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      chatRoomPropertyId
       chatRoomLastMessageId
     }
   }
@@ -332,12 +1076,15 @@ export const createMessage = /* GraphQL */ `
         items {
           id
           storageKey
+          fileName
           type
           width
           height
           duration
           messageID
           chatroomID
+          taskID
+          propertiesID
           createdAt
           updatedAt
           _version
@@ -370,12 +1117,15 @@ export const updateMessage = /* GraphQL */ `
         items {
           id
           storageKey
+          fileName
           type
           width
           height
           duration
           messageID
           chatroomID
+          taskID
+          propertiesID
           createdAt
           updatedAt
           _version
@@ -408,12 +1158,15 @@ export const deleteMessage = /* GraphQL */ `
         items {
           id
           storageKey
+          fileName
           type
           width
           height
           duration
           messageID
           chatroomID
+          taskID
+          propertiesID
           createdAt
           updatedAt
           _version
@@ -438,23 +1191,27 @@ export const createUser = /* GraphQL */ `
     createUser(input: $input, condition: $condition) {
       id
       name
+      username
+      email
+      telephone
       status
-      image
-      Messages {
-        items {
-          id
-          createdAt
-          text
-          chatroomID
-          userID
-          images
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        nextToken
-        startedAt
+      image {
+        id
+        storageKey
+        fileName
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        taskID
+        propertiesID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       ChatRooms {
         items {
@@ -470,11 +1227,16 @@ export const createUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      userType
+      taskID
+      propertiesID
+      notificationsID
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      userImageId
     }
   }
 `;
@@ -486,23 +1248,27 @@ export const updateUser = /* GraphQL */ `
     updateUser(input: $input, condition: $condition) {
       id
       name
+      username
+      email
+      telephone
       status
-      image
-      Messages {
-        items {
-          id
-          createdAt
-          text
-          chatroomID
-          userID
-          images
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        nextToken
-        startedAt
+      image {
+        id
+        storageKey
+        fileName
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        taskID
+        propertiesID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       ChatRooms {
         items {
@@ -518,11 +1284,16 @@ export const updateUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      userType
+      taskID
+      propertiesID
+      notificationsID
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      userImageId
     }
   }
 `;
@@ -534,23 +1305,27 @@ export const deleteUser = /* GraphQL */ `
     deleteUser(input: $input, condition: $condition) {
       id
       name
+      username
+      email
+      telephone
       status
-      image
-      Messages {
-        items {
-          id
-          createdAt
-          text
-          chatroomID
-          userID
-          images
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        nextToken
-        startedAt
+      image {
+        id
+        storageKey
+        fileName
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        taskID
+        propertiesID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       ChatRooms {
         items {
@@ -566,11 +1341,16 @@ export const deleteUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      userType
+      taskID
+      propertiesID
+      notificationsID
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      userImageId
     }
   }
 `;
@@ -595,6 +1375,23 @@ export const createUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        Property {
+          id
+          title
+          streetAddress
+          postcode
+          city
+          state
+          headerPic
+          type
+          physicalAccess
+          status
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         LastMessage {
           id
           createdAt
@@ -616,26 +1413,48 @@ export const createUserChatRoom = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        chatRoomPropertyId
         chatRoomLastMessageId
       }
       user {
         id
         name
+        username
+        email
+        telephone
         status
-        image
-        Messages {
-          nextToken
-          startedAt
+        image {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         ChatRooms {
           nextToken
           startedAt
         }
+        userType
+        taskID
+        propertiesID
+        notificationsID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        userImageId
       }
       createdAt
       updatedAt
@@ -666,6 +1485,23 @@ export const updateUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        Property {
+          id
+          title
+          streetAddress
+          postcode
+          city
+          state
+          headerPic
+          type
+          physicalAccess
+          status
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         LastMessage {
           id
           createdAt
@@ -687,26 +1523,48 @@ export const updateUserChatRoom = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        chatRoomPropertyId
         chatRoomLastMessageId
       }
       user {
         id
         name
+        username
+        email
+        telephone
         status
-        image
-        Messages {
-          nextToken
-          startedAt
+        image {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         ChatRooms {
           nextToken
           startedAt
         }
+        userType
+        taskID
+        propertiesID
+        notificationsID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        userImageId
       }
       createdAt
       updatedAt
@@ -737,6 +1595,23 @@ export const deleteUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        Property {
+          id
+          title
+          streetAddress
+          postcode
+          city
+          state
+          headerPic
+          type
+          physicalAccess
+          status
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
         LastMessage {
           id
           createdAt
@@ -758,26 +1633,48 @@ export const deleteUserChatRoom = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        chatRoomPropertyId
         chatRoomLastMessageId
       }
       user {
         id
         name
+        username
+        email
+        telephone
         status
-        image
-        Messages {
-          nextToken
-          startedAt
+        image {
+          id
+          storageKey
+          fileName
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          taskID
+          propertiesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         ChatRooms {
           nextToken
           startedAt
         }
+        userType
+        taskID
+        propertiesID
+        notificationsID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        userImageId
       }
       createdAt
       updatedAt
