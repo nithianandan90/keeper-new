@@ -22,9 +22,7 @@ type EagerNotifications = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly updateTitle: string;
   readonly updateDetails: string;
-  readonly latestUpdate: boolean;
   readonly Users?: (User | null)[] | null;
   readonly taskID: string;
   readonly createdAt?: string | null;
@@ -37,9 +35,7 @@ type LazyNotifications = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly updateTitle: string;
   readonly updateDetails: string;
-  readonly latestUpdate: boolean;
   readonly Users: AsyncCollection<User>;
   readonly taskID: string;
   readonly createdAt?: string | null;

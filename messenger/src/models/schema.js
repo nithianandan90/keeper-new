@@ -10,24 +10,10 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "updateTitle": {
-                    "name": "updateTitle",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
                 "updateDetails": {
                     "name": "updateDetails",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "latestUpdate": {
-                    "name": "latestUpdate",
-                    "isArray": false,
-                    "type": "Boolean",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -1176,6 +1162,6 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "codegenVersion": "3.4.2",
-    "version": "16f25ff803a0c10c72429dbfe6169351"
+    "codegenVersion": "3.4.3",
+    "version": "a8ae90f5d0448661854db46d02685eef"
 };

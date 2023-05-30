@@ -60,18 +60,18 @@ import * as FileSystem from 'expo-file-system';
       };
 
 
-    export const addAttachment = async (file, taskID, fileInfo)=>{
+    export const addAttachment = async (file, taskID)=>{
     
-        console.log("file", file);
+        // console.log("file", file);
     
-        // const fileInfo = await getFileInfo(file?.uri);
+        // // const fileInfo = await getFileInfo(file?.uri);
     
-        console.log('file info', fileInfo);
+        // console.log('file info', fileInfo);
 
-        if(fileInfo.size>25600000){
-          Alert.alert('File size exceeds 25 mb')
-          return;
-        }
+        // if(fileInfo.size>25600000){
+        //   Alert.alert('File size exceeds 25 mb')
+        //   return;
+        // }
     
         const types = {
           image: "IMAGE",
@@ -121,7 +121,7 @@ import * as FileSystem from 'expo-file-system';
             await Storage.put(key, blob, {
               progressCallback(progress) {
               console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-              setProgresses(p=>({...p, [fileUri]: progress.loaded/progress.total}))
+             
             },
             });
             return key;

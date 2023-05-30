@@ -5,9 +5,7 @@ export const getNotifications = /* GraphQL */ `
   query GetNotifications($id: ID!) {
     getNotifications(id: $id) {
       id
-      updateTitle
       updateDetails
-      latestUpdate
       Users {
         items {
           id
@@ -48,9 +46,7 @@ export const listNotifications = /* GraphQL */ `
     listNotifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        updateTitle
         updateDetails
-        latestUpdate
         Users {
           nextToken
           startedAt
@@ -82,9 +78,7 @@ export const syncNotifications = /* GraphQL */ `
     ) {
       items {
         id
-        updateTitle
         updateDetails
-        latestUpdate
         Users {
           nextToken
           startedAt
@@ -118,9 +112,7 @@ export const notificationsByTaskID = /* GraphQL */ `
     ) {
       items {
         id
-        updateTitle
         updateDetails
-        latestUpdate
         Users {
           nextToken
           startedAt
@@ -369,9 +361,7 @@ export const getTask = /* GraphQL */ `
       Notifications {
         items {
           id
-          updateTitle
           updateDetails
-          latestUpdate
           taskID
           createdAt
           updatedAt

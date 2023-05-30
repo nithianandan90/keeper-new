@@ -2,7 +2,7 @@ import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Avatar, Button, List } from 'react-native-paper';
-import { FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import dateFormatter from '../../components/dateFormtter';
 import Gallery from '../../components/imageGallery';
 import Moment from 'moment';
@@ -23,13 +23,23 @@ const TaskDetailScreen = () => {
 
     const task = route?.params?.task;
 
-        
+    const property = route?.params?.property;
+
+  
+
     const {dbUser} = useAuthContext();
 
     const admin = ["MANAGER", "PARTNER"];
     
     const adminChecker = admin.some(k=>k===dbUser?.userType);  
 
+
+    useEffect(()=>{
+        navigation.setOptions({ headerRight:()=>
+            <AntDesign onPress = {()=>navigation.navigate("Add Task", {property: property, task: task})} name="edit" size={24} color="gray" /> 
+          });
+
+    },[])
 
    
     

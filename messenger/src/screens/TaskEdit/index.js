@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, StyleSheet, Text, FlatList, ScrollView, Pressable } from 'react-native';
+import { View, TextInput, StyleSheet, Text, FlatList, ScrollView, Pressable, ActivityIndicator } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {getFileInfo, pickImage, pickDocument, addAttachment, uploadFile} from '../../services/uploaderService';
 import { Button, Chip, List, RadioButton, Snackbar } from 'react-native-paper';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { API, graphqlOperation } from 'aws-amplify';
-import { createTask } from '../../graphql/mutations';
+import { createNotifications, createTask, updateTask } from '../../graphql/mutations';
+import * as FileSystem from 'expo-file-system';
 
 const propertyData = [
   { label: 'Property 1', value: 'Property 1' },
@@ -35,50 +36,45 @@ const TaskEdit = () => {
   const [endMode, setEndMode] = useState('date');
   const [endShow, setEndShow] = useState(false);
   const [task, setTask] = useState(false);
-  const [images,setImages] = useState([]);
+  const [images, setImages] = useState([]);
   const [documents, setDocuments] = useState([]);
   const [validation, setValidation] = useState('');
   const [sbVisible, setSbVisible] = useState(false);
+  const [sbMessage, setSbMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [latestUpdate, setLatestUpdate] = useState('');
+
 
   const route = useRoute();
 
   const navigation = useNavigation();
 
-  console.log("task", route.params);
+  const existingTask = route?.params?.task;
+  
 
   useEffect(()=>{
     setProperty(route.params.property)
-  },[]);
+    
+    if(existingTask){
+      setStatus(existingTask.status);
+      setType(existingTask.taskType);
+      setRecurrence(existingTask.recurrence);
+      setStartDate(existingTask.startDate);
+      setEndDate(existingTask.completionDate);
+      setTitle(existingTask.title);
+      setSubTitle(existingTask.subTitle);
+
+    }
+  
+  },[existingTask, property]);
 
 
-  const handlePropertyChange = (value) => {
-    setProperty(value);
-    console.log(value);
-  };
 
-  const handleStatusChange = (value) => {
-    setStatus(value);
-  };
 
-  const handleStartDateChange = (date) => {
-    setStartDate(date);
-  };
 
-  const handleCompletionDateChange = (date) => {
-    setCompletionDate(date);
-  };
 
-  const handleTitleChange = (value) => {
-    setTitle(value);
-  };
+ 
 
-  const handleSubTitleChange = (value) => {
-    setSubTitle(value);
-  };
-
-  const handleRecurrenceChange = (value) => {
-    setRecurrence(value);
-  };
 
 
   const onStartDateChange = (event, selectedDate) => {
@@ -105,6 +101,14 @@ const imagePicker = async ()=>{
     return
   }
 
+  const fileInfo = await getFileInfo(results.uri);
+
+  if (fileInfo.size>26000000){
+    setSbVisible(true);
+    setSbMessage("Image size exceeds 25 mb");
+    return;
+  }
+
   if(images){
   setImages(k=>[...k, results]);
   }else{
@@ -116,6 +120,15 @@ const imagePicker = async ()=>{
 const documentPicker = async ()=>{
 
   const results = await pickDocument();
+
+  const fileInfo = await getFileInfo(results.uri);
+
+  
+  if (fileInfo.size>26000000){
+    setSbVisible(true);
+    setSbMessage("Document size exceeds 25 mb");
+    return;
+  }
 
   if (results.type==='cancel'){
     return
@@ -137,17 +150,19 @@ const documentPicker = async ()=>{
 
     if(submitData.some(k=>k==='')){
       setSbVisible(true);
+      setSbMessage("Fill in all required fields")
+      return;
     }
     
-    console.log('Submitted Form:', {
-      property,
-      status,
-      startDate,
-      endDate,
-      title,
-      subTitle,
-      recurrence,
-    });
+    // console.log('Submitted Form:', {
+    //   property,
+    //   status,
+    //   startDate,
+    //   endDate,
+    //   title,
+    //   subTitle,
+    //   recurrence,
+    // });
 
     const newTask = {
       status: status, 
@@ -161,16 +176,52 @@ const documentPicker = async ()=>{
 
     console.log(JSON.stringify(newTask, null, 2))
 
+    setIsLoading(true);
+
+    let taskID="";
+    
+   if(existingTask){
+
+    const updatedTask = await API.graphql(
+      graphqlOperation(updateTask, {input: {id: existingTask.id, _version: existingTask._version, ...newTask}} )
+      )
+
+      
+    
+    const taskUpdate = await API.graphql(createNotifications, {input:{taskID: existingTask.id, updateDetails: latestUpdate}})
+
+       taskID = existingTask.id;
+
+   }else{
+    
     const returnedNewTask = await API.graphql(
       graphqlOperation(createTask, {input: newTask})
     )
+    console.log("new task", returnedNewTask);
+    taskID = (returnedNewTask.data.createTask.id);
+   }
+   
+  
+
+    //for each image and document, create a new attachment
+
+    const imageUpload = await Promise.all (images.map(async (image)=>{
+      const attachment = await addAttachment(image, taskID);
+    }))
+    
+    const documentUpload = await Promise.all (documents.map(async (document)=>{
+      const attachment = await addAttachment(document, taskID);
+    }));
+
+    setIsLoading(false);
 
     console.warn('completed');
-    console.log(returnedNewTask);
+ 
 
     navigation.navigate('Property Details', {property})
   
-    //Logic to create a new task and then create attachments
+    
+
   };
 
 
@@ -187,7 +238,7 @@ const documentPicker = async ()=>{
   };
 
 
-  console.log("documents", documents);
+  // console.log("documents", documents);
 
   return (
     <ScrollView nestedScrollEnabled={true} style={styles.container}>
@@ -304,20 +355,26 @@ const documentPicker = async ()=>{
       <TextInput
         placeholder="Task Title*"
         value={title}
-        onChangeText={handleTitleChange}
+        onChangeText={(t)=>setTitle(t)}
         style={styles.input}
       />
 
       <TextInput
         placeholder="Task Details*"
         value={subTitle}
-        onChangeText={handleSubTitleChange}
+        onChangeText={(st)=>setSubTitle(st)}
         style={styles.input}
       />
-
+      {existingTask&&(  <TextInput
+        placeholder="Task Update"
+        value={latestUpdate}
+        onChangeText={(u)=>setLatestUpdate(u)}
+        style={styles.input}
+      />)}
+    
   
     <View style={{alignItems:'center', marginTop: 10}}>
-      <Text>Start Date/ Time: {startDate.toLocaleString()}</Text>
+      <Text>Start Date/ Time: {startDate?.toLocaleString()}</Text>
       <View style={{flexDirection:'row', justifyContent: 'center'}}>
         <View style={{margin:10}}>
           <Button 
@@ -349,7 +406,7 @@ const documentPicker = async ()=>{
     </View>  
 
     <View style={{alignItems:'center', marginTop: 10}}>
-      <Text>Completion Date/ Time: {endDate.toLocaleString()}</Text>
+      <Text>Completion Date/ Time: {endDate?.toLocaleString()}</Text>
       <View style={{flexDirection:'row', justifyContent: 'center'}}>
         <View style={{margin:10}}>
           <Button 
@@ -426,10 +483,12 @@ const documentPicker = async ()=>{
 
       {/* <Button style={{}}title="Submit" onPress={handleSubmit} /> */}
 
-            
-      <Button style={{marginTop: 20, marginBottom: 10}} buttonColor='#805158' icon="airplane" mode="contained" onPress={handleSubmit}>
+      {!isLoading?(<Button style={{marginTop: 20, marginBottom: 10}} buttonColor='#805158' icon="airplane" mode="contained" onPress={handleSubmit}>
                         Submit
-      </Button>
+      </Button>):(<ActivityIndicator size={'large'}/>)}      
+  
+      
+      
       </View>
 
 
@@ -444,8 +503,10 @@ const documentPicker = async ()=>{
           },
         }}
        >
-        Please fill in all required fields
+        {sbMessage}
       </Snackbar>
+
+      
  
     </ScrollView>
   );

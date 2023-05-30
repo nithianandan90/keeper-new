@@ -37,7 +37,7 @@ const PropertyDetailsScreen = () => {
       
 })
   
-  console.log(jsonFormat(route.params.property));
+
 
   
 
@@ -55,7 +55,7 @@ const PropertyDetailsScreen = () => {
        <FlatList
             ListHeaderComponent={()=><Header property={route.params.property}/>}
             data={tasks}
-            renderItem={({item})=> <TaskListItem task={item}/>}
+            renderItem={({item})=> <TaskListItem task={item} property={route.params.property}/>}
             keyExtractor={item => item.id}
         />
            <View style = {styles.iconContainer}>

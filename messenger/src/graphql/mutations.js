@@ -8,9 +8,7 @@ export const createNotifications = /* GraphQL */ `
   ) {
     createNotifications(input: $input, condition: $condition) {
       id
-      updateTitle
       updateDetails
-      latestUpdate
       Users {
         items {
           id
@@ -49,9 +47,7 @@ export const updateNotifications = /* GraphQL */ `
   ) {
     updateNotifications(input: $input, condition: $condition) {
       id
-      updateTitle
       updateDetails
-      latestUpdate
       Users {
         items {
           id
@@ -90,9 +86,7 @@ export const deleteNotifications = /* GraphQL */ `
   ) {
     deleteNotifications(input: $input, condition: $condition) {
       id
-      updateTitle
       updateDetails
-      latestUpdate
       Users {
         items {
           id
@@ -450,9 +444,7 @@ export const createTask = /* GraphQL */ `
       Notifications {
         items {
           id
-          updateTitle
           updateDetails
-          latestUpdate
           taskID
           createdAt
           updatedAt
@@ -533,9 +525,7 @@ export const updateTask = /* GraphQL */ `
       Notifications {
         items {
           id
-          updateTitle
           updateDetails
-          latestUpdate
           taskID
           createdAt
           updatedAt
@@ -616,9 +606,7 @@ export const deleteTask = /* GraphQL */ `
       Notifications {
         items {
           id
-          updateTitle
           updateDetails
-          latestUpdate
           taskID
           createdAt
           updatedAt

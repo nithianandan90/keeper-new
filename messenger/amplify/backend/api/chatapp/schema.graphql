@@ -14,9 +14,7 @@ enum AttachmentType {
 
 type Notifications @model @auth(rules: [{allow: public}]) {
   id: ID!
-  updateTitle: String!
   updateDetails: String!
-  latestUpdate: Boolean!
   Users: [User] @hasMany(indexName: "byNotifications", fields: ["id"])
   taskID: ID! @index(name: "byTask")
 }

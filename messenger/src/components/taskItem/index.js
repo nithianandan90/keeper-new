@@ -7,12 +7,12 @@ import { useNavigation } from '@react-navigation/native';
  
 
 
-const TaskListItem = ({task}) => {
+const TaskListItem = ({task, property}) => {
 
   
   const navigation = useNavigation();
   const onPress=()=>{
-    navigation.navigate('Task Details', {task:task});
+    navigation.navigate('Task Details', {task:task, property:property});
     }
   
     const typeToIcon = {

@@ -22,7 +22,7 @@ import { Button } from 'react-native-paper';
 const Gallery = ({task}) => {
  
     const [visible, setIsVisible] = useState(false);
-    const [images, setImages] = useState(null);
+    const [images, setImages] = useState([]);
 
     const getImages = async () =>{
       const attachments = await DataStore.query(Attachment, (o)=>o.taskID.eq(task?.id));
@@ -45,7 +45,7 @@ const Gallery = ({task}) => {
         );
 
 
-
+      console.log("downloaded Image", downloadedImages);
     
       setImages(downloadedImages);      
 
@@ -64,7 +64,7 @@ const Gallery = ({task}) => {
           
         <ImageView
         images={images}
-        imageIndex={1}
+        
         visible={visible}
         onRequestClose={() => setIsVisible(false)}
         />
