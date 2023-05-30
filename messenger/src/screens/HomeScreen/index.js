@@ -1,10 +1,11 @@
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import FacilitiesItem from '../../components/FacilitiesItem';
-import { DataStore, Auth, Hub } from 'aws-amplify';
+import { DataStore, Auth, Hub, API, graphqlOperation } from 'aws-amplify';
 import jsonFormat from 'json-format';
 import {Properties, Task} from '../../models'
 import '@azure/core-asynciterator-polyfill'; 
+import { listProperties } from '../../graphql/queries';
 
 const HomeScreen = () => {
 
@@ -34,11 +35,19 @@ const HomeScreen = () => {
 
 
   const getResult = async () => {
-    const propertiesResult = await DataStore.query(Properties);
+    // const propertiesResult = await DataStore.query(Properties);
     
-    
+    const result = await API.graphql(
+      graphqlOperation(listProperties)
+    )    
+
+
     // const tasks = await result.Tasks;
     
+    const propertiesResult = result.data.listProperties.items;
+
+    console.log("properties", propertiesResult);
+
     if(propertiesResult){
       if(!Array.isArray(propertiesResult)){
         const result_array = [propertiesResult];

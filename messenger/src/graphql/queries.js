@@ -6,6 +6,7 @@ export const getNotifications = /* GraphQL */ `
     getNotifications(id: $id) {
       id
       updateDetails
+      createdAt
       Users {
         items {
           id
@@ -29,7 +30,6 @@ export const getNotifications = /* GraphQL */ `
         startedAt
       }
       taskID
-      createdAt
       updatedAt
       _version
       _deleted
@@ -47,12 +47,12 @@ export const listNotifications = /* GraphQL */ `
       items {
         id
         updateDetails
+        createdAt
         Users {
           nextToken
           startedAt
         }
         taskID
-        createdAt
         updatedAt
         _version
         _deleted
@@ -79,12 +79,12 @@ export const syncNotifications = /* GraphQL */ `
       items {
         id
         updateDetails
+        createdAt
         Users {
           nextToken
           startedAt
         }
         taskID
-        createdAt
         updatedAt
         _version
         _deleted
@@ -95,16 +95,18 @@ export const syncNotifications = /* GraphQL */ `
     }
   }
 `;
-export const notificationsByTaskID = /* GraphQL */ `
-  query NotificationsByTaskID(
+export const listNotificationsByTask = /* GraphQL */ `
+  query ListNotificationsByTask(
     $taskID: ID!
+    $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelNotificationsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    notificationsByTaskID(
+    listNotificationsByTask(
       taskID: $taskID
+      createdAt: $createdAt
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -113,12 +115,12 @@ export const notificationsByTaskID = /* GraphQL */ `
       items {
         id
         updateDetails
+        createdAt
         Users {
           nextToken
           startedAt
         }
         taskID
-        createdAt
         updatedAt
         _version
         _deleted
@@ -170,12 +172,12 @@ export const getProperties = /* GraphQL */ `
           status
           startDate
           completionDate
+          createdAt
           title
           subTitle
           taskType
           recurrence
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -309,6 +311,7 @@ export const getTask = /* GraphQL */ `
       status
       startDate
       completionDate
+      createdAt
       title
       subTitle
       taskType
@@ -362,8 +365,8 @@ export const getTask = /* GraphQL */ `
         items {
           id
           updateDetails
-          taskID
           createdAt
+          taskID
           updatedAt
           _version
           _deleted
@@ -372,7 +375,6 @@ export const getTask = /* GraphQL */ `
         nextToken
         startedAt
       }
-      createdAt
       updatedAt
       _version
       _deleted
@@ -392,6 +394,7 @@ export const listTasks = /* GraphQL */ `
         status
         startDate
         completionDate
+        createdAt
         title
         subTitle
         taskType
@@ -409,7 +412,6 @@ export const listTasks = /* GraphQL */ `
           nextToken
           startedAt
         }
-        createdAt
         updatedAt
         _version
         _deleted
@@ -438,6 +440,7 @@ export const syncTasks = /* GraphQL */ `
         status
         startDate
         completionDate
+        createdAt
         title
         subTitle
         taskType
@@ -455,7 +458,6 @@ export const syncTasks = /* GraphQL */ `
           nextToken
           startedAt
         }
-        createdAt
         updatedAt
         _version
         _deleted
@@ -466,16 +468,18 @@ export const syncTasks = /* GraphQL */ `
     }
   }
 `;
-export const tasksByPropertiesID = /* GraphQL */ `
-  query TasksByPropertiesID(
+export const listTasksByProperty = /* GraphQL */ `
+  query ListTasksByProperty(
     $propertiesID: ID!
+    $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelTaskFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    tasksByPropertiesID(
+    listTasksByProperty(
       propertiesID: $propertiesID
+      createdAt: $createdAt
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -486,6 +490,7 @@ export const tasksByPropertiesID = /* GraphQL */ `
         status
         startDate
         completionDate
+        createdAt
         title
         subTitle
         taskType
@@ -503,7 +508,6 @@ export const tasksByPropertiesID = /* GraphQL */ `
           nextToken
           startedAt
         }
-        createdAt
         updatedAt
         _version
         _deleted

@@ -15,8 +15,9 @@ enum AttachmentType {
 type Notifications @model @auth(rules: [{allow: public}]) {
   id: ID!
   updateDetails: String!
+  createdAt: AWSDateTime!
   Users: [User] @hasMany(indexName: "byNotifications", fields: ["id"])
-  taskID: ID! @index(name: "byTask")
+  taskID: ID! @index(name: "byTask", sortKeyFields: ["createdAt"], queryField: "listNotificationsByTask")
 }
 
 
@@ -42,11 +43,12 @@ type Task @model @auth(rules: [{allow: public}]) {
   status: String!
   startDate: AWSDateTime
   completionDate: AWSDateTime
+  createdAt: AWSDateTime!
   title: String!
   subTitle: String!
   taskType: String!
   recurrence: String!
-  propertiesID: ID! @index(name: "byProperties")
+  propertiesID: ID! @index(name: "byProperties", sortKeyFields: ["createdAt"], queryField: "listTasksByProperty")
   Users: [User] @hasMany(indexName: "byTask", fields: ["id"])
   Attachments: [Attachment] @hasMany(indexName: "byTask", fields: ["id"])
   Notifications: [Notifications] @hasMany(indexName: "byTask", fields: ["id"])

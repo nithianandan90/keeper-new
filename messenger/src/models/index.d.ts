@@ -19,26 +19,26 @@ export enum AttachmentType {
 type EagerNotifications = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Notifications, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
+    readOnlyFields: 'updatedAt';
   };
   readonly id: string;
   readonly updateDetails: string;
+  readonly createdAt: string;
   readonly Users?: (User | null)[] | null;
   readonly taskID: string;
-  readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
 type LazyNotifications = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Notifications, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
+    readOnlyFields: 'updatedAt';
   };
   readonly id: string;
   readonly updateDetails: string;
+  readonly createdAt: string;
   readonly Users: AsyncCollection<User>;
   readonly taskID: string;
-  readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
@@ -101,12 +101,13 @@ export declare const Properties: (new (init: ModelInit<Properties>) => Propertie
 type EagerTask = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Task, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
+    readOnlyFields: 'updatedAt';
   };
   readonly id: string;
   readonly status: string;
   readonly startDate?: string | null;
   readonly completionDate?: string | null;
+  readonly createdAt: string;
   readonly title: string;
   readonly subTitle: string;
   readonly taskType: string;
@@ -115,19 +116,19 @@ type EagerTask = {
   readonly Users?: (User | null)[] | null;
   readonly Attachments?: (Attachment | null)[] | null;
   readonly Notifications?: (Notifications | null)[] | null;
-  readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
 type LazyTask = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Task, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
+    readOnlyFields: 'updatedAt';
   };
   readonly id: string;
   readonly status: string;
   readonly startDate?: string | null;
   readonly completionDate?: string | null;
+  readonly createdAt: string;
   readonly title: string;
   readonly subTitle: string;
   readonly taskType: string;
@@ -136,7 +137,6 @@ type LazyTask = {
   readonly Users: AsyncCollection<User>;
   readonly Attachments: AsyncCollection<Attachment>;
   readonly Notifications: AsyncCollection<Notifications>;
-  readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {View, Text, Image, FlatList, StyleSheet, ActivityIndicator, Pressable} from 'react-native';
 import  {Ionicons} from '@expo/vector-icons';
 import Header from "./Header";
@@ -11,6 +11,7 @@ import jsonFormat from 'json-format';
 import GoToChat from '../../components/GoToChat';
 import { useAuthContext } from '../../context/AuthContext';
 import { onCreateTask } from '../../graphql/subscriptions';
+import { listTasks, listTasksByProperty } from '../../graphql/queries';
 
 
 const PropertyDetailsScreen = () => {
@@ -19,6 +20,7 @@ const PropertyDetailsScreen = () => {
   const route = useRoute();
 
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const {dbUser} = useAuthContext();
 
@@ -28,20 +30,39 @@ const PropertyDetailsScreen = () => {
 
   const navigation = useNavigation();
 
-  useFocusEffect(()=>{
-    DataStore.query(Task, (o)=>o.propertiesID.eq(route.params.property.id)).then(setTasks)
+  useFocusEffect(
+    useCallback(()=>{
+        getPropertyTasks();
+        console.log('hjere');
+    },[])
+  )
   
-    //subscibe to new tasks
+
+
+const getPropertyTasks = async ()=>{
+    
+    setLoading(true);
+    
+    // const result = await API.graphql(
+    //     graphqlOperation(listTasks, {filter:{propertiesID:{eq: route.params.property.id}}})
+    // );
+
+    const result = await API.graphql(
+        graphqlOperation(listTasksByProperty, {propertiesID:route.params.property.id, sortDirection:'DESC' })
+    );
+
+    console.log("result", result);
+    
+    setTasks(result.data.listTasksByProperty.items); 
+    
+    setLoading(false);
 
     
-      
-})
-  
+}  
 
 
-  
 
-  if(!tasks || !dbUser){
+  if(!dbUser || loading){
     return <ActivityIndicator size={"large"}/>
   }
 

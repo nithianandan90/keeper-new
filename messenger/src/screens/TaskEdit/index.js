@@ -166,6 +166,7 @@ const documentPicker = async ()=>{
 
     const newTask = {
       status: status, 
+      createdAt: new Date(),
       title: title,
       subTitle: subTitle,
       taskType: type,
@@ -188,7 +189,9 @@ const documentPicker = async ()=>{
 
       
     
-    const taskUpdate = await API.graphql(createNotifications, {input:{taskID: existingTask.id, updateDetails: latestUpdate}})
+    const taskUpdate = await API.graphql(
+      
+      graphqlOperation(createNotifications, {input:{taskID: existingTask.id, updateDetails: latestUpdate}}))
 
        taskID = existingTask.id;
 

@@ -9,6 +9,8 @@ import Moment from 'moment';
 import { Attachment } from '../../models';
 import { useAuthContext } from '../../context/AuthContext';
 import Uploader from './uploader';
+import { graphqlOperation, API } from 'aws-amplify';
+import { listNotificationsByTask } from '../../graphql/queries';
 
 const TaskDetailScreen = () => {
 
@@ -18,8 +20,8 @@ const TaskDetailScreen = () => {
     const [fStartDate, setfStartDate] = useState();
     const [fCompletionDate, setfCompletionDate] = useState();
     const [showFiles, setShowFiles] = useState();
-    
-   
+    const [latestNotifications, setLatestNotifications] = useState([]);
+    const [previousNotifications, setPreviousNotifications] = useState([]);
 
     const task = route?.params?.task;
 
@@ -35,6 +37,9 @@ const TaskDetailScreen = () => {
 
 
     useEffect(()=>{
+        
+        getNotifications();
+        
         navigation.setOptions({ headerRight:()=>
             <AntDesign onPress = {()=>navigation.navigate("Add Task", {property: property, task: task})} name="edit" size={24} color="gray" /> 
           });
@@ -42,6 +47,17 @@ const TaskDetailScreen = () => {
     },[])
 
    
+    const getNotifications = async () =>{
+        const results = await API.graphql(graphqlOperation(listNotificationsByTask, {taskID:task.id, sortDirection:'ASC'}));
+        const fetchedNotifications = results.data.listNotificationsByTask.items;
+        setLatestNotifications(fetchedNotifications[0]);
+        console.log("fetched", fetchedNotifications)
+
+        const fetchedPreviousNotifications = fetchedNotifications.filter((k)=>k.id!==latestNotifications.id);
+
+        setPreviousNotifications(fetchedPreviousNotifications);
+    }
+
     
 
     return (
@@ -93,12 +109,20 @@ const TaskDetailScreen = () => {
                         />
                 <List.Item
                         title={'Latest Update:'}
-                        description = "Awaiitng visit"
+                        description = {latestNotifications?.updateDetails}
                         left={() => <List.Icon icon={({color})=><MaterialIcons name="update" size={24} color={'red'} />} />}
                         style={{paddingLeft: 10}}
 
                         />
                 
+                <FlatList
+                    data={previousNotifications}
+                    renderItem={({item})=>{
+                        return (<List.Item title={item.createdAt} description={item.updateDetails} style={{paddingLeft:10}} left={() => <List.Icon icon={({color})=><MaterialIcons name="update" size={24} color={'grey'} />} />}/>)
+                    }}
+                    showsVerticalScrollIndicator={false}
+                />
+
                 </View>
                 
                 <View style={styles.filesContainer}>

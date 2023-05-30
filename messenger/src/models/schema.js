@@ -17,6 +17,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "Users": {
                     "name": "Users",
                     "isArray": true,
@@ -40,14 +47,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
                 "updatedAt": {
                     "name": "updatedAt",
                     "isArray": false,
@@ -68,8 +67,10 @@ export const schema = {
                     "type": "key",
                     "properties": {
                         "name": "byTask",
+                        "queryField": "listNotificationsByTask",
                         "fields": [
-                            "taskID"
+                            "taskID",
+                            "createdAt"
                         ]
                     }
                 },
@@ -285,6 +286,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "title": {
                     "name": "title",
                     "isArray": false,
@@ -368,14 +376,6 @@ export const schema = {
                         ]
                     }
                 },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
                 "updatedAt": {
                     "name": "updatedAt",
                     "isArray": false,
@@ -396,8 +396,10 @@ export const schema = {
                     "type": "key",
                     "properties": {
                         "name": "byProperties",
+                        "queryField": "listTasksByProperty",
                         "fields": [
-                            "propertiesID"
+                            "propertiesID",
+                            "createdAt"
                         ]
                     }
                 },
@@ -1163,5 +1165,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.3",
-    "version": "a8ae90f5d0448661854db46d02685eef"
+    "version": "1e417fa9f3f9493336c2dfca87a64726"
 };

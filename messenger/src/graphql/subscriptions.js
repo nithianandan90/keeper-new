@@ -8,6 +8,7 @@ export const onCreateNotifications = /* GraphQL */ `
     onCreateNotifications(filter: $filter) {
       id
       updateDetails
+      createdAt
       Users {
         items {
           id
@@ -31,7 +32,6 @@ export const onCreateNotifications = /* GraphQL */ `
         startedAt
       }
       taskID
-      createdAt
       updatedAt
       _version
       _deleted
@@ -46,6 +46,7 @@ export const onUpdateNotifications = /* GraphQL */ `
     onUpdateNotifications(filter: $filter) {
       id
       updateDetails
+      createdAt
       Users {
         items {
           id
@@ -69,7 +70,6 @@ export const onUpdateNotifications = /* GraphQL */ `
         startedAt
       }
       taskID
-      createdAt
       updatedAt
       _version
       _deleted
@@ -84,6 +84,7 @@ export const onDeleteNotifications = /* GraphQL */ `
     onDeleteNotifications(filter: $filter) {
       id
       updateDetails
+      createdAt
       Users {
         items {
           id
@@ -107,7 +108,6 @@ export const onDeleteNotifications = /* GraphQL */ `
         startedAt
       }
       taskID
-      createdAt
       updatedAt
       _version
       _deleted
@@ -158,12 +158,12 @@ export const onCreateProperties = /* GraphQL */ `
           status
           startDate
           completionDate
+          createdAt
           title
           subTitle
           taskType
           recurrence
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -245,12 +245,12 @@ export const onUpdateProperties = /* GraphQL */ `
           status
           startDate
           completionDate
+          createdAt
           title
           subTitle
           taskType
           recurrence
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -332,12 +332,12 @@ export const onDeleteProperties = /* GraphQL */ `
           status
           startDate
           completionDate
+          createdAt
           title
           subTitle
           taskType
           recurrence
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -383,6 +383,7 @@ export const onCreateTask = /* GraphQL */ `
       status
       startDate
       completionDate
+      createdAt
       title
       subTitle
       taskType
@@ -436,8 +437,8 @@ export const onCreateTask = /* GraphQL */ `
         items {
           id
           updateDetails
-          taskID
           createdAt
+          taskID
           updatedAt
           _version
           _deleted
@@ -446,7 +447,6 @@ export const onCreateTask = /* GraphQL */ `
         nextToken
         startedAt
       }
-      createdAt
       updatedAt
       _version
       _deleted
@@ -461,6 +461,7 @@ export const onUpdateTask = /* GraphQL */ `
       status
       startDate
       completionDate
+      createdAt
       title
       subTitle
       taskType
@@ -514,8 +515,8 @@ export const onUpdateTask = /* GraphQL */ `
         items {
           id
           updateDetails
-          taskID
           createdAt
+          taskID
           updatedAt
           _version
           _deleted
@@ -524,7 +525,6 @@ export const onUpdateTask = /* GraphQL */ `
         nextToken
         startedAt
       }
-      createdAt
       updatedAt
       _version
       _deleted
@@ -539,6 +539,7 @@ export const onDeleteTask = /* GraphQL */ `
       status
       startDate
       completionDate
+      createdAt
       title
       subTitle
       taskType
@@ -592,8 +593,8 @@ export const onDeleteTask = /* GraphQL */ `
         items {
           id
           updateDetails
-          taskID
           createdAt
+          taskID
           updatedAt
           _version
           _deleted
@@ -602,7 +603,6 @@ export const onDeleteTask = /* GraphQL */ `
         nextToken
         startedAt
       }
-      createdAt
       updatedAt
       _version
       _deleted
