@@ -70,7 +70,7 @@ const Gallery = ({task}) => {
         />
 
             <View style={styles.button}>
-            <Button buttonColor='grey' icon="image" mode="contained" onPress={() => setIsVisible(true)}>
+            <Button  icon="image" mode="contained" onPress={() => setIsVisible(true)}>
                         View Images</Button>
 
             {/* <Pressable onPress={() => setIsVisible(true)}  style={styles.textStyle}>

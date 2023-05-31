@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import {List} from 'react-native-paper';
 import { Foundation, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { iconStyler } from '../../services/styler';
 
 
  
@@ -26,10 +27,10 @@ const TaskListItem = ({task, property}) => {
          
         <List.Item
             title={task.title}
-            description= {task.status}
-            left={() => <List.Icon icon={({color})=><FontAwesome5 name={'building'} size={24} color={color}/>} />}
+            description= {task.subTitle}
+            left={() => <List.Icon icon={({color})=>iconStyler(task.taskType, 24, color)} />}
             style={{paddingLeft: 10, borderBottomColor: 'grey', borderBottomWidth:1}}
-            right={() => <View><Text>Ongoing</Text></View>}
+            right={() => <View><Text>{task.status}</Text></View>}
             />
         </Pressable>
 

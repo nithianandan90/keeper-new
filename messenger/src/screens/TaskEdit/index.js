@@ -171,11 +171,13 @@ const documentPicker = async ()=>{
       subTitle: subTitle,
       taskType: type,
       recurrence: recurrence,
+      startDate: startDate,
+      completionDate:endDate,
       propertiesID: property.id
 
     }
 
-    console.log(JSON.stringify(newTask, null, 2))
+  
 
     setIsLoading(true);
 
@@ -188,10 +190,11 @@ const documentPicker = async ()=>{
       )
 
       
-    
-    const taskUpdate = await API.graphql(
-      
-      graphqlOperation(createNotifications, {input:{taskID: existingTask.id, updateDetails: latestUpdate}}))
+    if(latestUpdate){
+      const taskUpdate = await API.graphql(
+        
+        graphqlOperation(createNotifications, {input:{taskID: existingTask.id, updateDetails: latestUpdate}}))
+    }
 
        taskID = existingTask.id;
 
@@ -218,7 +221,7 @@ const documentPicker = async ()=>{
 
     setIsLoading(false);
 
-    console.warn('completed');
+    // console.warn('completed');
  
 
     navigation.navigate('Property Details', {property})
@@ -292,6 +295,11 @@ const documentPicker = async ()=>{
         <RadioButton value="ONGOING" />
         <Text>ONGOING</Text>
       </View>
+      {existingTask&& <View style = {{paddingHorizontal:5, flexDirection:'row', alignItems:'center'}}>
+        <RadioButton value="COMPLETED" />
+        <Text>COMPLETED</Text>
+      </View>}
+
     </RadioButton.Group>
 
     <Text style={{paddingHorizontal:12, marginBottom:10, fontSize:15, marginTop: 20, fontWeight:'600'}}>Task Type*:</Text>  

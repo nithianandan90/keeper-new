@@ -20,7 +20,7 @@ import * as FileSystem from 'expo-file-system';
     export const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
           quality: 1,
           allowsMultipleSelection: false
         });
@@ -106,7 +106,7 @@ import * as FileSystem from 'expo-file-system';
         ))
 
  
-        Alert.alert('file uploaded')
+        // Alert.alert('file uploaded')
       }
     
     

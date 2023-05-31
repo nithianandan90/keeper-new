@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import {List} from 'react-native-paper';
 import { Foundation, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { iconStyler } from '../../services/styler';
 
 
  
@@ -26,7 +27,7 @@ const FacilitiesItem = ({property}) => {
         <List.Item
             title={property.title}
             description= {property.streetAddress}
-            left={() => <List.Icon icon={({color})=><FontAwesome5 name={typeToIcon[property?.type]} size={24} color={color}/>} />}
+            left={() => <List.Icon icon={({color})=>iconStyler(property?.type, 24, color)} />}
             style={{paddingTop: 50, paddingLeft: 10, borderBottomColor: 'grey', borderBottomWidth:1}}
             
             />

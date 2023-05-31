@@ -5,6 +5,7 @@ import { Ionicons, Entypo, FontAwesome5 } from '@expo/vector-icons';
 import SettingsScreen from '../screens/SettingsScreen';
 import TaskEdit from '../screens/TaskEdit';
 import HomeScreen from '../screens/HomeScreen';
+import GridScreen from '../screens/ImageScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,6 +29,8 @@ const MainTabNavigatorAdmin = () => {
         }}
         
       />
+
+
       <Tab.Screen
         name="Chats"
         component={ChatsScreen}

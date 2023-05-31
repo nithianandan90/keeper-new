@@ -16,6 +16,7 @@ import { useAuthContext } from '../context/AuthContext';
 import { ActivityIndicator } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import TaskEdit from '../screens/TaskEdit';
+import GridScreen from '../screens/ImageScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -38,7 +39,7 @@ const Navigator = () => {
   return (
     <NavigationContainer>
        
-        
+      
       <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: 'whitesmoke' } }}>
         {!adminChecker?
         
@@ -48,6 +49,7 @@ const Navigator = () => {
         }
         
         <Stack.Screen name="HomeScreen" component={HomeScreen} />    
+        <Stack.Screen name="Task Images" component={GridScreen} /> 
         <Stack.Screen name="Home" component={MainTabNavigatorAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Files" component={FilesScreen} />        
         <Stack.Screen name="Task Details" component={TaskDetailScreen} /> 
