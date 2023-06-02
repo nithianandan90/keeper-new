@@ -110,6 +110,56 @@ import * as FileSystem from 'expo-file-system';
       }
     
     
+      export const addAttachmentProperty = async (file, propertiesID)=>{
+    
+        // console.log("file", file);
+    
+        // // const fileInfo = await getFileInfo(file?.uri);
+    
+        // console.log('file info', fileInfo);
+
+        // if(fileInfo.size>25600000){
+        //   Alert.alert('File size exceeds 25 mb')
+        //   return;
+        // }
+    
+        const types = {
+          image: "IMAGE",
+          video: "VIDEO",
+          success: "DOCUMENT"
+    
+        }
+        
+        const fileType = file.uri.slice(file.uri.lastIndexOf('.') + 1);
+    
+        console.log("fileType", fileType);
+    
+      
+        
+        const newAttachment = {
+          storageKey: await uploadFile(file.uri, fileType.toLowerCase()),
+          fileName: file.name,
+          type: types[file.type], 
+          width: file.width,
+          height: file.height,
+          duration: file.duration, 
+          propertiesID: propertiesID, 
+          
+        }
+    
+        console.log("file attachment", newAttachment)
+       
+    
+        const attachmentCreated = API.graphql(graphqlOperation(
+          createAttachment, 
+          {input: newAttachment}
+        ))
+
+ 
+        // Alert.alert('file uploaded')
+      }
+
+
       export const uploadFile = async (fileUri, fileType) => {
           
     

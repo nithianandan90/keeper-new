@@ -5,17 +5,37 @@ import { DataStore, Auth, Hub, API, graphqlOperation } from 'aws-amplify';
 import jsonFormat from 'json-format';
 import {Properties, Task} from '../../models'
 import '@azure/core-asynciterator-polyfill'; 
-import { listProperties } from '../../graphql/queries';
+import { listProperties } from './queries';
+import { useAuthContext } from '../../context/AuthContext';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
 const HomeScreen = () => {
 
+  const navigation = useNavigation();
+  
   const [properties, setProperties] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const {dbUser} = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const admin = ["MANAGER", "PARTNER"];
+  
+  const adminChecker = admin.some(k=>k===dbUser?.userType);  
 
 
+  const isFocused = useIsFocused();
   useEffect(() => {
    
    getResult();
+   if(adminChecker){
+    navigation.setOptions({ headerRight:()=>
+        <View style={{marginRight:10}}><MaterialIcons onPress = {()=>{navigation.navigate('Property Edit')}} name="add-business" size={30} color="gray" /></View> 
+    });
+  }
+     
+  console.log('focused')
+
     // const removeListener = Hub.listen('datastore', async ({ payload }) => {
       
       
@@ -30,13 +50,14 @@ const HomeScreen = () => {
     // DataStore.start();
 
     // return () => removeListener();
-  }, []);
+  }, [isFocused]);
 
 
 
   const getResult = async () => {
     // const propertiesResult = await DataStore.query(Properties);
     
+    setIsLoading(true)
     const result = await API.graphql(
       graphqlOperation(listProperties)
     )    
@@ -46,7 +67,7 @@ const HomeScreen = () => {
     
     const propertiesResult = result.data.listProperties.items;
 
-    console.log("properties", propertiesResult);
+  
 
     if(propertiesResult){
       if(!Array.isArray(propertiesResult)){
@@ -60,7 +81,9 @@ const HomeScreen = () => {
     
     }
   }
-  }
+  
+  setIsLoading(false);
+}
 
 //  useEffect(()=>{
 //     getResult().then((result)=>{console.log(jsonFormat(result)); setProperties(result)});
@@ -73,7 +96,7 @@ const HomeScreen = () => {
 
   // console.log(jsonFormat(properties));
 
-  if(!properties){
+  if(!properties || isLoading){
     return <ActivityIndicator  size={"large"}/>
   }
 

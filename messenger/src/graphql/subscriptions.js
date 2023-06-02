@@ -9,28 +9,7 @@ export const onCreateNotifications = /* GraphQL */ `
       id
       updateDetails
       createdAt
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
+      usersID
       taskID
       updatedAt
       _version
@@ -47,28 +26,7 @@ export const onUpdateNotifications = /* GraphQL */ `
       id
       updateDetails
       createdAt
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
+      usersID
       taskID
       updatedAt
       _version
@@ -85,28 +43,7 @@ export const onDeleteNotifications = /* GraphQL */ `
       id
       updateDetails
       createdAt
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
+      usersID
       taskID
       updatedAt
       _version
@@ -130,28 +67,6 @@ export const onCreateProperties = /* GraphQL */ `
       type
       physicalAccess
       status
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
       Tasks {
         items {
           id
@@ -164,6 +79,7 @@ export const onCreateProperties = /* GraphQL */ `
           taskType
           recurrence
           propertiesID
+          usersID
           updatedAt
           _version
           _deleted
@@ -194,6 +110,7 @@ export const onCreateProperties = /* GraphQL */ `
         nextToken
         startedAt
       }
+      usersID
       createdAt
       updatedAt
       _version
@@ -217,28 +134,6 @@ export const onUpdateProperties = /* GraphQL */ `
       type
       physicalAccess
       status
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
       Tasks {
         items {
           id
@@ -251,6 +146,7 @@ export const onUpdateProperties = /* GraphQL */ `
           taskType
           recurrence
           propertiesID
+          usersID
           updatedAt
           _version
           _deleted
@@ -281,6 +177,7 @@ export const onUpdateProperties = /* GraphQL */ `
         nextToken
         startedAt
       }
+      usersID
       createdAt
       updatedAt
       _version
@@ -304,28 +201,6 @@ export const onDeleteProperties = /* GraphQL */ `
       type
       physicalAccess
       status
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
       Tasks {
         items {
           id
@@ -338,6 +213,7 @@ export const onDeleteProperties = /* GraphQL */ `
           taskType
           recurrence
           propertiesID
+          usersID
           updatedAt
           _version
           _deleted
@@ -368,6 +244,7 @@ export const onDeleteProperties = /* GraphQL */ `
         nextToken
         startedAt
       }
+      usersID
       createdAt
       updatedAt
       _version
@@ -389,28 +266,7 @@ export const onCreateTask = /* GraphQL */ `
       taskType
       recurrence
       propertiesID
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
+      usersID
       Attachments {
         items {
           id
@@ -438,6 +294,7 @@ export const onCreateTask = /* GraphQL */ `
           id
           updateDetails
           createdAt
+          usersID
           taskID
           updatedAt
           _version
@@ -467,28 +324,7 @@ export const onUpdateTask = /* GraphQL */ `
       taskType
       recurrence
       propertiesID
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
+      usersID
       Attachments {
         items {
           id
@@ -516,6 +352,7 @@ export const onUpdateTask = /* GraphQL */ `
           id
           updateDetails
           createdAt
+          usersID
           taskID
           updatedAt
           _version
@@ -545,28 +382,7 @@ export const onDeleteTask = /* GraphQL */ `
       taskType
       recurrence
       propertiesID
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
+      usersID
       Attachments {
         items {
           id
@@ -594,6 +410,7 @@ export const onDeleteTask = /* GraphQL */ `
           id
           updateDetails
           createdAt
+          usersID
           taskID
           updatedAt
           _version
@@ -729,10 +546,6 @@ export const onCreateChatRoom = /* GraphQL */ `
         type
         physicalAccess
         status
-        Users {
-          nextToken
-          startedAt
-        }
         Tasks {
           nextToken
           startedAt
@@ -741,6 +554,7 @@ export const onCreateChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        usersID
         createdAt
         updatedAt
         _version
@@ -842,10 +656,6 @@ export const onUpdateChatRoom = /* GraphQL */ `
         type
         physicalAccess
         status
-        Users {
-          nextToken
-          startedAt
-        }
         Tasks {
           nextToken
           startedAt
@@ -854,6 +664,7 @@ export const onUpdateChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        usersID
         createdAt
         updatedAt
         _version
@@ -955,10 +766,6 @@ export const onDeleteChatRoom = /* GraphQL */ `
         type
         physicalAccess
         status
-        Users {
-          nextToken
-          startedAt
-        }
         Tasks {
           nextToken
           startedAt
@@ -967,6 +774,7 @@ export const onDeleteChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        usersID
         createdAt
         updatedAt
         _version
@@ -1177,9 +985,64 @@ export const onCreateUser = /* GraphQL */ `
         startedAt
       }
       userType
-      taskID
-      propertiesID
-      notificationsID
+      Tasks {
+        items {
+          id
+          status
+          startDate
+          completionDate
+          createdAt
+          title
+          subTitle
+          taskType
+          recurrence
+          propertiesID
+          usersID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notifications {
+        items {
+          id
+          updateDetails
+          createdAt
+          usersID
+          taskID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Properties {
+        items {
+          id
+          title
+          streetAddress
+          postcode
+          city
+          state
+          headerPic
+          type
+          physicalAccess
+          status
+          usersID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -1231,9 +1094,64 @@ export const onUpdateUser = /* GraphQL */ `
         startedAt
       }
       userType
-      taskID
-      propertiesID
-      notificationsID
+      Tasks {
+        items {
+          id
+          status
+          startDate
+          completionDate
+          createdAt
+          title
+          subTitle
+          taskType
+          recurrence
+          propertiesID
+          usersID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notifications {
+        items {
+          id
+          updateDetails
+          createdAt
+          usersID
+          taskID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Properties {
+        items {
+          id
+          title
+          streetAddress
+          postcode
+          city
+          state
+          headerPic
+          type
+          physicalAccess
+          status
+          usersID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -1285,9 +1203,64 @@ export const onDeleteUser = /* GraphQL */ `
         startedAt
       }
       userType
-      taskID
-      propertiesID
-      notificationsID
+      Tasks {
+        items {
+          id
+          status
+          startDate
+          completionDate
+          createdAt
+          title
+          subTitle
+          taskType
+          recurrence
+          propertiesID
+          usersID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notifications {
+        items {
+          id
+          updateDetails
+          createdAt
+          usersID
+          taskID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Properties {
+        items {
+          id
+          title
+          streetAddress
+          postcode
+          city
+          state
+          headerPic
+          type
+          physicalAccess
+          status
+          usersID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -1328,6 +1301,7 @@ export const onCreateUserChatRoom = /* GraphQL */ `
           type
           physicalAccess
           status
+          usersID
           createdAt
           updatedAt
           _version
@@ -1388,9 +1362,18 @@ export const onCreateUserChatRoom = /* GraphQL */ `
           startedAt
         }
         userType
-        taskID
-        propertiesID
-        notificationsID
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Notifications {
+          nextToken
+          startedAt
+        }
+        Properties {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
@@ -1437,6 +1420,7 @@ export const onUpdateUserChatRoom = /* GraphQL */ `
           type
           physicalAccess
           status
+          usersID
           createdAt
           updatedAt
           _version
@@ -1497,9 +1481,18 @@ export const onUpdateUserChatRoom = /* GraphQL */ `
           startedAt
         }
         userType
-        taskID
-        propertiesID
-        notificationsID
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Notifications {
+          nextToken
+          startedAt
+        }
+        Properties {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
@@ -1546,6 +1539,7 @@ export const onDeleteUserChatRoom = /* GraphQL */ `
           type
           physicalAccess
           status
+          usersID
           createdAt
           updatedAt
           _version
@@ -1606,9 +1600,18 @@ export const onDeleteUserChatRoom = /* GraphQL */ `
           startedAt
         }
         userType
-        taskID
-        propertiesID
-        notificationsID
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Notifications {
+          nextToken
+          startedAt
+        }
+        Properties {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version

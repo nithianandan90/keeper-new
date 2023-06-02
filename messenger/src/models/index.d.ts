@@ -24,7 +24,7 @@ type EagerNotifications = {
   readonly id: string;
   readonly updateDetails: string;
   readonly createdAt: string;
-  readonly Users?: (User | null)[] | null;
+  readonly usersID?: string | null;
   readonly taskID: string;
   readonly updatedAt?: string | null;
 }
@@ -37,7 +37,7 @@ type LazyNotifications = {
   readonly id: string;
   readonly updateDetails: string;
   readonly createdAt: string;
-  readonly Users: AsyncCollection<User>;
+  readonly usersID?: string | null;
   readonly taskID: string;
   readonly updatedAt?: string | null;
 }
@@ -61,11 +61,11 @@ type EagerProperties = {
   readonly state: string;
   readonly headerPic?: string | null;
   readonly type: string;
-  readonly physicalAccess: string;
+  readonly physicalAccess?: string | null;
   readonly status: string;
-  readonly Users?: (User | null)[] | null;
   readonly Tasks?: (Task | null)[] | null;
   readonly Attachments?: (Attachment | null)[] | null;
+  readonly usersID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -83,11 +83,11 @@ type LazyProperties = {
   readonly state: string;
   readonly headerPic?: string | null;
   readonly type: string;
-  readonly physicalAccess: string;
+  readonly physicalAccess?: string | null;
   readonly status: string;
-  readonly Users: AsyncCollection<User>;
   readonly Tasks: AsyncCollection<Task>;
   readonly Attachments: AsyncCollection<Attachment>;
+  readonly usersID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -113,7 +113,7 @@ type EagerTask = {
   readonly taskType: string;
   readonly recurrence: string;
   readonly propertiesID: string;
-  readonly Users?: (User | null)[] | null;
+  readonly usersID?: string | null;
   readonly Attachments?: (Attachment | null)[] | null;
   readonly Notifications?: (Notifications | null)[] | null;
   readonly updatedAt?: string | null;
@@ -134,7 +134,7 @@ type LazyTask = {
   readonly taskType: string;
   readonly recurrence: string;
   readonly propertiesID: string;
-  readonly Users: AsyncCollection<User>;
+  readonly usersID?: string | null;
   readonly Attachments: AsyncCollection<Attachment>;
   readonly Notifications: AsyncCollection<Notifications>;
   readonly updatedAt?: string | null;
@@ -286,9 +286,9 @@ type EagerUser = {
   readonly image?: Attachment | null;
   readonly ChatRooms?: (UserChatRoom | null)[] | null;
   readonly userType?: UserType | keyof typeof UserType | null;
-  readonly taskID?: string | null;
-  readonly propertiesID?: string | null;
-  readonly notificationsID?: string | null;
+  readonly Tasks?: (Task | null)[] | null;
+  readonly Notifications?: (Notifications | null)[] | null;
+  readonly Properties?: (Properties | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly userImageId?: string | null;
@@ -308,9 +308,9 @@ type LazyUser = {
   readonly image: AsyncItem<Attachment | undefined>;
   readonly ChatRooms: AsyncCollection<UserChatRoom>;
   readonly userType?: UserType | keyof typeof UserType | null;
-  readonly taskID?: string | null;
-  readonly propertiesID?: string | null;
-  readonly notificationsID?: string | null;
+  readonly Tasks: AsyncCollection<Task>;
+  readonly Notifications: AsyncCollection<Notifications>;
+  readonly Properties: AsyncCollection<Properties>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly userImageId?: string | null;

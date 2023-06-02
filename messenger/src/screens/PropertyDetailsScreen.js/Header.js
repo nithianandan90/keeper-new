@@ -1,4 +1,6 @@
-import {View, Text, Image, FlatList, StyleSheet} from 'react-native';
+import { Storage } from 'aws-amplify';
+import { useEffect, useState } from 'react';
+import {View, Text, Image, FlatList, StyleSheet, ActivityIndicator} from 'react-native';
 
 
 const DEFAULT_IMAGE = "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-eats/restaurant1.jpeg";
@@ -7,9 +9,30 @@ const DEFAULT_IMAGE = "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-
 
 const FacilityHeader = ({property}) =>{
    
+    const [imageURI, setImageURI] = useState();
+
+    const attachment = property.Attachments.items;  
+
+    useEffect(()=>{
+        getPropertyImage();
+      
+    },[])
+
+
+    const getPropertyImage = async () =>{
+        if(!attachment[0]){
+            return
+        }
+      
+        const result = await Storage.get(attachment[0].storageKey);
+        setImageURI(result);
+       }  
+
+
+
     return(
         <View style = {styles.page}>
-             <Image source = {{uri: DEFAULT_IMAGE}} style = {styles.image} resizeMode= "cover" />
+             <Image source = {{uri: imageURI}} style = {styles.image} resizeMode= "cover" />
             
             <View style = {styles.container}>
 

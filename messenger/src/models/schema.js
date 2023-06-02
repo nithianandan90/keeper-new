@@ -24,21 +24,12 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Users": {
-                    "name": "Users",
-                    "isArray": true,
-                    "type": {
-                        "model": "User"
-                    },
+                "usersID": {
+                    "name": "usersID",
+                    "isArray": false,
+                    "type": "ID",
                     "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "notificationsID"
-                        ]
-                    }
+                    "attributes": []
                 },
                 "taskID": {
                     "name": "taskID",
@@ -62,6 +53,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byUser",
+                        "fields": [
+                            "usersID"
+                        ]
+                    }
                 },
                 {
                     "type": "key",
@@ -155,7 +155,7 @@ export const schema = {
                     "name": "physicalAccess",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "status": {
@@ -164,22 +164,6 @@ export const schema = {
                     "type": "String",
                     "isRequired": true,
                     "attributes": []
-                },
-                "Users": {
-                    "name": "Users",
-                    "isArray": true,
-                    "type": {
-                        "model": "User"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "propertiesID"
-                        ]
-                    }
                 },
                 "Tasks": {
                     "name": "Tasks",
@@ -209,9 +193,16 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "taskID"
+                            "propertiesID"
                         ]
                     }
+                },
+                "usersID": {
+                    "name": "usersID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -236,6 +227,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byUser",
+                        "fields": [
+                            "usersID"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",
@@ -328,21 +328,12 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Users": {
-                    "name": "Users",
-                    "isArray": true,
-                    "type": {
-                        "model": "User"
-                    },
+                "usersID": {
+                    "name": "usersID",
+                    "isArray": false,
+                    "type": "ID",
                     "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "taskID"
-                        ]
-                    }
+                    "attributes": []
                 },
                 "Attachments": {
                     "name": "Attachments",
@@ -400,6 +391,15 @@ export const schema = {
                         "fields": [
                             "propertiesID",
                             "createdAt"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byUser",
+                        "fields": [
+                            "usersID"
                         ]
                     }
                 },
@@ -949,26 +949,53 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "taskID": {
-                    "name": "taskID",
-                    "isArray": false,
-                    "type": "ID",
+                "Tasks": {
+                    "name": "Tasks",
+                    "isArray": true,
+                    "type": {
+                        "model": "Task"
+                    },
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "usersID"
+                        ]
+                    }
                 },
-                "propertiesID": {
-                    "name": "propertiesID",
-                    "isArray": false,
-                    "type": "ID",
+                "Notifications": {
+                    "name": "Notifications",
+                    "isArray": true,
+                    "type": {
+                        "model": "Notifications"
+                    },
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "usersID"
+                        ]
+                    }
                 },
-                "notificationsID": {
-                    "name": "notificationsID",
-                    "isArray": false,
-                    "type": "ID",
+                "Properties": {
+                    "name": "Properties",
+                    "isArray": true,
+                    "type": {
+                        "model": "Properties"
+                    },
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "usersID"
+                        ]
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -1000,33 +1027,6 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byTask",
-                        "fields": [
-                            "taskID"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byProperties",
-                        "fields": [
-                            "propertiesID"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byNotifications",
-                        "fields": [
-                            "notificationsID"
-                        ]
-                    }
                 },
                 {
                     "type": "auth",
@@ -1165,5 +1165,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.3",
-    "version": "1e417fa9f3f9493336c2dfca87a64726"
+    "version": "54653d87bf9f3feb3c1da4811cdfb065"
 };

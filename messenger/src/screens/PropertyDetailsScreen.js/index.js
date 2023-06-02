@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import {View, Text, Image, FlatList, StyleSheet, ActivityIndicator, Pressable} from 'react-native';
-import  {Ionicons} from '@expo/vector-icons';
+import  {AntDesign, Ionicons} from '@expo/vector-icons';
 import Header from "./Header";
-import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useRoute, useNavigation, useFocusEffect, useIsFocused } from '@react-navigation/native';
 import TaskListItem from '../../components/taskItem';
 import { DataTable } from 'react-native-paper';
 import {Properties, Task} from '../../models';
-import { API, DataStore, graphqlOperation } from 'aws-amplify';
+import { API, DataStore, Storage, graphqlOperation } from 'aws-amplify';
 import jsonFormat from 'json-format';
 import GoToChat from '../../components/GoToChat';
 import { useAuthContext } from '../../context/AuthContext';
@@ -20,7 +20,9 @@ const PropertyDetailsScreen = () => {
   const route = useRoute();
 
   const [tasks, setTasks] = useState([]);
+  const [image, setImage] = useState();
   const [loading, setLoading] = useState(false);
+
 
   const {dbUser} = useAuthContext();
 
@@ -30,13 +32,23 @@ const PropertyDetailsScreen = () => {
 
   const navigation = useNavigation();
 
-  useFocusEffect(
-    useCallback(()=>{
+  const isFocused = useIsFocused();
+
+
+    useEffect(()=>{
         getPropertyTasks();
-        console.log('hjere');
-    },[])
-  )
+        
+        
+        if(adminChecker){
+            navigation.setOptions({ headerRight:()=>
+                <AntDesign onPress={()=>{navigation.navigate('Property Edit', {property:route.params.property})}} name="edit" size={24} color="gray" /> 
+            });
+        }
+
+    },[isFocused])
   
+
+
 
 
 const getPropertyTasks = async ()=>{
@@ -54,7 +66,8 @@ const getPropertyTasks = async ()=>{
     console.log("result", result);
     
     setTasks(result.data.listTasksByProperty.items); 
-    
+   
+
     setLoading(false);
 
     

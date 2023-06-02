@@ -16,7 +16,7 @@ type Notifications @model @auth(rules: [{allow: public}]) {
   id: ID!
   updateDetails: String!
   createdAt: AWSDateTime!
-  Users: [User] @hasMany(indexName: "byNotifications", fields: ["id"])
+  usersID: ID @index(name: "byUser")
   taskID: ID! @index(name: "byTask", sortKeyFields: ["createdAt"], queryField: "listNotificationsByTask")
 }
 
@@ -30,11 +30,11 @@ type Properties @model @auth(rules: [{allow: public}]) {
   state: String!
   headerPic: String
   type: String!
-  physicalAccess: String!
+  physicalAccess: String
   status: String!
-  Users: [User] @hasMany(indexName: "byProperties", fields: ["id"])
   Tasks: [Task] @hasMany(indexName: "byProperties", fields: ["id"])
-  Attachments: [Attachment] @hasMany(indexName: "byTask", fields: ["id"])
+  Attachments: [Attachment] @hasMany(indexName: "byProperties", fields: ["id"])
+  usersID: ID @index(name: "byUser")
 }
 
 
@@ -49,7 +49,7 @@ type Task @model @auth(rules: [{allow: public}]) {
   taskType: String!
   recurrence: String!
   propertiesID: ID! @index(name: "byProperties", sortKeyFields: ["createdAt"], queryField: "listTasksByProperty")
-  Users: [User] @hasMany(indexName: "byTask", fields: ["id"])
+  usersID: ID @index(name: "byUser")
   Attachments: [Attachment] @hasMany(indexName: "byTask", fields: ["id"])
   Notifications: [Notifications] @hasMany(indexName: "byTask", fields: ["id"])
 }
@@ -101,8 +101,8 @@ type User @model @auth(rules: [{allow: public}]) {
   image: Attachment @hasOne
   ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
   userType: UserType
-  taskID: ID @index(name: "byTask")
-  propertiesID: ID @index(name: "byProperties")
-  notificationsID: ID @index(name: "byNotifications")
+  Tasks: [Task] @hasMany(indexName: "byUser", fields: ["id"])
+  Notifications: [Notifications] @hasMany(indexName: "byUser", fields: ["id"])
+  Properties: [Properties] @hasMany(indexName: "byUser", fields: ["id"])
 }
  

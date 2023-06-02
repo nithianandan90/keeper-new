@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, StyleSheet, Text, FlatList, ScrollView, Pressable, ActivityIndicator } from 'react-native';
+import { View, TextInput, StyleSheet, Text,  ScrollView, Pressable, ActivityIndicator } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {getFileInfo, pickImage, pickDocument, addAttachment, uploadFile} from '../../services/uploaderService';
@@ -171,13 +171,13 @@ const documentPicker = async ()=>{
       subTitle: subTitle,
       taskType: type,
       recurrence: recurrence,
-      startDate: startDate,
-      completionDate:endDate,
+      startDate: startDate?startDate:null,
+      completionDate:endDate?endDate:null,
       propertiesID: property.id
 
     }
 
-  
+    console.log('new task', newTask);
 
     setIsLoading(true);
 
@@ -330,7 +330,7 @@ const documentPicker = async ()=>{
       </View>
     </RadioButton.Group>
 
-
+    
     <Text style={{paddingHorizontal:12, marginBottom:10, fontSize:15, marginTop: 20, fontWeight:'600'}}>Task Recurrence*:</Text>  
     <RadioButton.Group onValueChange={newValue => setRecurrence(newValue)} value={recurrence}>
       <View style = {{paddingHorizontal:5, flexDirection:'row', alignItems:'center'}}>
@@ -363,6 +363,7 @@ const documentPicker = async ()=>{
 
       {/* Rest of the code remains the same */}
 
+      
       <TextInput
         placeholder="Task Title*"
         value={title}

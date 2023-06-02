@@ -7,28 +7,7 @@ export const getNotifications = /* GraphQL */ `
       id
       updateDetails
       createdAt
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
+      usersID
       taskID
       updatedAt
       _version
@@ -48,10 +27,7 @@ export const listNotifications = /* GraphQL */ `
         id
         updateDetails
         createdAt
-        Users {
-          nextToken
-          startedAt
-        }
+        usersID
         taskID
         updatedAt
         _version
@@ -80,10 +56,38 @@ export const syncNotifications = /* GraphQL */ `
         id
         updateDetails
         createdAt
-        Users {
-          nextToken
-          startedAt
-        }
+        usersID
+        taskID
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const notificationsByUsersID = /* GraphQL */ `
+  query NotificationsByUsersID(
+    $usersID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelNotificationsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    notificationsByUsersID(
+      usersID: $usersID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        updateDetails
+        createdAt
+        usersID
         taskID
         updatedAt
         _version
@@ -116,10 +120,7 @@ export const listNotificationsByTask = /* GraphQL */ `
         id
         updateDetails
         createdAt
-        Users {
-          nextToken
-          startedAt
-        }
+        usersID
         taskID
         updatedAt
         _version
@@ -144,28 +145,6 @@ export const getProperties = /* GraphQL */ `
       type
       physicalAccess
       status
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
       Tasks {
         items {
           id
@@ -178,6 +157,7 @@ export const getProperties = /* GraphQL */ `
           taskType
           recurrence
           propertiesID
+          usersID
           updatedAt
           _version
           _deleted
@@ -208,6 +188,7 @@ export const getProperties = /* GraphQL */ `
         nextToken
         startedAt
       }
+      usersID
       createdAt
       updatedAt
       _version
@@ -234,10 +215,6 @@ export const listProperties = /* GraphQL */ `
         type
         physicalAccess
         status
-        Users {
-          nextToken
-          startedAt
-        }
         Tasks {
           nextToken
           startedAt
@@ -246,6 +223,7 @@ export const listProperties = /* GraphQL */ `
           nextToken
           startedAt
         }
+        usersID
         createdAt
         updatedAt
         _version
@@ -281,10 +259,6 @@ export const syncProperties = /* GraphQL */ `
         type
         physicalAccess
         status
-        Users {
-          nextToken
-          startedAt
-        }
         Tasks {
           nextToken
           startedAt
@@ -293,6 +267,53 @@ export const syncProperties = /* GraphQL */ `
           nextToken
           startedAt
         }
+        usersID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const propertiesByUsersID = /* GraphQL */ `
+  query PropertiesByUsersID(
+    $usersID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPropertiesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    propertiesByUsersID(
+      usersID: $usersID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        streetAddress
+        postcode
+        city
+        state
+        headerPic
+        type
+        physicalAccess
+        status
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Attachments {
+          nextToken
+          startedAt
+        }
+        usersID
         createdAt
         updatedAt
         _version
@@ -317,28 +338,7 @@ export const getTask = /* GraphQL */ `
       taskType
       recurrence
       propertiesID
-      Users {
-        items {
-          id
-          name
-          username
-          email
-          telephone
-          status
-          userType
-          taskID
-          propertiesID
-          notificationsID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          userImageId
-        }
-        nextToken
-        startedAt
-      }
+      usersID
       Attachments {
         items {
           id
@@ -366,6 +366,7 @@ export const getTask = /* GraphQL */ `
           id
           updateDetails
           createdAt
+          usersID
           taskID
           updatedAt
           _version
@@ -400,10 +401,7 @@ export const listTasks = /* GraphQL */ `
         taskType
         recurrence
         propertiesID
-        Users {
-          nextToken
-          startedAt
-        }
+        usersID
         Attachments {
           nextToken
           startedAt
@@ -446,10 +444,7 @@ export const syncTasks = /* GraphQL */ `
         taskType
         recurrence
         propertiesID
-        Users {
-          nextToken
-          startedAt
-        }
+        usersID
         Attachments {
           nextToken
           startedAt
@@ -496,10 +491,52 @@ export const listTasksByProperty = /* GraphQL */ `
         taskType
         recurrence
         propertiesID
-        Users {
+        usersID
+        Attachments {
           nextToken
           startedAt
         }
+        Notifications {
+          nextToken
+          startedAt
+        }
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const tasksByUsersID = /* GraphQL */ `
+  query TasksByUsersID(
+    $usersID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTaskFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    tasksByUsersID(
+      usersID: $usersID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        status
+        startDate
+        completionDate
+        createdAt
+        title
+        subTitle
+        taskType
+        recurrence
+        propertiesID
+        usersID
         Attachments {
           nextToken
           startedAt
@@ -805,10 +842,6 @@ export const getChatRoom = /* GraphQL */ `
         type
         physicalAccess
         status
-        Users {
-          nextToken
-          startedAt
-        }
         Tasks {
           nextToken
           startedAt
@@ -817,6 +850,7 @@ export const getChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        usersID
         createdAt
         updatedAt
         _version
@@ -901,6 +935,7 @@ export const listChatRooms = /* GraphQL */ `
           type
           physicalAccess
           status
+          usersID
           createdAt
           updatedAt
           _version
@@ -972,6 +1007,7 @@ export const syncChatRooms = /* GraphQL */ `
           type
           physicalAccess
           status
+          usersID
           createdAt
           updatedAt
           _version
@@ -1223,9 +1259,64 @@ export const getUser = /* GraphQL */ `
         startedAt
       }
       userType
-      taskID
-      propertiesID
-      notificationsID
+      Tasks {
+        items {
+          id
+          status
+          startDate
+          completionDate
+          createdAt
+          title
+          subTitle
+          taskType
+          recurrence
+          propertiesID
+          usersID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notifications {
+        items {
+          id
+          updateDetails
+          createdAt
+          usersID
+          taskID
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Properties {
+        items {
+          id
+          title
+          streetAddress
+          postcode
+          city
+          state
+          headerPic
+          type
+          physicalAccess
+          status
+          usersID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -1272,9 +1363,18 @@ export const listUsers = /* GraphQL */ `
           startedAt
         }
         userType
-        taskID
-        propertiesID
-        notificationsID
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Notifications {
+          nextToken
+          startedAt
+        }
+        Properties {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
@@ -1330,189 +1430,18 @@ export const syncUsers = /* GraphQL */ `
           startedAt
         }
         userType
-        taskID
-        propertiesID
-        notificationsID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        userImageId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const usersByTaskID = /* GraphQL */ `
-  query UsersByTaskID(
-    $taskID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    usersByTaskID(
-      taskID: $taskID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        name
-        username
-        email
-        telephone
-        status
-        image {
-          id
-          storageKey
-          fileName
-          type
-          width
-          height
-          duration
-          messageID
-          chatroomID
-          taskID
-          propertiesID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        ChatRooms {
+        Tasks {
           nextToken
           startedAt
         }
-        userType
-        taskID
-        propertiesID
-        notificationsID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        userImageId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const usersByPropertiesID = /* GraphQL */ `
-  query UsersByPropertiesID(
-    $propertiesID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    usersByPropertiesID(
-      propertiesID: $propertiesID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        name
-        username
-        email
-        telephone
-        status
-        image {
-          id
-          storageKey
-          fileName
-          type
-          width
-          height
-          duration
-          messageID
-          chatroomID
-          taskID
-          propertiesID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        ChatRooms {
+        Notifications {
           nextToken
           startedAt
         }
-        userType
-        taskID
-        propertiesID
-        notificationsID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        userImageId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const usersByNotificationsID = /* GraphQL */ `
-  query UsersByNotificationsID(
-    $notificationsID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    usersByNotificationsID(
-      notificationsID: $notificationsID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        name
-        username
-        email
-        telephone
-        status
-        image {
-          id
-          storageKey
-          fileName
-          type
-          width
-          height
-          duration
-          messageID
-          chatroomID
-          taskID
-          propertiesID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        ChatRooms {
+        Properties {
           nextToken
           startedAt
         }
-        userType
-        taskID
-        propertiesID
-        notificationsID
         createdAt
         updatedAt
         _version
@@ -1554,6 +1483,7 @@ export const getUserChatRoom = /* GraphQL */ `
           type
           physicalAccess
           status
+          usersID
           createdAt
           updatedAt
           _version
@@ -1614,9 +1544,18 @@ export const getUserChatRoom = /* GraphQL */ `
           startedAt
         }
         userType
-        taskID
-        propertiesID
-        notificationsID
+        Tasks {
+          nextToken
+          startedAt
+        }
+        Notifications {
+          nextToken
+          startedAt
+        }
+        Properties {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
@@ -1663,9 +1602,6 @@ export const listUserChatRooms = /* GraphQL */ `
           telephone
           status
           userType
-          taskID
-          propertiesID
-          notificationsID
           createdAt
           updatedAt
           _version
@@ -1721,9 +1657,6 @@ export const syncUserChatRooms = /* GraphQL */ `
           telephone
           status
           userType
-          taskID
-          propertiesID
-          notificationsID
           createdAt
           updatedAt
           _version
@@ -1781,9 +1714,6 @@ export const userChatRoomsByChatRoomId = /* GraphQL */ `
           telephone
           status
           userType
-          taskID
-          propertiesID
-          notificationsID
           createdAt
           updatedAt
           _version
@@ -1841,9 +1771,6 @@ export const userChatRoomsByUserId = /* GraphQL */ `
           telephone
           status
           userType
-          taskID
-          propertiesID
-          notificationsID
           createdAt
           updatedAt
           _version

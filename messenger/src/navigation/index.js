@@ -17,6 +17,7 @@ import { ActivityIndicator } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import TaskEdit from '../screens/TaskEdit';
 import GridScreen from '../screens/ImageScreen';
+import PropertyEdit from '../screens/PropertyEdit';
 
 
 const Stack = createNativeStackNavigator();
@@ -49,6 +50,7 @@ const Navigator = () => {
         }
         
         <Stack.Screen name="HomeScreen" component={HomeScreen} />    
+        <Stack.Screen name="Property Edit" component={PropertyEdit} />
         <Stack.Screen name="Task Images" component={GridScreen} /> 
         <Stack.Screen name="Home" component={MainTabNavigatorAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Files" component={FilesScreen} />        
