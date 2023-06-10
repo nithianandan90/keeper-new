@@ -1,11 +1,13 @@
-import { Button, StyleSheet, Text, View } from 'react-native'
+import {  StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import {Auth} from 'aws-amplify';
+import { Button } from 'react-native-paper';
 
 const SettingsScreen = () => {
   return (
     <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-        <Button onPress={()=>Auth.signOut()} title="sign out"/>
+        <Button icon="exit-run" mode="contained" onPress={()=>Auth.signOut()}>Sign Out</Button>
+        {/* <Button onPress={()=>Auth.signOut()} title="sign out"/> */}
     </View>
   )
 }

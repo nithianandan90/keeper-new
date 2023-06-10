@@ -29,7 +29,7 @@ const TaskListItem = ({task, property}) => {
             title={task.title}
             description= {task.subTitle}
             left={() => <List.Icon icon={({color})=>iconStyler(task.taskType, 24, color)} />}
-            style={{paddingLeft: 10, borderBottomColor: 'grey', borderBottomWidth:1}}
+            style={{paddingLeft: 10, borderBottomColor: '#cccccc', borderBottomWidth:1}}
             right={() => <View><Text>{task.status}</Text></View>}
             />
         </Pressable>

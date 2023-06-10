@@ -56,7 +56,7 @@ const TasksScreen = () => {
 
 
   if(tasks.length<1){
-    return <ActivityIndicator size={"large"}/>
+    return <ActivityIndicator size={"large"} color={'#512da8'} />
   }
 
   return(

@@ -1,11 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NotImplementedScreen from '../screens/NotImplementedScreen';
 import ChatsScreen from '../screens/ChatsScreen/ChatsScreen';
-import { Ionicons, Entypo, FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons, Entypo, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import SettingsScreen from '../screens/SettingsScreen';
 import TaskEdit from '../screens/TaskEdit';
 import HomeScreen from '../screens/HomeScreen';
 import GridScreen from '../screens/ImageScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,6 +15,7 @@ const MainTabNavigatorAdmin = () => {
     <Tab.Navigator
       initialRouteName="Chats"
       screenOptions={{
+        tabBarActiveTintColor:'black',
         tabBarStyle: { backgroundColor: 'whitesmoke' },
         headerStyle: { backgroundColor: 'whitesmoke' },
       }}
@@ -24,7 +26,7 @@ const MainTabNavigatorAdmin = () => {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="house-user" size={size} color={color} />
+            <MaterialCommunityIcons name="office-building-marker" size={24} color={color} />
           ),
         }}
         
@@ -51,7 +53,7 @@ const MainTabNavigatorAdmin = () => {
       />
       <Tab.Screen
         name="Settings"
-        component={SettingsScreen}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings-outline" size={size} color={color} />

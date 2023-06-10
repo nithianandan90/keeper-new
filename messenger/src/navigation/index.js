@@ -18,6 +18,7 @@ import { Entypo } from '@expo/vector-icons';
 import TaskEdit from '../screens/TaskEdit';
 import GridScreen from '../screens/ImageScreen';
 import PropertyEdit from '../screens/PropertyEdit';
+import PropertyUserScreen from '../screens/PropertyUser';
 
 
 const Stack = createNativeStackNavigator();
@@ -34,7 +35,7 @@ const Navigator = () => {
 
   if(!dbUser)  {
 
-    return <ActivityIndicator size={'large'}/>
+    return <ActivityIndicator size={'large'} color={'#512da8'} />
   }
 
   return (
@@ -50,11 +51,12 @@ const Navigator = () => {
         }
         
         <Stack.Screen name="HomeScreen" component={HomeScreen} />    
-        <Stack.Screen name="Property Edit" component={PropertyEdit} />
+        <Stack.Screen name="Add Property" component={PropertyEdit} />
         <Stack.Screen name="Task Images" component={GridScreen} /> 
         <Stack.Screen name="Home" component={MainTabNavigatorAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Files" component={FilesScreen} />        
         <Stack.Screen name="Task Details" component={TaskDetailScreen} /> 
+        <Stack.Screen name="Property User" component={PropertyUserScreen} /> 
         <Stack.Screen name="Property Details" 
           component={PropertyDetailsScreen} 
           />  

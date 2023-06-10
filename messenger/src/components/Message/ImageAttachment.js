@@ -119,7 +119,7 @@ const ImageAttachment = ({attachments}) => {
       
     </Pressable>
     {!isLoading?(<FontAwesome name='cloud-download' size={24} color='gray' onPress={()=>downloadFile(attachment.uri, attachment.storageKey)}/>):
-    (<ActivityIndicator size={'large'}/>)}
+    (<ActivityIndicator size={'large'} color={'#512da8'}/>)}
 
     </View>
       ))}

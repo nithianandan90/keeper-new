@@ -9,6 +9,7 @@ import { listProperties } from './queries';
 import { useAuthContext } from '../../context/AuthContext';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { listUsers } from '../../graphql/queries';
 
 const HomeScreen = () => {
 
@@ -30,7 +31,7 @@ const HomeScreen = () => {
    getResult();
    if(adminChecker){
     navigation.setOptions({ headerRight:()=>
-        <View style={{marginRight:10}}><MaterialIcons onPress = {()=>{navigation.navigate('Property Edit')}} name="add-business" size={30} color="gray" /></View> 
+        <View style={{marginRight:10}}><MaterialIcons onPress = {()=>{navigation.navigate('Add Property')}} name="add-business" size={30} color="gray" /></View> 
     });
   }
      
@@ -58,9 +59,11 @@ const HomeScreen = () => {
     // const propertiesResult = await DataStore.query(Properties);
     
     setIsLoading(true)
+
     const result = await API.graphql(
-      graphqlOperation(listProperties)
+      graphqlOperation(listProperties, adminChecker?({filter:{active:{eq:true}}}):({filter:{usersID:{eq:dbUser?.id}, active:{eq:true}}}))
     )    
+
 
 
     // const tasks = await result.Tasks;
@@ -97,7 +100,7 @@ const HomeScreen = () => {
   // console.log(jsonFormat(properties));
 
   if(!properties || isLoading){
-    return <ActivityIndicator  size={"large"}/>
+    return <ActivityIndicator  size={"large"} color={'#512da8'} />
   }
 
 
@@ -107,6 +110,7 @@ const HomeScreen = () => {
        <FlatList
         data={properties}
         renderItem={({item})=>{
+          
             return (<FacilitiesItem property={item}/>)
         }}
         showsVerticalScrollIndicator={false}

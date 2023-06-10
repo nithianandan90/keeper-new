@@ -27,8 +27,14 @@ export const iconStyler = (input, size, color) =>{
 
 }
 
-export const colorStyler = (input) => {
+export const badgeColorStyler = (input) => {
 
+    switch(input){
+        case 0:
+            return '#388e3c'
+        case (input>0): 
+            return '#e64a19'
 
+    }
 
 }

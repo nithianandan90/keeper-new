@@ -91,12 +91,14 @@ const ChatRoomInfo = () => {
     
     const property = chatRoom.Property;
 
+    console.log('property', property)
+
     navigation.navigate('Property Details', {property})
   }
 
 
   if (!chatRoom) {
-    return <ActivityIndicator />;
+    return <ActivityIndicator color={'#512da8'}/>;
   }
 
   const users = chatRoom.users.items.filter((item) => !item._deleted);
@@ -184,6 +186,27 @@ export const getChatRoom = /* GraphQL */ `
         headerPic
         createdAt
         city
+        usersID
+        Attachments{
+          items{
+            _deleted
+            width
+            _lastChangedAt
+            _version
+            chatroomID
+            createdAt
+            duration
+            fileName
+            height
+            id
+            messageID
+            propertiesID
+            storageKey
+            taskID
+            type
+            updatedAt
+          }
+        }
         _version
         _lastChangedAt
         _deleted

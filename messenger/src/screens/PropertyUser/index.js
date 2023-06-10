@@ -2,59 +2,81 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {Properties, Task, User} from '../../models';
-import { DataStore } from 'aws-amplify';
+import { API, DataStore, graphqlOperation } from 'aws-amplify';
 import jsonFormat from 'json-format';
 import { useAuthContext } from '../../context/AuthContext';
 import { Button } from 'react-native-paper';
+import { useRoute } from '@react-navigation/native';
+import { getUser } from '../../graphql/queries';
 
 
 
 
-const ProfileScreen = () => {
-  const route = {params: {name: "Nithi", telephone: "0123441217", email: "n.maniam1990@gmail.com", profilePic: "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png"}}  
+const PropertyUserScreen = () => {
+//   const route = {params: {name: "Nithi", telephone: "0123441217", email: "n.maniam1990@gmail.com", profilePic: "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png"}}  
   
+const route = useRoute();
   
-
-  const {dbUser, sub, setDbUser, updateUserDetails, signOut} = useAuthContext();
+const propertyUserID = route.params.propertyUser;
+    
+  const {updateUserDetails} = useAuthContext();
   
-//   console.log("user", dbUser);
+//   console.log("user", propertyUser);
 
 
   const [name, setName] = useState();
   const [telephone, setTelephone] = useState();
   const [email, setEmail] = useState();
-  const [profilePic, setProfilePic] = useState(route.params.profilePic); 
+  const [profilePic, setProfilePic] = useState(); 
   const [editMode, setEditMode] = useState(false);
   const [editedName, setEditedName] = useState();
   const [editedTelephone, setEditedTelephone] = useState();
   const [editedEmail, setEditedEmail] = useState();
   const [editedProfilePic, setEditedProfilePic] = useState();
-  
+  const [propertyUser, setPropertyUser] = useState();
 
   useEffect(()=>{
 
-    if(dbUser){
-    setName(dbUser.username);
-    setTelephone(dbUser.telephone);
-    setEmail(dbUser.email);    
-    setEditedName(dbUser.username);
-    setEditedTelephone(dbUser.telephone.replace('+60', ''));
-    setEditedEmail(dbUser.email);
-    setEditedProfilePic(profilePic);    
-}
-
+   getPropertyUser();
    
-   
-    const subscription = DataStore.observe(User, dbUser?.id).subscribe(msg => {
+    const subscription = DataStore.observe(User, propertyUser?.id).subscribe(msg => {
         if(msg.opType==="UPDATE"){
-            setDbUser(msg.element);
+            setPropertyUser(msg.element);
         }
     })
 
     return ()=>subscription.unsubscribe();
 
-  },[dbUser]);
+  },[]);
 
+
+
+  useEffect(()=>{
+
+    
+    if(propertyUser){
+        setName(propertyUser.username);
+        setTelephone(propertyUser.telephone);
+        setEmail(propertyUser.email);    
+        setEditedName(propertyUser.username);
+        setEditedTelephone(propertyUser.telephone.replace('+60', ''));
+        setEditedEmail(propertyUser.email);
+        setEditedProfilePic(profilePic);    
+    }
+    
+
+  },[propertyUser])
+
+
+  const getPropertyUser = async () =>{
+    const result = await API.graphql(
+        graphqlOperation(getUser, {id:propertyUserID})
+    )
+
+    console.log('result', result);
+    setPropertyUser(result.data.getUser);
+
+  }
 
 
     
@@ -86,9 +108,9 @@ const ProfileScreen = () => {
     
      
 
-     updateUserDetails(dbUser, editedName, newTelephone);
+     updateUserDetails(propertyUser, editedName, newTelephone);
 
-    // const result = await DataStore.save(User.copyOf(dbUser, (updated)=>{
+    // const result = await DataStore.save(User.copyOf(propertyUser, (updated)=>{
     //   updated.username=editedName;
     //   updated.telephone = editedTelephone;
     //   updated.email = editedEmail;
@@ -129,7 +151,7 @@ const ProfileScreen = () => {
     setEditedProfilePic(result.uri);
   };
 
-  if(!dbUser){
+  if(!propertyUser){
     return <ActivityIndicator size={'large'} color={'#512da8'} />
   }
 
@@ -192,9 +214,9 @@ const ProfileScreen = () => {
         <Button icon="account-edit" mode="contained" onPress={handleEdit} style={{marginBottom: 10}}>
                                 Edit
         </Button>
-        <Button icon="exit-run" mode="contained" onPress={signOut}>
+        {/* <Button icon="exit-run" mode="contained" onPress={signOut}>
                               Signout
-        </Button>
+        </Button> */}
         {/* <TouchableOpacity style={styles.button} onPress={handleEdit}>
           <Text style={styles.buttonText}>Edit</Text>
         </TouchableOpacity>
@@ -255,4 +277,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default PropertyUserScreen;

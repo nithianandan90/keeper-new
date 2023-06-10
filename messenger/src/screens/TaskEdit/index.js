@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, StyleSheet, Text,  ScrollView, Pressable, ActivityIndicator } from 'react-native';
+import { View, TextInput, StyleSheet, Text,  ScrollView, Pressable, ActivityIndicator, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {getFileInfo, pickImage, pickDocument, addAttachment, uploadFile} from '../../services/uploaderService';
@@ -18,7 +18,7 @@ const propertyData = [
 ];
 
 const TaskEdit = () => {
-  const [property, setProperty] = useState('');
+  // const [property, setProperty] = useState('');
   const [status, setStatus] = useState('');
   const [type, setType] = useState('');
   const [recurrence, setRecurrence] = useState('');
@@ -43,7 +43,7 @@ const TaskEdit = () => {
   const [sbMessage, setSbMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [latestUpdate, setLatestUpdate] = useState('');
-
+ 
 
   const route = useRoute();
 
@@ -51,11 +51,17 @@ const TaskEdit = () => {
 
   const existingTask = route?.params?.task;
   
+  const property = route.params.property;
 
   useEffect(()=>{
-    setProperty(route.params.property)
+    // setProperty(route.params.property)
     
+ 
+
     if(existingTask){
+      
+      navigation.setOptions({title: 'Edit Task' })
+      
       setStatus(existingTask.status);
       setType(existingTask.taskType);
       setRecurrence(existingTask.recurrence);
@@ -142,6 +148,30 @@ const documentPicker = async ()=>{
 
 }
 
+const showDeleteConfirm = async () =>{
+  
+  
+  return Alert.alert(
+    "Are your sure?",
+    "Are you sure you want to remove this task?",
+    [
+      // The "Yes" button
+      {
+        text: "Yes",
+        onPress: async () => {
+          await API.graphql(graphqlOperation(updateTask, {input:{id:existingTask.id, active:false, _version:existingTask._version}}));
+          navigation.navigate('Property Details', {property})
+        },
+      },
+      // The "No" button
+      // Does nothing but dismiss the dialog when tapped
+      {
+        text: "No",
+      },
+    ]
+  );
+}
+
   const handleSubmit = async () => {
     // Perform form submission logic here
     // You can access the form values from the component's state
@@ -170,10 +200,12 @@ const documentPicker = async ()=>{
       title: title,
       subTitle: subTitle,
       taskType: type,
+      active: true,
       recurrence: recurrence,
       startDate: startDate?startDate:null,
       completionDate:endDate?endDate:null,
-      propertiesID: property.id
+      propertiesID: property.id,
+      usersID: property.usersID 
 
     }
 
@@ -193,7 +225,7 @@ const documentPicker = async ()=>{
     if(latestUpdate){
       const taskUpdate = await API.graphql(
         
-        graphqlOperation(createNotifications, {input:{taskID: existingTask.id, updateDetails: latestUpdate}}))
+        graphqlOperation(createNotifications, {input:{taskID: existingTask.id, updateDetails: latestUpdate, usersID: property.usersID}}))
     }
 
        taskID = existingTask.id;
@@ -205,7 +237,13 @@ const documentPicker = async ()=>{
     )
     console.log("new task", returnedNewTask);
     taskID = (returnedNewTask.data.createTask.id);
-   }
+   
+    const taskUpdate = await API.graphql(
+        
+      graphqlOperation(createNotifications, {input:{taskID: taskID, updateDetails: 'Task created', usersID: property.usersID}}))
+    
+  
+  }
    
   
 
@@ -246,12 +284,18 @@ const documentPicker = async ()=>{
 
   // console.log("documents", documents);
 
+  if(isLoading){
+    return <ActivityIndicator size={'large'} color={'#512da8'} />
+   }
+
   return (
     <ScrollView nestedScrollEnabled={true} style={styles.container}>
       <View style={styles.formField}>
    
-      <Text style={{paddingHorizontal:12, marginBottom:10, fontSize:20}}>{property?.title}, {property?.streetAddress}, {property?.postcode}, {property?.state} </Text>
-
+      {property&& 
+        <Text style={{paddingHorizontal:12, marginBottom:10, fontSize:20}}>{property?.title}, {property?.streetAddress}, {property?.postcode}, {property?.state} </Text>
+      }
+     
       {/* Only show if new task not update task */}
       {/* <DropDownPicker
         placeholder="Select a property"
@@ -495,11 +539,13 @@ const documentPicker = async ()=>{
 
       {/* <Button style={{}}title="Submit" onPress={handleSubmit} /> */}
 
-      {!isLoading?(<Button style={{marginTop: 20, marginBottom: 10}} buttonColor='#805158' icon="airplane" mode="contained" onPress={handleSubmit}>
+      <Button style={{marginTop: 20, marginBottom: 10}} buttonColor='#805158' icon="airplane" mode="contained" onPress={handleSubmit}>
                         Submit
-      </Button>):(<ActivityIndicator size={'large'}/>)}      
+      </Button>
+           
   
-      
+      {existingTask&&(<Button style={{ marginBottom: 10}} buttonColor='#665a6f' icon="delete" mode="contained" onPress={showDeleteConfirm}>Delete Task</Button>)}
+
       
       </View>
 

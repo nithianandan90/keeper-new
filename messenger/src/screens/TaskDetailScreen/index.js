@@ -1,4 +1,4 @@
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Avatar, Button, Chip, List } from 'react-native-paper';
@@ -10,7 +10,7 @@ import { Attachment } from '../../models';
 import { useAuthContext } from '../../context/AuthContext';
 import Uploader from './uploader';
 import { graphqlOperation, API } from 'aws-amplify';
-import { listNotificationsByTask } from '../../graphql/queries';
+import { getProperties, listNotificationsByTask } from '../../graphql/queries';
 import { iconStyler } from '../../services/styler';
 
 const TaskDetailScreen = () => {
@@ -23,10 +23,11 @@ const TaskDetailScreen = () => {
     const [showFiles, setShowFiles] = useState();
     const [latestNotifications, setLatestNotifications] = useState([]);
     const [previousNotifications, setPreviousNotifications] = useState([]);
+    const [property, setProperty] = useState();
 
     const task = route?.params?.task;
 
-    const property = route?.params?.property;
+    
 
     console.log("task", JSON.stringify(task, null, 2));
 
@@ -39,14 +40,33 @@ const TaskDetailScreen = () => {
 
     useEffect(()=>{
         
+        if(route?.params?.property){
+            setProperty(route.params.property)
+        }else{
+            getProperty();
+        }
+
         getNotifications();
         
+     
+    },[])
+
+    useEffect(()=>{
         if(adminChecker){
             navigation.setOptions({ headerRight:()=>
                 <AntDesign onPress = {()=>navigation.navigate("Add Task", {property: property, task: task})} name="edit" size={24} color="gray" /> 
             });
         }
-    },[])
+    },[task, property])
+
+
+    const getProperty = async () =>{
+        const results = await API.graphql(
+            graphqlOperation(getProperties, {id: task.propertiesID})
+        )
+
+        setProperty(results.data.getProperties);
+    }
 
    
     const getNotifications = async () =>{
@@ -62,6 +82,10 @@ const TaskDetailScreen = () => {
     }
 
     
+    if(!latestNotifications||!property||!previousNotifications){
+        return <ActivityIndicator  size={"large"} color={'#512da8'} />
+    }
+
 
     return (
 
@@ -87,6 +111,13 @@ const TaskDetailScreen = () => {
                         </View> */}
                          <Chip style={{margin: 10}} icon="information" onPress={() => console.log('Pressed')}>{task.status}</Chip>
                          <List.Item
+                                title={property?.title}
+                                description = {property?.streetAddress}
+                                left={() => <List.Icon icon={({color})=>iconStyler(property?.type, 24, color)} />}
+                                style={{paddingLeft: 25}}
+        
+                            />
+                         <List.Item
                                 title={task.title}
                                 description = {task.subTitle}
                                 left={() => <List.Icon icon={({color})=>iconStyler(task.taskType, 24, color)} />}
@@ -97,12 +128,21 @@ const TaskDetailScreen = () => {
                           
                             <List.Item
                                 left={()=><Text>Works Start Date:</Text>}
-                                right={()=><Text>{Moment(task.startDate).format('DD MMM YYYY')} </Text>}
+                                right={()=><Text>
+                                    
+                                    {task.startDate&&Moment(task.startDate).format('DD MMM YYYY')} 
+                                    
+                                    </Text>}
                                 style={{paddingLeft: 10}}
                             />
                             <List.Item
                                 left={()=><Text>Works Complete Date:</Text>}
-                                right={()=><Text>{Moment(task.completionDate).format('DD MMM YYYY')}</Text>}
+                                right={()=><Text>
+                                    
+                                 
+                                    {task.completionDate&&Moment(task.completionDate).format('DD MMM YYYY')}
+                                    
+                                    </Text>}
                                 style={{paddingLeft: 10}}
                             />
                        </View>

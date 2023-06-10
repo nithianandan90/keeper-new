@@ -11,7 +11,7 @@ import jsonFormat from 'json-format';
 import GoToChat from '../../components/GoToChat';
 import { useAuthContext } from '../../context/AuthContext';
 import { onCreateTask } from '../../graphql/subscriptions';
-import { listTasks, listTasksByProperty } from '../../graphql/queries';
+import { getUser, listTasks, listTasksByProperty } from '../../graphql/queries';
 
 
 const PropertyDetailsScreen = () => {
@@ -22,7 +22,7 @@ const PropertyDetailsScreen = () => {
   const [tasks, setTasks] = useState([]);
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(false);
-
+  const [propertyUser, setPropertyUser] = useState()  
 
   const {dbUser} = useAuthContext();
 
@@ -36,12 +36,22 @@ const PropertyDetailsScreen = () => {
 
 
     useEffect(()=>{
-        getPropertyTasks();
         
+      
+        
+        getPropertyTasks();
+   
+         
         
         if(adminChecker){
             navigation.setOptions({ headerRight:()=>
-                <AntDesign onPress={()=>{navigation.navigate('Property Edit', {property:route.params.property})}} name="edit" size={24} color="gray" /> 
+                <View style={{flexDirection:'row'}}>
+               
+               <AntDesign onPress={()=>{navigation.navigate('Property User', {propertyUser:route.params.property.usersID})}} name="user" size={24} color="gray" style={{marginRight:10}}/> 
+                
+                <AntDesign onPress={()=>{navigation.navigate('Add Property', {property:route.params.property})}} name="edit" size={24} color="gray" /> 
+                
+                </View>
             });
         }
 
@@ -60,7 +70,7 @@ const getPropertyTasks = async ()=>{
     // );
 
     const result = await API.graphql(
-        graphqlOperation(listTasksByProperty, {propertiesID:route.params.property.id, sortDirection:'DESC' })
+        graphqlOperation(listTasksByProperty, {propertiesID:route.params.property.id, sortDirection:'DESC', filter: {active: {eq: true}}})
     );
 
     console.log("result", result);
@@ -76,7 +86,7 @@ const getPropertyTasks = async ()=>{
 
 
   if(!dbUser || loading){
-    return <ActivityIndicator size={"large"}/>
+    return <ActivityIndicator size={"large"} color={'#512da8'} />
   }
 
   return(

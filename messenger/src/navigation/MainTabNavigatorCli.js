@@ -1,11 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NotImplementedScreen from '../screens/NotImplementedScreen';
 import ChatsScreen from '../screens/ChatsScreen/ChatsScreen';
-import { Ionicons, Entypo, FontAwesome } from '@expo/vector-icons';
+import { Ionicons, Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import SettingsScreen from '../screens/SettingsScreen';
 import HomeScreen from '../screens/HomeScreen';
 import TasksScreen from '../screens/TasksScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import NotificationsScreen from '../screens/NotificationsScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -15,29 +16,30 @@ const MainTabNavigatorCli = () => {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
+        tabBarActiveTintColor:'black',
         tabBarStyle: { backgroundColor: 'whitesmoke' },
         headerStyle: { backgroundColor: 'whitesmoke' },
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="Properties"
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color={color} />
+            <MaterialCommunityIcons name="office-building-marker" size={24} color={color} />
           ),
         }}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Notifications"
-        component={HomeScreen}
+        component={NotificationsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="notifications" size={size} color={color} />
           ),
         }}
-      /> */}
-      <Tab.Screen
+      />
+      {/* <Tab.Screen
         name="Tasks"
         component={TasksScreen}
         options={{
@@ -45,7 +47,7 @@ const MainTabNavigatorCli = () => {
             <FontAwesome name="tasks" size={size} color={color} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Settings"
         component={ProfileScreen}

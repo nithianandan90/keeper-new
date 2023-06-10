@@ -23,9 +23,10 @@ type EagerNotifications = {
   };
   readonly id: string;
   readonly updateDetails: string;
+  readonly opened?: boolean | null;
   readonly createdAt: string;
   readonly usersID?: string | null;
-  readonly taskID: string;
+  readonly taskID?: string | null;
   readonly updatedAt?: string | null;
 }
 
@@ -36,9 +37,10 @@ type LazyNotifications = {
   };
   readonly id: string;
   readonly updateDetails: string;
+  readonly opened?: boolean | null;
   readonly createdAt: string;
   readonly usersID?: string | null;
-  readonly taskID: string;
+  readonly taskID?: string | null;
   readonly updatedAt?: string | null;
 }
 
@@ -63,6 +65,7 @@ type EagerProperties = {
   readonly type: string;
   readonly physicalAccess?: string | null;
   readonly status: string;
+  readonly active?: boolean | null;
   readonly Tasks?: (Task | null)[] | null;
   readonly Attachments?: (Attachment | null)[] | null;
   readonly usersID?: string | null;
@@ -85,6 +88,7 @@ type LazyProperties = {
   readonly type: string;
   readonly physicalAccess?: string | null;
   readonly status: string;
+  readonly active?: boolean | null;
   readonly Tasks: AsyncCollection<Task>;
   readonly Attachments: AsyncCollection<Attachment>;
   readonly usersID?: string | null;
@@ -112,6 +116,7 @@ type EagerTask = {
   readonly subTitle: string;
   readonly taskType: string;
   readonly recurrence: string;
+  readonly active?: boolean | null;
   readonly propertiesID: string;
   readonly usersID?: string | null;
   readonly Attachments?: (Attachment | null)[] | null;
@@ -133,6 +138,7 @@ type LazyTask = {
   readonly subTitle: string;
   readonly taskType: string;
   readonly recurrence: string;
+  readonly active?: boolean | null;
   readonly propertiesID: string;
   readonly usersID?: string | null;
   readonly Attachments: AsyncCollection<Attachment>;
@@ -149,11 +155,12 @@ export declare const Task: (new (init: ModelInit<Task>) => Task) & {
 type EagerAttachment = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Attachment, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
+    readOnlyFields: 'updatedAt';
   };
   readonly id: string;
   readonly storageKey?: string | null;
   readonly fileName?: string | null;
+  readonly createdAt: string;
   readonly type: AttachmentType | keyof typeof AttachmentType;
   readonly width?: number | null;
   readonly height?: number | null;
@@ -162,18 +169,18 @@ type EagerAttachment = {
   readonly chatroomID?: string | null;
   readonly taskID?: string | null;
   readonly propertiesID?: string | null;
-  readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
 type LazyAttachment = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Attachment, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
+    readOnlyFields: 'updatedAt';
   };
   readonly id: string;
   readonly storageKey?: string | null;
   readonly fileName?: string | null;
+  readonly createdAt: string;
   readonly type: AttachmentType | keyof typeof AttachmentType;
   readonly width?: number | null;
   readonly height?: number | null;
@@ -182,7 +189,6 @@ type LazyAttachment = {
   readonly chatroomID?: string | null;
   readonly taskID?: string | null;
   readonly propertiesID?: string | null;
-  readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 

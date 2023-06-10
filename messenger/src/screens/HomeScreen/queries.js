@@ -21,6 +21,11 @@ export const listProperties = /* GraphQL */ `
         Tasks {
           nextToken
           startedAt
+          items {
+            active
+            id
+            status
+          }
         }
         Attachments {
           nextToken

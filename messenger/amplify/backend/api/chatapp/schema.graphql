@@ -15,9 +15,10 @@ enum AttachmentType {
 type Notifications @model @auth(rules: [{allow: public}]) {
   id: ID!
   updateDetails: String!
+  opened: Boolean
   createdAt: AWSDateTime!
-  usersID: ID @index(name: "byUser")
-  taskID: ID! @index(name: "byTask", sortKeyFields: ["createdAt"], queryField: "listNotificationsByTask")
+  usersID: ID @index(name: "byUser", sortKeyFields: ["createdAt"], queryField: "listNotificationsByUser")
+  taskID: ID @index(name: "byTask", sortKeyFields: ["createdAt"], queryField: "listNotificationsByTask")
 }
 
 
@@ -32,6 +33,7 @@ type Properties @model @auth(rules: [{allow: public}]) {
   type: String!
   physicalAccess: String
   status: String!
+  active: Boolean
   Tasks: [Task] @hasMany(indexName: "byProperties", fields: ["id"])
   Attachments: [Attachment] @hasMany(indexName: "byProperties", fields: ["id"])
   usersID: ID @index(name: "byUser")
@@ -48,6 +50,7 @@ type Task @model @auth(rules: [{allow: public}]) {
   subTitle: String!
   taskType: String!
   recurrence: String!
+  active: Boolean
   propertiesID: ID! @index(name: "byProperties", sortKeyFields: ["createdAt"], queryField: "listTasksByProperty")
   usersID: ID @index(name: "byUser")
   Attachments: [Attachment] @hasMany(indexName: "byTask", fields: ["id"])
@@ -60,13 +63,14 @@ type Attachment @model @auth(rules: [{allow: public}]) {
   id: ID!
   storageKey: String
   fileName: String
+  createdAt: AWSDateTime!
   type: AttachmentType!
   width: Int
   height: Int
   duration: Int
   messageID: ID @index(name: "byMessage")
   chatroomID: ID @index(name: "byChatRoom")
-  taskID: ID @index(name: "byTask")
+  taskID: ID @index(name: "byTask", sortKeyFields: ["createdAt"], queryField: "listAttachmentsByTask")
   propertiesID: ID @index(name: "byProperties")
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, StyleSheet, Text,  ScrollView, Pressable, ActivityIndicator, FlatList } from 'react-native';
+import { View, TextInput, StyleSheet, Text,  ScrollView, Pressable, ActivityIndicator, FlatList, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {getFileInfo, pickImage, pickDocument, addAttachment, uploadFile, addAttachmentProperty} from '../../services/uploaderService';
@@ -51,7 +51,7 @@ const TaskEdit = () => {
     getUserData();
     
     if(existingProperty){
-
+      navigation.setOptions({title: 'Edit Property' })
       console.log('user ID', existingProperty.usersID)
       setUserID(existingProperty.usersID);
       setPostcode(existingProperty.postcode.toString());
@@ -128,6 +128,29 @@ const imagePicker = async ()=>{
 
 }
 
+  const showDeleteConfirm = async () =>{
+  
+  
+    return Alert.alert(
+      "Are your sure?",
+      "Are you sure you want to remove this property?",
+      [
+        // The "Yes" button
+        {
+          text: "Yes",
+          onPress: async () => {
+            await API.graphql(graphqlOperation(updateProperties, {input:{id:existingProperty.id, active:false, _version:existingProperty._version}}));
+            navigation.navigate('HomeScreen');
+          },
+        },
+        // The "No" button
+        // Does nothing but dismiss the dialog when tapped
+        {
+          text: "No",
+        },
+      ]
+    );
+  }
 
   const handleSubmit = async () => {
     // Perform form submission logic here
@@ -151,6 +174,7 @@ const imagePicker = async ()=>{
       title: title, 
       streetAddress: streetAddress,
       postcode: postcode,
+      active: true,
       city: city,
       state: state,
       type: type,
@@ -223,7 +247,7 @@ const imagePicker = async ()=>{
   console.log('userData', userData)
 
  if(isLoading){
-  return <ActivityIndicator size={'large'}/>
+  return <ActivityIndicator size={'large'} color={'#512da8'} />
  }
 
   // console.log("documents", documents);
@@ -343,9 +367,12 @@ const imagePicker = async ()=>{
         
         <Chip icon="upload" onPress={imagePicker} style={{width:200, alignSelf:'center', margin: 10,}}>Upload Image</Chip> 
           
-        {!isLoading?(<Button style={{marginTop: 20, marginBottom: 10}} buttonColor='#805158' icon="airplane" mode="contained" onPress={handleSubmit}>
+        <Button style={{marginTop: 20, marginBottom: 10}} buttonColor='#805158' icon="airplane" mode="contained" onPress={handleSubmit}>
                             Submit
-          </Button>):(<ActivityIndicator size={'large'}/>)} 
+        </Button>
+
+        {existingProperty&&(<Button buttonColor='#665a6f' icon="delete" mode="contained" onPress={showDeleteConfirm}>Delete Property</Button>)}
+
           {/* 
     
           <TextInput

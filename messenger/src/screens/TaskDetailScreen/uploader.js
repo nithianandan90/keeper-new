@@ -143,7 +143,7 @@ const Uploader = ({taskID}) => {
         };
     
 if(isLoading){
-    return <ActivityIndicator size={'large'}/>
+    return <ActivityIndicator size={'large'} color={'#512da8'} />
 }        
 
 

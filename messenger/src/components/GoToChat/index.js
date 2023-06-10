@@ -58,11 +58,13 @@ const GoToChat = ({propertyID}) => {
 
     console.log(result.data.listUsers.items[0].id);
 
-    const user = result.data.listUsers.items[0];
+    const users = result.data.listUsers.items;
 
-    const client = user.id!==authUser;
+    const client = users[0].id!==authUser;
 
-    const existingChatRoom = await getCommonChatRoomWithUser(user.id, propertyID);
+
+    //get common chat room with the first manager
+    const existingChatRoom = await getCommonChatRoomWithUser(users[0].id, propertyID);
 
    if(existingChatRoom.length>0){
 
@@ -85,14 +87,17 @@ const GoToChat = ({propertyID}) => {
     }
     const newChatRoom = newChatRoomData.data?.createChatRoom;
 
-    //add the clicked user to the Chatroom
+    //add the clicked user to the Chatroom - add all the managers here
 
+    users.map(async (user)=>{
+      await API.graphql(
+        graphqlOperation(createUserChatRoom, {
+          input: {chatRoomId: newChatRoom.id, userId: user.id }
+        })
+      )
+    })
     
-    await API.graphql(
-      graphqlOperation(createUserChatRoom, {
-        input: {chatRoomId: newChatRoom.id, userId: user.id }
-      })
-    )
+  
 
     //add the auth user to the chatroom
 

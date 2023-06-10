@@ -135,7 +135,7 @@ const ChatScreen = () => {
 
   
   if(!chatRoom){
-    return <ActivityIndicator/>;
+    return <ActivityIndicator color={'#512da8'} />;
   }
 
 

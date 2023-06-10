@@ -8,6 +8,7 @@ export const onCreateNotifications = /* GraphQL */ `
     onCreateNotifications(filter: $filter) {
       id
       updateDetails
+      opened
       createdAt
       usersID
       taskID
@@ -25,6 +26,7 @@ export const onUpdateNotifications = /* GraphQL */ `
     onUpdateNotifications(filter: $filter) {
       id
       updateDetails
+      opened
       createdAt
       usersID
       taskID
@@ -42,6 +44,7 @@ export const onDeleteNotifications = /* GraphQL */ `
     onDeleteNotifications(filter: $filter) {
       id
       updateDetails
+      opened
       createdAt
       usersID
       taskID
@@ -67,6 +70,7 @@ export const onCreateProperties = /* GraphQL */ `
       type
       physicalAccess
       status
+      active
       Tasks {
         items {
           id
@@ -78,6 +82,7 @@ export const onCreateProperties = /* GraphQL */ `
           subTitle
           taskType
           recurrence
+          active
           propertiesID
           usersID
           updatedAt
@@ -93,6 +98,7 @@ export const onCreateProperties = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -101,7 +107,6 @@ export const onCreateProperties = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -134,6 +139,7 @@ export const onUpdateProperties = /* GraphQL */ `
       type
       physicalAccess
       status
+      active
       Tasks {
         items {
           id
@@ -145,6 +151,7 @@ export const onUpdateProperties = /* GraphQL */ `
           subTitle
           taskType
           recurrence
+          active
           propertiesID
           usersID
           updatedAt
@@ -160,6 +167,7 @@ export const onUpdateProperties = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -168,7 +176,6 @@ export const onUpdateProperties = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -201,6 +208,7 @@ export const onDeleteProperties = /* GraphQL */ `
       type
       physicalAccess
       status
+      active
       Tasks {
         items {
           id
@@ -212,6 +220,7 @@ export const onDeleteProperties = /* GraphQL */ `
           subTitle
           taskType
           recurrence
+          active
           propertiesID
           usersID
           updatedAt
@@ -227,6 +236,7 @@ export const onDeleteProperties = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -235,7 +245,6 @@ export const onDeleteProperties = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -265,6 +274,7 @@ export const onCreateTask = /* GraphQL */ `
       subTitle
       taskType
       recurrence
+      active
       propertiesID
       usersID
       Attachments {
@@ -272,6 +282,7 @@ export const onCreateTask = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -280,7 +291,6 @@ export const onCreateTask = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -293,6 +303,7 @@ export const onCreateTask = /* GraphQL */ `
         items {
           id
           updateDetails
+          opened
           createdAt
           usersID
           taskID
@@ -323,6 +334,7 @@ export const onUpdateTask = /* GraphQL */ `
       subTitle
       taskType
       recurrence
+      active
       propertiesID
       usersID
       Attachments {
@@ -330,6 +342,7 @@ export const onUpdateTask = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -338,7 +351,6 @@ export const onUpdateTask = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -351,6 +363,7 @@ export const onUpdateTask = /* GraphQL */ `
         items {
           id
           updateDetails
+          opened
           createdAt
           usersID
           taskID
@@ -381,6 +394,7 @@ export const onDeleteTask = /* GraphQL */ `
       subTitle
       taskType
       recurrence
+      active
       propertiesID
       usersID
       Attachments {
@@ -388,6 +402,7 @@ export const onDeleteTask = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -396,7 +411,6 @@ export const onDeleteTask = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -409,6 +423,7 @@ export const onDeleteTask = /* GraphQL */ `
         items {
           id
           updateDetails
+          opened
           createdAt
           usersID
           taskID
@@ -435,6 +450,7 @@ export const onCreateAttachment = /* GraphQL */ `
       id
       storageKey
       fileName
+      createdAt
       type
       width
       height
@@ -443,7 +459,6 @@ export const onCreateAttachment = /* GraphQL */ `
       chatroomID
       taskID
       propertiesID
-      createdAt
       updatedAt
       _version
       _deleted
@@ -459,6 +474,7 @@ export const onUpdateAttachment = /* GraphQL */ `
       id
       storageKey
       fileName
+      createdAt
       type
       width
       height
@@ -467,7 +483,6 @@ export const onUpdateAttachment = /* GraphQL */ `
       chatroomID
       taskID
       propertiesID
-      createdAt
       updatedAt
       _version
       _deleted
@@ -483,6 +498,7 @@ export const onDeleteAttachment = /* GraphQL */ `
       id
       storageKey
       fileName
+      createdAt
       type
       width
       height
@@ -491,7 +507,6 @@ export const onDeleteAttachment = /* GraphQL */ `
       chatroomID
       taskID
       propertiesID
-      createdAt
       updatedAt
       _version
       _deleted
@@ -546,6 +561,7 @@ export const onCreateChatRoom = /* GraphQL */ `
         type
         physicalAccess
         status
+        active
         Tasks {
           nextToken
           startedAt
@@ -582,6 +598,7 @@ export const onCreateChatRoom = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -590,7 +607,6 @@ export const onCreateChatRoom = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -656,6 +672,7 @@ export const onUpdateChatRoom = /* GraphQL */ `
         type
         physicalAccess
         status
+        active
         Tasks {
           nextToken
           startedAt
@@ -692,6 +709,7 @@ export const onUpdateChatRoom = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -700,7 +718,6 @@ export const onUpdateChatRoom = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -766,6 +783,7 @@ export const onDeleteChatRoom = /* GraphQL */ `
         type
         physicalAccess
         status
+        active
         Tasks {
           nextToken
           startedAt
@@ -802,6 +820,7 @@ export const onDeleteChatRoom = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -810,7 +829,6 @@ export const onDeleteChatRoom = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -843,6 +861,7 @@ export const onCreateMessage = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -851,7 +870,6 @@ export const onCreateMessage = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -881,6 +899,7 @@ export const onUpdateMessage = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -889,7 +908,6 @@ export const onUpdateMessage = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -919,6 +937,7 @@ export const onDeleteMessage = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -927,7 +946,6 @@ export const onDeleteMessage = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -956,6 +974,7 @@ export const onCreateUser = /* GraphQL */ `
         id
         storageKey
         fileName
+        createdAt
         type
         width
         height
@@ -964,7 +983,6 @@ export const onCreateUser = /* GraphQL */ `
         chatroomID
         taskID
         propertiesID
-        createdAt
         updatedAt
         _version
         _deleted
@@ -996,6 +1014,7 @@ export const onCreateUser = /* GraphQL */ `
           subTitle
           taskType
           recurrence
+          active
           propertiesID
           usersID
           updatedAt
@@ -1010,6 +1029,7 @@ export const onCreateUser = /* GraphQL */ `
         items {
           id
           updateDetails
+          opened
           createdAt
           usersID
           taskID
@@ -1033,6 +1053,7 @@ export const onCreateUser = /* GraphQL */ `
           type
           physicalAccess
           status
+          active
           usersID
           createdAt
           updatedAt
@@ -1065,6 +1086,7 @@ export const onUpdateUser = /* GraphQL */ `
         id
         storageKey
         fileName
+        createdAt
         type
         width
         height
@@ -1073,7 +1095,6 @@ export const onUpdateUser = /* GraphQL */ `
         chatroomID
         taskID
         propertiesID
-        createdAt
         updatedAt
         _version
         _deleted
@@ -1105,6 +1126,7 @@ export const onUpdateUser = /* GraphQL */ `
           subTitle
           taskType
           recurrence
+          active
           propertiesID
           usersID
           updatedAt
@@ -1119,6 +1141,7 @@ export const onUpdateUser = /* GraphQL */ `
         items {
           id
           updateDetails
+          opened
           createdAt
           usersID
           taskID
@@ -1142,6 +1165,7 @@ export const onUpdateUser = /* GraphQL */ `
           type
           physicalAccess
           status
+          active
           usersID
           createdAt
           updatedAt
@@ -1174,6 +1198,7 @@ export const onDeleteUser = /* GraphQL */ `
         id
         storageKey
         fileName
+        createdAt
         type
         width
         height
@@ -1182,7 +1207,6 @@ export const onDeleteUser = /* GraphQL */ `
         chatroomID
         taskID
         propertiesID
-        createdAt
         updatedAt
         _version
         _deleted
@@ -1214,6 +1238,7 @@ export const onDeleteUser = /* GraphQL */ `
           subTitle
           taskType
           recurrence
+          active
           propertiesID
           usersID
           updatedAt
@@ -1228,6 +1253,7 @@ export const onDeleteUser = /* GraphQL */ `
         items {
           id
           updateDetails
+          opened
           createdAt
           usersID
           taskID
@@ -1251,6 +1277,7 @@ export const onDeleteUser = /* GraphQL */ `
           type
           physicalAccess
           status
+          active
           usersID
           createdAt
           updatedAt
@@ -1301,6 +1328,7 @@ export const onCreateUserChatRoom = /* GraphQL */ `
           type
           physicalAccess
           status
+          active
           usersID
           createdAt
           updatedAt
@@ -1343,6 +1371,7 @@ export const onCreateUserChatRoom = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -1351,7 +1380,6 @@ export const onCreateUserChatRoom = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -1420,6 +1448,7 @@ export const onUpdateUserChatRoom = /* GraphQL */ `
           type
           physicalAccess
           status
+          active
           usersID
           createdAt
           updatedAt
@@ -1462,6 +1491,7 @@ export const onUpdateUserChatRoom = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -1470,7 +1500,6 @@ export const onUpdateUserChatRoom = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -1539,6 +1568,7 @@ export const onDeleteUserChatRoom = /* GraphQL */ `
           type
           physicalAccess
           status
+          active
           usersID
           createdAt
           updatedAt
@@ -1581,6 +1611,7 @@ export const onDeleteUserChatRoom = /* GraphQL */ `
           id
           storageKey
           fileName
+          createdAt
           type
           width
           height
@@ -1589,7 +1620,6 @@ export const onDeleteUserChatRoom = /* GraphQL */ `
           chatroomID
           taskID
           propertiesID
-          createdAt
           updatedAt
           _version
           _deleted

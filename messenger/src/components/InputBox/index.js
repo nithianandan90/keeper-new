@@ -249,7 +249,7 @@ const InputBox = ({chatroom}) => {
 
       {/* Icon */}
       {!disableSend?(  <MaterialIcons onPress={onSend} style={styles.send} name="send" size={16} color="white" />):(
-        <ActivityIndicator size="large"/>
+        <ActivityIndicator size="large" color={'#512da8'}/>
       )}
     
     </SafeAreaView>

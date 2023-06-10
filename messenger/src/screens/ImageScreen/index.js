@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import ImageView from "react-native-image-viewing";
 import {Video} from 'expo-av';
+import { listAttachmentsByTask } from '../../graphql/queries';
 
 const { width } = Dimensions.get('window');
 const imageWidth = width / 3.5;
@@ -36,7 +37,13 @@ const GridScreen = () => {
     const [videoSam, setVideoSam] = useState();
 
     const getImages = async () =>{
-      const attachments = await DataStore.query(Attachment, (o)=>o.taskID.eq(task?.id));
+      // const attachments = await DataStore.query(Attachment, (o)=>o.taskID.eq(task?.id));
+
+      const result = await API.graphql(graphqlOperation(listAttachmentsByTask, {taskID: task.id, sortDirection:'DESC'}))
+
+      const attachments = result.data.listAttachmentsByTask.items;
+
+      console.log('attachments', attachments);
 
       const downloadedImages = await Promise.all(
           attachments.filter(attachment => attachment.type!=='DOCUMENT').map(async (attachment) =>

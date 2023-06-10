@@ -25,6 +25,8 @@ const AuthContextProvider = ({children}) => {
 
     }, []);
 
+    
+    
     //Function to update user
 
     const updateUserDetails = async (updateDbUser, userName, telephone) =>{

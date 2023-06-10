@@ -18,7 +18,7 @@ const ContactListItem = ({ user, onPress=()=>{}, selectable=false, isSelected=fa
     setImageUri(uri);
  
   }
-
+  
 
   useEffect(()=>{
     if(user.image){
@@ -36,6 +36,7 @@ const ContactListItem = ({ user, onPress=()=>{}, selectable=false, isSelected=fa
         <Text style={styles.name} numberOfLines={1}>
           {user.name}
         </Text>
+        
 
         <Text numberOfLines={2} style={styles.subTitle}>
           {user.status}
