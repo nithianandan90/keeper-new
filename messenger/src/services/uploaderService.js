@@ -82,8 +82,7 @@ import * as FileSystem from 'expo-file-system';
         
         const fileType = file.uri.slice(file.uri.lastIndexOf('.') + 1);
     
-        console.log("fileType", fileType);
-    
+        
       
         
         const newAttachment = {
@@ -97,8 +96,7 @@ import * as FileSystem from 'expo-file-system';
           
         }
     
-        console.log("file attachment", newAttachment)
-       
+        
     
         const attachmentCreated = API.graphql(graphqlOperation(
           createAttachment, 
@@ -132,8 +130,7 @@ import * as FileSystem from 'expo-file-system';
         
         const fileType = file.uri.slice(file.uri.lastIndexOf('.') + 1);
     
-        console.log("fileType", fileType);
-    
+        
       
         
         const newAttachment = {
@@ -147,8 +144,7 @@ import * as FileSystem from 'expo-file-system';
           
         }
     
-        console.log("file attachment", newAttachment)
-       
+        
     
         const attachmentCreated = API.graphql(graphqlOperation(
           createAttachment, 
@@ -170,13 +166,12 @@ import * as FileSystem from 'expo-file-system';
             const key = `${uuidv4()}.${fileType}`;
             await Storage.put(key, blob, {
               progressCallback(progress) {
-              console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
              
             },
             });
             return key;
           } catch (err) {
-            console.log("Error uploading file:", err);
+            console.warn("Error uploading file:", err);
           }
         };
     

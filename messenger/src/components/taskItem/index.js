@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import {List} from 'react-native-paper';
-import { Foundation, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { iconStyler } from '../../services/styler';
 
@@ -16,10 +15,6 @@ const TaskListItem = ({task, property}) => {
     navigation.navigate('Task Details', {task:task, property:property});
     }
   
-    const typeToIcon = {
-        ['Commercial']:'building',
-        ['Residential']:'house-user'
-    }  
 
 
     return(

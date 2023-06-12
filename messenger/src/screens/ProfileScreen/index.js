@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, ActivityIndicator, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import {Properties, Task, User} from '../../models';
-import { DataStore } from 'aws-amplify';
-import jsonFormat from 'json-format';
+import {User} from '../../models';
+import { DataStore, API, graphqlOperation } from 'aws-amplify';
 import { useAuthContext } from '../../context/AuthContext';
 import { Button } from 'react-native-paper';
+import { onUpdateUser } from '../../graphql/subscriptions';
 
 
 
@@ -15,7 +15,7 @@ const ProfileScreen = () => {
   
   
 
-  const {dbUser, sub, setDbUser, updateUserDetails, signOut} = useAuthContext();
+  const {dbUser, setDbUser, updateUserDetails, signOut} = useAuthContext();
   
 //   console.log("user", dbUser);
 
@@ -45,10 +45,22 @@ const ProfileScreen = () => {
 
    
    
-    const subscription = DataStore.observe(User, dbUser?.id).subscribe(msg => {
-        if(msg.opType==="UPDATE"){
-            setDbUser(msg.element);
-        }
+    // const subscription = DataStore.observe(User, dbUser?.id).subscribe(msg => {
+    //     if(msg.opType==="UPDATE"){
+    //         setDbUser(msg.element);
+    //     }
+    // })
+
+
+    
+    const subscription = API.graphql(graphqlOperation(onUpdateUser, {filter: {id: {eq: dbUser.id}}})).subscribe({
+      next: ({value})=>{
+        
+        
+        setDbUser(value.data.onUpdateUser)
+        
+      },
+      error: (err)=>console.warn(err)
     })
 
     return ()=>subscription.unsubscribe();
@@ -65,7 +77,6 @@ const ProfileScreen = () => {
   const handleSave = async () => {
     
 
-      console.log(editedTelephone);
 
       // Your validation logic here
       // For example, you can use regular expressions
@@ -73,7 +84,6 @@ const ProfileScreen = () => {
       
 
 
-      console.log( phoneRegex.test(editedTelephone));
       
       if (!phoneRegex.test(editedTelephone)){
         Alert.alert('Please enter valid phone number')
@@ -120,8 +130,7 @@ const ProfileScreen = () => {
     });
 
     const result= pickerResult.assets[0];
-    console.log(result);
-
+    
     if (pickerResult.canceled === true) {
       return;
     }

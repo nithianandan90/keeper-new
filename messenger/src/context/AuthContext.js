@@ -1,9 +1,6 @@
 import {createContext, useState, useEffect, useContext} from 'react';
-import { User } from '../models';
-import {Amplify, Auth, API, graphqlOperation} from 'aws-amplify';
-import { withAuthenticator } from 'aws-amplify-react-native';
+import {Auth, API, graphqlOperation} from 'aws-amplify';
 import { getUser } from '../graphql/queries';
-import jsonFormat from 'json-format';
 import {createUser, updateUser} from '../graphql/mutations';
 
 
@@ -31,10 +28,8 @@ const AuthContextProvider = ({children}) => {
 
     const updateUserDetails = async (updateDbUser, userName, telephone) =>{
         
-        console.log(updateDbUser.id, userName, telephone);
         const updatedUser = await API.graphql(graphqlOperation(updateUser, {input:{id:updateDbUser.id, username:userName, telephone: telephone, _version:updateDbUser._version}}))
-        console.log("updatedUser", updatedUser);
-
+        
     }
 
     //Functio to  changes
@@ -51,21 +46,18 @@ const AuthContextProvider = ({children}) => {
         
         setDbUser(userData.data.getUser);
 
-       console.log("userdata", userData.data.getUser);
-  
+       
         if(userData.data.getUser){
-          console.log('user already exists in DB')
           return;
         }
   
         const newUser = {
           id: authUser.attributes.sub,
-          name: authUser.attributes.email,
+          email: authUser.attributes.email,
           status: 'Hey im on chat'
         }
   
-        console.log("new user", newUser);
-  
+        
         const newUserResponse = await API.graphql(
           graphqlOperation(createUser, {input: newUser})
         )

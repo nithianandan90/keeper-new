@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, TextInput, StyleSheet, Text,  ScrollView, Pressable, ActivityIndicator, Alert } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {getFileInfo, pickImage, pickDocument, addAttachment, uploadFile} from '../../services/uploaderService';
+import {getFileInfo, pickImage, pickDocument, addAttachment } from '../../services/uploaderService';
 import { Button, Chip, List, RadioButton, Snackbar } from 'react-native-paper';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { API, graphqlOperation } from 'aws-amplify';
 import { createNotifications, createTask, updateTask } from '../../graphql/mutations';
-import * as FileSystem from 'expo-file-system';
 
 const propertyData = [
   { label: 'Property 1', value: 'Property 1' },
@@ -35,10 +33,8 @@ const TaskEdit = () => {
   const [startShow, setStartShow] = useState(false);
   const [endMode, setEndMode] = useState('date');
   const [endShow, setEndShow] = useState(false);
-  const [task, setTask] = useState(false);
   const [images, setImages] = useState([]);
   const [documents, setDocuments] = useState([]);
-  const [validation, setValidation] = useState('');
   const [sbVisible, setSbVisible] = useState(false);
   const [sbMessage, setSbMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -209,7 +205,6 @@ const showDeleteConfirm = async () =>{
 
     }
 
-    console.log('new task', newTask);
 
     setIsLoading(true);
 
@@ -235,7 +230,6 @@ const showDeleteConfirm = async () =>{
     const returnedNewTask = await API.graphql(
       graphqlOperation(createTask, {input: newTask})
     )
-    console.log("new task", returnedNewTask);
     taskID = (returnedNewTask.data.createTask.id);
    
     const taskUpdate = await API.graphql(
@@ -269,17 +263,8 @@ const showDeleteConfirm = async () =>{
   };
 
 
-   const togglePropertyDropdown = () => {
-    setPropertyOpen(!isPropertyOpen);
-  };
 
-  const toggleStatusDropdown = () => {
-    setStatusOpen(!isStatusOpen);
-  };
 
-  const toggleTypeDropdown = () => {
-    setTypeOpen(!isTypeOpen);
-  };
 
 
   // console.log("documents", documents);

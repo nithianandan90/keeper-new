@@ -1,11 +1,8 @@
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import { StyleSheet, View, Pressable } from 'react-native';
 import {Badge, List} from 'react-native-paper';
-import { Foundation, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { iconStyler } from '../../services/styler';
 import { useEffect } from 'react';
-import { API, graphqlOperation } from 'aws-amplify';
-import { listTasks } from '../../graphql/queries';
 import { useState } from 'react';
 import { badgeColorStyler } from '../../services/styler';
 
@@ -45,10 +42,7 @@ const FacilitiesItem = ({property}) => {
     navigation.navigate('Property Details', {property});
     }
   
-    const typeToIcon = {
-        ['Commercial']:'building',
-        ['Residential']:'house-user'
-    }  
+    
 
   
 

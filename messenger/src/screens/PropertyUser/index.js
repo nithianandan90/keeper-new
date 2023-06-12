@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ActivityIndicator, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import {Properties, Task, User} from '../../models';
+import {User} from '../../models';
 import { API, DataStore, graphqlOperation } from 'aws-amplify';
-import jsonFormat from 'json-format';
 import { useAuthContext } from '../../context/AuthContext';
 import { Button } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
@@ -39,10 +38,20 @@ const propertyUserID = route.params.propertyUser;
 
    getPropertyUser();
    
-    const subscription = DataStore.observe(User, propertyUser?.id).subscribe(msg => {
-        if(msg.opType==="UPDATE"){
-            setPropertyUser(msg.element);
-        }
+    // const subscription = DataStore.observe(User, propertyUser?.id).subscribe(msg => {
+    //     if(msg.opType==="UPDATE"){
+    //         setPropertyUser(msg.element);
+    //     }
+    // })
+
+    const subscription = API.graphql(graphqlOperation(onUpdateUser, {filter: {id: {eq: propertyUser.id}}})).subscribe({
+      next: ({value})=>{
+        
+        
+        setDbUser(value.data.onUpdateUser)
+        
+      },
+      error: (err)=>console.warn(err)
     })
 
     return ()=>subscription.unsubscribe();
@@ -73,7 +82,6 @@ const propertyUserID = route.params.propertyUser;
         graphqlOperation(getUser, {id:propertyUserID})
     )
 
-    console.log('result', result);
     setPropertyUser(result.data.getUser);
 
   }
@@ -87,15 +95,13 @@ const propertyUserID = route.params.propertyUser;
   const handleSave = async () => {
     
 
-      console.log(editedTelephone);
-
+      
       // Your validation logic here
       // For example, you can use regular expressions
       const phoneRegex = /^-?\d+$/;
       
 
 
-      console.log( phoneRegex.test(editedTelephone));
       
       if (!phoneRegex.test(editedTelephone)){
         Alert.alert('Please enter valid phone number')
@@ -142,8 +148,7 @@ const propertyUserID = route.params.propertyUser;
     });
 
     const result= pickerResult.assets[0];
-    console.log(result);
-
+    
     if (pickerResult.canceled === true) {
       return;
     }

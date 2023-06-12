@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useEffect, useState } from 'react';
-import {Auth, API, graphqlOperation, Storage} from 'aws-amplify';
+import {API, graphqlOperation, Storage} from 'aws-amplify';
 import {onUpdateChatRoom} from '../../graphql/subscriptions'
 
 dayjs.extend(relativeTime);
@@ -17,8 +17,7 @@ const ChatListItem = ({ chat, sub }) => {
   
   const user = chat.users.items[n].user;
  
-  console.log("chat", chat);
-
+ 
   const getImage = async ()=>{
     
     const uri = await Storage.get(user.image.storageKey);

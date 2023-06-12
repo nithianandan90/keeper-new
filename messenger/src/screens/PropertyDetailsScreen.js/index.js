@@ -1,17 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import {View, Text, Image, FlatList, StyleSheet, ActivityIndicator, Pressable} from 'react-native';
+import React, { useEffect, useState } from 'react'
+import {View,  FlatList, StyleSheet, ActivityIndicator} from 'react-native';
 import  {AntDesign, Ionicons} from '@expo/vector-icons';
 import Header from "./Header";
-import { useRoute, useNavigation, useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { useRoute, useNavigation, useIsFocused } from '@react-navigation/native';
 import TaskListItem from '../../components/taskItem';
-import { DataTable } from 'react-native-paper';
-import {Properties, Task} from '../../models';
-import { API, DataStore, Storage, graphqlOperation } from 'aws-amplify';
-import jsonFormat from 'json-format';
+import { API, graphqlOperation } from 'aws-amplify';
 import GoToChat from '../../components/GoToChat';
 import { useAuthContext } from '../../context/AuthContext';
-import { onCreateTask } from '../../graphql/subscriptions';
-import { getUser, listTasks, listTasksByProperty } from '../../graphql/queries';
+import {  listTasksByProperty } from '../../graphql/queries';
 
 
 const PropertyDetailsScreen = () => {
@@ -20,10 +16,8 @@ const PropertyDetailsScreen = () => {
   const route = useRoute();
 
   const [tasks, setTasks] = useState([]);
-  const [image, setImage] = useState();
   const [loading, setLoading] = useState(false);
-  const [propertyUser, setPropertyUser] = useState()  
-
+  
   const {dbUser} = useAuthContext();
 
   const admin = ["MANAGER", "PARTNER"];
@@ -73,7 +67,6 @@ const getPropertyTasks = async ()=>{
         graphqlOperation(listTasksByProperty, {propertiesID:route.params.property.id, sortDirection:'DESC', filter: {active: {eq: true}}})
     );
 
-    console.log("result", result);
     
     setTasks(result.data.listTasksByProperty.items); 
    

@@ -1,9 +1,8 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useState } from 'react';
-import { Pressable, View, StyleSheet, TextInput, Image, FlatList, Text, ActivityIndicator, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import {API, graphqlOperation, Auth, Storage} from 'aws-amplify';
-import { createAttachment, createMessage, updateChatRoom } from '../../graphql/mutations';
+import { Pressable, View, StyleSheet, Text, ActivityIndicator, Alert } from 'react-native';
+import {API, graphqlOperation, Storage} from 'aws-amplify';
+import { createAttachment } from '../../graphql/mutations';
 import * as ImagePicker from 'expo-image-picker';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,10 +13,7 @@ import * as FileSystem from 'expo-file-system';
 
 const Uploader = ({taskID}) => {
 
-    const [text, setText] = useState('');
-    const [files, setFiles] = useState([]);
     const [progresses, setProgresses] = useState({});
-    const [disableSend, setDisableSend] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     
     const getFileInfo = async (fileURI) => {
@@ -74,12 +70,10 @@ const Uploader = ({taskID}) => {
 
     const addAttachment = async (file, taskID)=>{
     
-        console.log("file", file);
-    
+        
         const fileInfo = await getFileInfo(file?.uri);
     
-        console.log('file info', fileInfo);
-
+        
         if(fileInfo.size>25600000){
           Alert.alert('File size exceeds 25 mb')
           return;
@@ -94,8 +88,7 @@ const Uploader = ({taskID}) => {
         
         const fileType = file.uri.slice(file.uri.lastIndexOf('.') + 1);
     
-        console.log("fileType", fileType);
-    
+        
         setIsLoading(true);
         
         const newAttachment = {
@@ -109,8 +102,7 @@ const Uploader = ({taskID}) => {
           
         }
     
-        console.log("file attachment", newAttachment)
-       
+        
     
         const attachmentCreated = API.graphql(graphqlOperation(
           createAttachment, 
@@ -132,13 +124,12 @@ const Uploader = ({taskID}) => {
             const key = `${uuidv4()}.${fileType}`;
             await Storage.put(key, blob, {
               progressCallback(progress) {
-              console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
               setProgresses(p=>({...p, [fileUri]: progress.loaded/progress.total}))
             },
             });
             return key;
           } catch (err) {
-            console.log("Error uploading file:", err);
+            console.warn("Error uploading file:", err);
           }
         };
     

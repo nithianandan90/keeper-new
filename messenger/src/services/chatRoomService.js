@@ -10,7 +10,6 @@ export const getCommonChatRoomWithUser = async (userID, propertyID) => {
       listChatRooms, {filter:{chatRoomPropertyId: {eq: propertyID}}}
   ))
 
-  console.log("rooms",JSON.stringify(rooms.data.listChatRooms.items, null, 2));
   
   return rooms.data.listChatRooms?.items;
 

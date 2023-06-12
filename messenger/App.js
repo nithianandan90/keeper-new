@@ -24,10 +24,8 @@ function App() {
      
       const userData = await API.graphql(graphqlOperation(getUser,{id: authUser.attributes.sub}));
 
-      console.log(userData);
-
+      
       if(userData.data.getUser){
-        console.log('user already exists in DB')
         return;
       }
 
@@ -37,8 +35,7 @@ function App() {
         status: 'Hey im on chat'
       }
 
-      console.log("new user", newUser);
-
+      
       const newUserResponse = await API.graphql(
         graphqlOperation(createUser, {input: newUser})
       )

@@ -1,7 +1,7 @@
 import { ActivityIndicator, Image, Platform, Pressable, StyleSheet, Text, View} from 'react-native'
 import React, { useState } from 'react'
 import ImageView from 'react-native-image-viewing';
-import { FontAwesome, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
 import {shareAsync} from 'expo-sharing';
 import { startActivityAsync } from 'expo-intent-launcher';
@@ -16,8 +16,7 @@ const ImageAttachment = ({attachments}) => {
 
     const type = mime.lookup(uri);
 
-    console.log(type);
-
+    
     if(Platform.OS==='android'){
 
     let content = await FileSystem.getContentUriAsync(uri)
@@ -59,7 +58,6 @@ const ImageAttachment = ({attachments}) => {
     )
       
     setIsLoading(false);
-    console.log("",result);
     save(url, result.uri, fileName, result.headers["Content-Type"]);
 
 

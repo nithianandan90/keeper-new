@@ -1,13 +1,10 @@
 import { StyleSheet, Text, View, Image, Pressable, ActivityIndicator } from 'react-native';
-import {Badge, List} from 'react-native-paper';
-import { Foundation, FontAwesome5, MaterialIcons, Entypo } from '@expo/vector-icons';
+import {List} from 'react-native-paper';
+import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { iconStyler } from '../../services/styler';
 import { useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { listTasks, getTask } from '../../graphql/queries';
 import { useState } from 'react';
-import { badgeColorStyler } from '../../services/styler';
 import moment from 'moment';
 import { updateNotifications } from '../../graphql/mutations';
 
@@ -19,21 +16,12 @@ const NotificationsItem = ({notification}) => {
  
   const navigation = useNavigation();
   
-  const [opened, setOpened] = useState([]);
-
+  
   const [isLoading, setIsLoading] = useState(false);
  
-  useEffect(()=>{
-   
-    console.log('notification', notification);
+  
 
-  },[])
  
-
-  const getTaskQuery = async () => {
-    
-
-  }
  
   const onPress= async ()=>{
     setIsLoading(true)

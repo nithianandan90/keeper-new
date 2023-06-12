@@ -67,7 +67,6 @@ const ChatRoomInfo = () => {
       })
     )
     
-    console.log(result);
   }
 
 
@@ -91,8 +90,7 @@ const ChatRoomInfo = () => {
     
     const property = chatRoom.Property;
 
-    console.log('property', property)
-
+    
     navigation.navigate('Property Details', {property})
   }
 
@@ -103,8 +101,7 @@ const ChatRoomInfo = () => {
 
   const users = chatRoom.users.items.filter((item) => !item._deleted);
 
-  console.log(chatRoom)
-
+  
   return (
     <View style={styles.container}>
       <Pressable onPress={onPress} android_ripple={{radius:200}}>

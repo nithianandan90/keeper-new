@@ -14,7 +14,6 @@ import FilesScreen from '../screens/FilesScreen';
 import MainTabNavigatorCli from './MainTabNavigatorCli';
 import { useAuthContext } from '../context/AuthContext';
 import { ActivityIndicator } from 'react-native';
-import { Entypo } from '@expo/vector-icons';
 import TaskEdit from '../screens/TaskEdit';
 import GridScreen from '../screens/ImageScreen';
 import PropertyEdit from '../screens/PropertyEdit';

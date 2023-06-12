@@ -3,9 +3,6 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Auth, Storage } from 'aws-amplify';
 import { useEffect, useState } from 'react';
-import {S3Image} from 'aws-amplify-react-native';
-import ImageView from 'react-native-image-viewing';
-import {Video} from 'expo-av';
 import ImageAttachment from './ImageAttachment';
 import VideoAttachment from './VideoAttachment';
 
@@ -15,7 +12,6 @@ const Message = ({ message }) => {
   
   const [isMe, setIsMe] = useState(false);
   const [downloadedAttachments, setDownloadedAttachements] = useState([]);
-  const [imageViewVisible, setImageViewVisible] = useState(false);
   const {width} = useWindowDimensions();
 
 

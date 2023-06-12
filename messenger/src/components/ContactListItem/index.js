@@ -9,7 +9,6 @@ import {Auth, API, graphqlOperation, Storage} from 'aws-amplify';
 dayjs.extend(relativeTime);
 
 const ContactListItem = ({ user, onPress=()=>{}, selectable=false, isSelected=false }) => {
-  const navigation = useNavigation();
   const [imageUri, setImageUri] = useState();
  
   const getImage = async ()=>{

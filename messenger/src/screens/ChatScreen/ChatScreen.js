@@ -6,7 +6,7 @@ import InputBox from '../../components/InputBox';
 import bg from '../../../assets/images/BG.png';
 import {API, graphqlOperation} from 'aws-amplify';
 import { listMessagesByChatRoom } from './ChatScreenQueries';
-import { getChatRoom, listUsers} from '../../graphql/queries';
+import { getChatRoom } from '../../graphql/queries';
 import {onCreateAttachment, onCreateMessage, onUpdateChatRoom} from '../../graphql/subscriptions'
 import { Feather } from '@expo/vector-icons';
 

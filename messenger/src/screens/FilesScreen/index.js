@@ -1,14 +1,14 @@
-import * as DocumentPicker from 'expo-document-picker';
-import {Alert, Modal, StyleSheet, Text, Pressable, View, FlatList, Button, TextInput} from 'react-native';
+import {Text, Pressable, View, FlatList, Button, TextInput} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { DataStore, Storage } from 'aws-amplify';
+import { Storage, API, graphqlOperation } from 'aws-amplify';
 import { Attachment } from '../../models';
 import * as FileSystem from 'expo-file-system';
 import {shareAsync} from 'expo-sharing';
 import { startActivityAsync } from 'expo-intent-launcher';
 import * as mime from 'react-native-mime-types';
 import { ActivityIndicator } from 'react-native';
+import { listAttachmentsByTask } from '../../graphql/queries';
 
 
 const filesData = [
@@ -30,7 +30,11 @@ const FilesScreen = () => {
   // console.log('route', route?.params)
 
   const getFiles = async () =>{
-    const attachments = await DataStore.query(Attachment, (o)=>o.taskID.eq(task.id));
+    
+    const results = await API.graphql(graphqlOperation(listAttachmentsByTask, {taskID: task.id, sortDirection: 'DESC'}))
+    
+
+    const attachments = results.data.listAttachmentsByTask.items; 
 
     const downloadedFiles = await Promise.all(
         attachments.map((attachment) =>
@@ -127,7 +131,6 @@ useEffect(()=>{
 
   const renderFileItem = ({ item }) => {
     
-    console.log('item', item);
     
     if(!item){
       return

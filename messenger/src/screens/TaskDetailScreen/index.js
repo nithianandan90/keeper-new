@@ -1,14 +1,10 @@
-import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList,  StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Avatar, Button, Chip, List } from 'react-native-paper';
-import { AntDesign, FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import dateFormatter from '../../components/dateFormtter';
-import Gallery from '../../components/imageGallery';
+import { Button, Chip, List } from 'react-native-paper';
+import { AntDesign,  MaterialIcons } from '@expo/vector-icons';
 import Moment from 'moment';
-import { Attachment } from '../../models';
 import { useAuthContext } from '../../context/AuthContext';
-import Uploader from './uploader';
 import { graphqlOperation, API } from 'aws-amplify';
 import { getProperties, listNotificationsByTask } from '../../graphql/queries';
 import { iconStyler } from '../../services/styler';
@@ -29,8 +25,7 @@ const TaskDetailScreen = () => {
 
     
 
-    console.log("task", JSON.stringify(task, null, 2));
-
+    
     const {dbUser} = useAuthContext();
 
     const admin = ["MANAGER", "PARTNER"];
@@ -72,6 +67,8 @@ const TaskDetailScreen = () => {
     const getNotifications = async () =>{
         const results = await API.graphql(graphqlOperation(listNotificationsByTask, {taskID:task.id, sortDirection:'DESC'}));
         const fetchedNotifications = results.data.listNotificationsByTask.items;
+        
+        
         setLatestNotifications(fetchedNotifications[0]);
    
 
@@ -83,6 +80,7 @@ const TaskDetailScreen = () => {
 
     
     if(!latestNotifications||!property||!previousNotifications){
+        
         return <ActivityIndicator  size={"large"} color={'#512da8'} />
     }
 
@@ -109,7 +107,7 @@ const TaskDetailScreen = () => {
                         {/* <View style={styles.statusContainer}>
                             <Text style={styles.statusText}>{task.status}</Text>
                         </View> */}
-                         <Chip style={{margin: 10}} icon="information" onPress={() => console.log('Pressed')}>{task.status}</Chip>
+                         <Chip style={{margin: 10}} icon="information">{task.status}</Chip>
                          <List.Item
                                 title={property?.title}
                                 description = {property?.streetAddress}

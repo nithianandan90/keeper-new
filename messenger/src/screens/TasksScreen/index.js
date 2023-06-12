@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import {View, Text, Image, FlatList, StyleSheet, ActivityIndicator, Pressable} from 'react-native';
-import  {Ionicons} from '@expo/vector-icons';
+import {View, FlatList, StyleSheet, ActivityIndicator, Pressable} from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import TaskListItem from '../../components/taskItem';
-import { DataTable } from 'react-native-paper';
-import {Properties, Task} from '../../models';
-import { DataStore, API, graphqlOperation, } from 'aws-amplify';
-import jsonFormat from 'json-format';
-import GoToChat from '../../components/GoToChat';
+import { API, graphqlOperation, } from 'aws-amplify';
 import { listTasks } from '../../graphql/queries';
 import { useAuthContext } from '../../context/AuthContext';
 
 
 const TasksScreen = () => {
   
-  const navigation= useNavigation();
-
-  const route = useRoute();
-
+  
   const {dbUser} = useAuthContext();
 
   const [tasks, setTasks] = useState([]);
@@ -49,8 +41,7 @@ const TasksScreen = () => {
         ))
     }
 
-    console.log(tasks.data.listTasks.items);
-    setTasks(tasks.data.listTasks.items)
+       setTasks(tasks.data.listTasks.items)
   }
 
 

@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, FlatList, Image, Dimensions, StyleSheet, Pressable } from 'react-native';
 import { graphqlOperation, API, DataStore, Storage } from 'aws-amplify';
-import { Attachment } from '../../models';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import ImageView from "react-native-image-viewing";
@@ -43,8 +42,7 @@ const GridScreen = () => {
 
       const attachments = result.data.listAttachmentsByTask.items;
 
-      console.log('attachments', attachments);
-
+      
       const downloadedImages = await Promise.all(
           attachments.filter(attachment => attachment.type!=='DOCUMENT').map(async (attachment) =>
           
@@ -65,8 +63,7 @@ const GridScreen = () => {
         );
 
 
-      console.log("downloaded Image", downloadedImages);
-    
+      
       setImages(downloadedImages);      
   
 
@@ -85,7 +82,7 @@ const GridScreen = () => {
   const renderItem = ({ item }) => {
     
     if (item.type==='VIDEO'){
-        console.log('item', item.type);
+
         return(    <Video
             
             useNativeControls

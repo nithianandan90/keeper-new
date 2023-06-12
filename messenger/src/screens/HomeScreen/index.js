@@ -1,15 +1,12 @@
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import FacilitiesItem from '../../components/FacilitiesItem';
-import { DataStore, Auth, Hub, API, graphqlOperation } from 'aws-amplify';
-import jsonFormat from 'json-format';
-import {Properties, Task} from '../../models'
+import { API, graphqlOperation } from 'aws-amplify';
 import '@azure/core-asynciterator-polyfill'; 
 import { listProperties } from './queries';
 import { useAuthContext } from '../../context/AuthContext';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
-import { listUsers } from '../../graphql/queries';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const HomeScreen = () => {
 
@@ -35,7 +32,6 @@ const HomeScreen = () => {
     });
   }
      
-  console.log('focused')
 
     // const removeListener = Hub.listen('datastore', async ({ payload }) => {
       

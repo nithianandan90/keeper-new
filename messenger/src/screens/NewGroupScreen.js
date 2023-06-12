@@ -45,17 +45,15 @@ const ContactsScreen = () => {
     )
 
 
-    console.log(newChatRoomData);
     
     if(!newChatRoomData.data?.createChatRoom){
-      console.log("error creating chatroom");
+      console.warn("error creating chatroom");
     }
     const newChatRoom = newChatRoomData.data?.createChatRoom;
 
     //add the clicked user to the Chatroom
 
-    console.log("entering promise", selectedUserIds);
-
+    
     await Promise.all(selectedUserIds.map((userId) => API.graphql(
             graphqlOperation(createUserChatRoom, {
                 input: {chatRoomId: newChatRoom.id, userId}

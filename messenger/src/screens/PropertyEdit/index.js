@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, StyleSheet, Text,  ScrollView, Pressable, ActivityIndicator, FlatList, Alert } from 'react-native';
+import { View, TextInput, StyleSheet, Text,  Pressable, ActivityIndicator, FlatList, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import {getFileInfo, pickImage, pickDocument, addAttachment, uploadFile, addAttachmentProperty} from '../../services/uploaderService';
+import {getFileInfo, pickImage, addAttachmentProperty} from '../../services/uploaderService';
 import { Button, Chip, List, RadioButton, Snackbar } from 'react-native-paper';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { API, graphqlOperation } from 'aws-amplify';
-import { createNotifications, createProperties, createTask, updateProperties, updateTask, updateUser } from '../../graphql/mutations';
-import * as FileSystem from 'expo-file-system';
+import { createProperties,  updateProperties,  } from '../../graphql/mutations';
 import { listUsers } from '../../graphql/queries';
 
 
@@ -52,7 +50,6 @@ const TaskEdit = () => {
     
     if(existingProperty){
       navigation.setOptions({title: 'Edit Property' })
-      console.log('user ID', existingProperty.usersID)
       setUserID(existingProperty.usersID);
       setPostcode(existingProperty.postcode.toString());
       setTitle(existingProperty.title);
@@ -124,8 +121,7 @@ const imagePicker = async ()=>{
     
     setImage(results);
     
-    console.log("image", results);
-
+    
 }
 
   const showDeleteConfirm = async () =>{
@@ -156,12 +152,10 @@ const imagePicker = async ()=>{
     // Perform form submission logic here
     // You can access the form values from the component's state
     
-    console.log('submit');
-
+    
     const submitData = [title, streetAddress, postcode, city, state, type, status, userID];
 
-    console.log("submitdata", submitData);
-
+    
     if(submitData.some(k=>k==='')){
       setSbVisible(true);
       setSbMessage("Fill in all required fields")
@@ -244,8 +238,7 @@ const imagePicker = async ()=>{
 
   };
 
-  console.log('userData', userData)
-
+  
  if(isLoading){
   return <ActivityIndicator size={'large'} color={'#512da8'} />
  }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, StyleSheet, TextInput, Image, FlatList, Text, ActivityIndicator, Alert } from 'react-native';
-import { AntDesign, FontAwesome, FontAwesome5, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {API, graphqlOperation, Auth, Storage} from 'aws-amplify';
 import { createAttachment, createMessage, updateChatRoom } from '../../graphql/mutations';
@@ -82,8 +82,7 @@ const InputBox = ({chatroom}) => {
 
   const addAttachment = async (file, messageID)=>{
     
-    console.log("file", file);
-
+    
      const fileInfo = await getFileInfo(file.uri);
 
     if(fileInfo.size>25600000){
@@ -100,8 +99,7 @@ const InputBox = ({chatroom}) => {
     
     const fileType = file.uri.slice(file.uri.lastIndexOf('.') + 1);
 
-    console.log("fileType", fileType);
-
+    
     const newAttachment = {
       storageKey: await uploadFile(file.uri, fileType.toLowerCase()),
       type: types[file.type], 
@@ -112,8 +110,7 @@ const InputBox = ({chatroom}) => {
       chatroomID: chatroom.id
     }
 
-    console.log("file attachment", newAttachment)
-   
+    
 
     return API.graphql(graphqlOperation(
       createAttachment, 
@@ -133,14 +130,12 @@ const InputBox = ({chatroom}) => {
 	    const key = `${uuidv4()}.${fileType}`;
 	    await Storage.put(key, blob, {
 	      progressCallback(progress) {
-          console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
           setProgresses(p=>({...p, [fileUri]: progress.loaded/progress.total}))
         },
 	    });
 	    return key;
 	  } catch (err) {
-	    console.log("Error uploading file:", err);
-	  }
+	   }
 	};
 
 
@@ -192,7 +187,6 @@ const InputBox = ({chatroom}) => {
         updateChatRoom, {input: {id: chatroom.id, chatRoomLastMessageId: newMessageData.data.createMessage.id, _version: chatroom._version} }
       ))
 
-      console.log("data",chatRoomData)
       setDisableSend(false);
     }
    

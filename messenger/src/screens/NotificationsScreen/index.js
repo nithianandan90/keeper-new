@@ -1,27 +1,19 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import FacilitiesItem from '../../components/FacilitiesItem';
-import { DataStore, Auth, Hub, API, graphqlOperation } from 'aws-amplify';
-import jsonFormat from 'json-format';
-import {Properties, Task} from '../../models'
+import {  API, graphqlOperation } from 'aws-amplify';
 import '@azure/core-asynciterator-polyfill'; 
 import { useAuthContext } from '../../context/AuthContext';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
-import { getTask, listNotificationsByUser, listTasks, listUsers } from '../../graphql/queries';
+import { listNotificationsByUser, listTasks } from '../../graphql/queries';
 import NotificationsItem from '../../components/NotificationsItem';
 
 const NotificationsScreen = () => {
-    const navigation = useNavigation();
-  
+   
     const [notifications, setNotifications] = useState([]);
     const {dbUser} = useAuthContext();
     const [isLoading, setIsLoading] = useState(false);
   
-    const admin = ["MANAGER", "PARTNER"];
     
-    const adminChecker = admin.some(k=>k===dbUser?.userType);  
-  
   
     const isFocused = useIsFocused();
     useEffect(() => {
@@ -29,7 +21,6 @@ const NotificationsScreen = () => {
      getResult();
    
        
-    console.log('focused')
   
 
     }, [isFocused]);
@@ -57,19 +48,16 @@ const NotificationsScreen = () => {
       
    
 
-      console.log('notifications', JSON.stringify(notificationsResult, null, 2));
   
         
         
    
-      console.log('userid', dbUser.id);
       
       const taskResult = await API.graphql(
         graphqlOperation(listTasks,{filter:{usersID: {eq: dbUser.id}}})
         
         )      
         
-      console.log(taskResult.data.listTasks.items);  
 
       setNotifications([]);
     //   const filteredResults = taskResult.data.listTasks.items.map((t)=>{
@@ -91,7 +79,6 @@ const NotificationsScreen = () => {
         
         taskResult.data.listTasks.items.map((t)=>{
             
-            console.log(n.taskID, t.id)
             
             if(n.taskID===t.id){
                 
@@ -146,7 +133,7 @@ const NotificationsScreen = () => {
          <FlatList
           data={notifications}
           renderItem={({item})=>{
-            console.log(item);
+            
               return (<NotificationsItem notification={item}/>)
           }}
           showsVerticalScrollIndicator={false}

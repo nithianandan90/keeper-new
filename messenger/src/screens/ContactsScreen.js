@@ -64,7 +64,7 @@ const ContactsScreen = () => {
 
     
     if(!newChatRoomData.data?.createChatRoom){
-      console.log("error creating chatroom");
+      console.warn("error creating chatroom");
     }
     const newChatRoom = newChatRoomData.data?.createChatRoom;
 

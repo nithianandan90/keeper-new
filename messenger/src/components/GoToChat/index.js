@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react';
-import { FlatList, Pressable, Text, View } from 'react-native';
-// import chats from '../../assets/data/chats.json';
-import ContactListItem from '../../components/ContactListItem';
+import { View } from 'react-native';
 import {API, graphqlOperation, Auth} from 'aws-amplify';
 import {listUsers} from '../../graphql/queries';
-import {Ionicons, MaterialIcons} from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import {createChatRoom, createUserChatRoom} from '../../graphql/mutations';
 import { getCommonChatRoomWithUser } from '../../services/chatRoomService';
 import { StyleSheet } from 'react-native';
-import { getUser } from '../../graphql/queries';
 
 
 
@@ -34,10 +31,7 @@ const GoToChat = ({propertyID}) => {
     
     const filtered = result.data?.listUsers?.items.filter((item)=>item.id!==authoUser.attributes.sub) 
       
-    // console.log(authUser);
-
-    // console.log(JSON.stringify(filtered, null, 2))
-
+    
     setUsers(filtered);
     setAuthUser(authoUser.attributes.sub);
    
@@ -56,8 +50,7 @@ const GoToChat = ({propertyID}) => {
     
     //chack if we already have a chatroom with user for said property
 
-    console.log(result.data.listUsers.items[0].id);
-
+    
     const users = result.data.listUsers.items;
 
     const client = users[0].id!==authUser;
@@ -68,7 +61,6 @@ const GoToChat = ({propertyID}) => {
 
    if(existingChatRoom.length>0){
 
-    console.log('existing room', existingChatRoom[0].id);
       navigation.navigate("Chat", {id: existingChatRoom[0].id, client: client})
     return;
    }
@@ -83,7 +75,7 @@ const GoToChat = ({propertyID}) => {
 
     
     if(!newChatRoomData.data?.createChatRoom){
-      console.log("error creating chatroom");
+      console.warn("error creating chatroom");
     }
     const newChatRoom = newChatRoomData.data?.createChatRoom;
 
@@ -99,7 +91,7 @@ const GoToChat = ({propertyID}) => {
     
   
 
-    //add the auth user to the chatroom
+    //add the auth user to the chatroom 
 
     const authUser = await Auth.currentAuthenticatedUser();
 
